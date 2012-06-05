@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+  <!-- Inherit our applications main module.                      -->
+  <inherits name='org.cambia.translate.TheLens'/>
+
+  <!-- Specify the path to any remote services.                   -->
+  <servlet path="/thelens/greet" class="org.cambia.translate.server.GreetingServiceImpl" />
+
+</module>
