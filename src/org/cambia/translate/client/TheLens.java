@@ -3,6 +3,7 @@ package org.cambia.translate.client;
 import org.cambia.translate.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -40,53 +41,56 @@ public class TheLens implements EntryPoint {
    * This is the entry point method.
    */
   public void onModuleLoad() {
-    final Button sendButton = new Button("Send");
-    final TextBox nameField = new TextBox();
-    nameField.setText("GWT User");
     final Label errorLabel = new Label();
-
-    // We can add style names to widgets
-    sendButton.addStyleName("sendButton");
 
     // Add the nameField and sendButton to the RootPanel
     // Use RootPanel.get() to get the entire body element
     RootPanel rootPanel = RootPanel.get("nameFieldContainer");
-    rootPanel.add(nameField);
-    RootPanel.get("sendButtonContainer").add(sendButton);
+    rootPanel.getElement().getStyle().setPosition(Position.RELATIVE);
     RootPanel.get("errorLabelContainer").add(errorLabel);
-
-    // Focus the cursor on the name field when the app loads
-    nameField.setFocus(true);
     
     AbsolutePanel absolutePanel = new AbsolutePanel();
-    rootPanel.add(absolutePanel, 10, 100);
-    absolutePanel.setSize("628px", "415px");
+    rootPanel.add(absolutePanel, 10, 5);
+    absolutePanel.setSize("628px", "640px");
+    final TextBox nameField = new TextBox();
+    absolutePanel.add(nameField);
+    nameField.setText("GWT User");
+    
+        // Focus the cursor on the name field when the app loads
+        nameField.setFocus(true);
+        nameField.selectAll();
+
+    final Button sendButton = new Button("Send");
+    absolutePanel.add(sendButton);
+    
+        // We can add style names to widgets
+        sendButton.addStyleName("sendButton");
+
     
     ListBox listBox = new ListBox();
-    absolutePanel.add(listBox, 24, 10);
+    absolutePanel.add(listBox, 10, 188);
     listBox.setSize("567px", "20px");
     listBox.setVisibleItemCount(5);
     
     TextBox textBox = new TextBox();
-    absolutePanel.add(textBox, 24, 59);
+    absolutePanel.add(textBox, 10, 237);
     textBox.setSize("553px", "108px");
     
     Label lblEnglish = new Label("English");
-    absolutePanel.add(lblEnglish, 24, 38);
+    absolutePanel.add(lblEnglish, 10, 216);
     
     Label lblTarget = new Label("Target");
-    absolutePanel.add(lblTarget, 24, 185);
+    absolutePanel.add(lblTarget, 10, 363);
     
     TextBox textBox_1 = new TextBox();
-    absolutePanel.add(textBox_1, 24, 218);
+    absolutePanel.add(textBox_1, 10, 396);
     textBox_1.setSize("553px", "108px");
     
     Button btnNext = new Button("Next");
-    absolutePanel.add(btnNext, 363, 364);
+    absolutePanel.add(btnNext, 349, 542);
     
     Button btnSave = new Button("Save");
-    absolutePanel.add(btnSave, 145, 364);
-    nameField.selectAll();
+    absolutePanel.add(btnSave, 131, 542);
 
     // Create the popup dialog box
     final DialogBox dialogBox = new DialogBox();
@@ -173,7 +177,7 @@ public class TheLens implements EntryPoint {
 
     // Add a handler to send the name to the server
     MyHandler handler = new MyHandler();
-    sendButton.addClickHandler(handler);
     nameField.addKeyUpHandler(handler);
+    sendButton.addClickHandler(handler);
   }
 }
