@@ -16,6 +16,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.ListBox;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -48,12 +50,42 @@ public class TheLens implements EntryPoint {
 
     // Add the nameField and sendButton to the RootPanel
     // Use RootPanel.get() to get the entire body element
-    RootPanel.get("nameFieldContainer").add(nameField);
+    RootPanel rootPanel = RootPanel.get("nameFieldContainer");
+    rootPanel.add(nameField);
     RootPanel.get("sendButtonContainer").add(sendButton);
     RootPanel.get("errorLabelContainer").add(errorLabel);
 
     // Focus the cursor on the name field when the app loads
     nameField.setFocus(true);
+    
+    AbsolutePanel absolutePanel = new AbsolutePanel();
+    rootPanel.add(absolutePanel, 10, 100);
+    absolutePanel.setSize("628px", "415px");
+    
+    ListBox listBox = new ListBox();
+    absolutePanel.add(listBox, 24, 10);
+    listBox.setSize("567px", "20px");
+    listBox.setVisibleItemCount(5);
+    
+    TextBox textBox = new TextBox();
+    absolutePanel.add(textBox, 24, 59);
+    textBox.setSize("553px", "108px");
+    
+    Label lblEnglish = new Label("English");
+    absolutePanel.add(lblEnglish, 24, 38);
+    
+    Label lblTarget = new Label("Target");
+    absolutePanel.add(lblTarget, 24, 185);
+    
+    TextBox textBox_1 = new TextBox();
+    absolutePanel.add(textBox_1, 24, 218);
+    textBox_1.setSize("553px", "108px");
+    
+    Button btnNext = new Button("Next");
+    absolutePanel.add(btnNext, 363, 364);
+    
+    Button btnSave = new Button("Save");
+    absolutePanel.add(btnSave, 145, 364);
     nameField.selectAll();
 
     // Create the popup dialog box

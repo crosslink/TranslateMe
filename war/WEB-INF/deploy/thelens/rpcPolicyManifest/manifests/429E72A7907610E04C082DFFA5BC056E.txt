@@ -1,0 +1,2 @@
+serviceClass: org.cambia.translate.client.GreetingService
+path: 05B74A362C4B112492AE25C5DE8FB1B3.gwt.rpc
