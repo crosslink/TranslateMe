@@ -111,6 +111,9 @@ public void onModuleLoad() {
     btnUploadTranslation.setSize("151px", "27px");
     
     final FormPanel formPanel = new FormPanel();
+    formPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
+    formPanel.setMethod(FormPanel.METHOD_POST);
+
     absolutePanel.add(formPanel, 10, 75);
     formPanel.setSize("561px", "27px");
     
