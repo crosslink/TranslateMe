@@ -9,11 +9,19 @@
   <servlet>
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>org.cambia.translate.server.GreetingServiceImpl</servlet-class>
+
+    <display-name>Remote API Servlet</display-name>
+    <servlet-name>RemoteApiServlet</servlet-name>
+    <servlet-class>com.google.apphosting.utils.remoteapi.RemoteApiServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+
   </servlet>
   
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/thelens/greet</url-pattern>
+    <servlet-name>RemoteApiServlet</servlet-name>
+    <url-pattern>/remote_api</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
