@@ -1,6 +1,7 @@
 package org.cambia.translate.client;
 
 import org.cambia.translate.shared.FieldVerifier;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Position;
@@ -9,9 +10,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FormHandler;
+import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -19,6 +24,12 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.user.client.ui.TextBoxBase;
+import com.google.gwt.user.client.ui.ValueBoxBase.TextAlignment;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -40,7 +51,8 @@ public class TheLens implements EntryPoint {
   /**
    * This is the entry point method.
    */
-  public void onModuleLoad() {
+  @SuppressWarnings("deprecation")
+public void onModuleLoad() {
     final Label errorLabel = new Label();
 
     // Add the nameField and sendButton to the RootPanel
@@ -60,11 +72,12 @@ public class TheLens implements EntryPoint {
         nameField.setFocus(true);
         nameField.selectAll();
 
-    final Button sendButton = new Button("Send");
-    absolutePanel.add(sendButton);
+    final Button sendButton = new Button("Upload Key");
+    absolutePanel.add(sendButton, 182, 0);
+    sendButton.setSize("132px", "27px");
     
-        // We can add style names to widgets
-        sendButton.addStyleName("sendButton");
+    // We can add style names to widgets
+    sendButton.addStyleName("sendButton");
 
     
     ListBox listBox = new ListBox();
@@ -91,6 +104,75 @@ public class TheLens implements EntryPoint {
     
     Button btnSave = new Button("Save");
     absolutePanel.add(btnSave, 131, 542);
+    
+    Button btnUploadTranslation = new Button("Upload Translation");
+
+    absolutePanel.add(btnUploadTranslation, 205, 108);
+    btnUploadTranslation.setSize("151px", "27px");
+    
+    final FormPanel formPanel = new FormPanel();
+    absolutePanel.add(formPanel, 10, 75);
+    formPanel.setSize("561px", "27px");
+    
+    AbsolutePanel absolutePanel_1 = new AbsolutePanel();
+    formPanel.setWidget(absolutePanel_1);
+    absolutePanel_1.setSize("100%", "100%");
+    
+    final TextBox tbInputFile = new TextBox();
+    tbInputFile.setAlignment(TextAlignment.LEFT);
+    tbInputFile.setTextAlignment(TextBoxBase.ALIGN_LEFT);
+    absolutePanel_1.add(tbInputFile);
+    
+    final FileUpload fileUpload = new FileUpload();
+    fileUpload.addChangeHandler(new ChangeHandler() {
+    	public void onChange(ChangeEvent event) {
+    		tbInputFile.setText(fileUpload.getFilename());
+    	}
+    });
+    absolutePanel_1.add(fileUpload);
+    
+    Button btnUploadKey = new Button("Upload Key");
+
+    absolutePanel.add(btnUploadKey, 10, 108);
+    btnUploadKey.setSize("151px", "27px");
+    
+ // Add an event handler to the form.
+    formPanel.addFormHandler(new FormHandler() {
+      public void onSubmit(FormSubmitEvent event) {
+        // This event is fired just before the form is submitted. We can take
+        // this opportunity to perform validation.
+    	  String inputFileString = tbInputFile.getText();
+        if (inputFileString.length() == 0) {
+          Window.alert("The text box must not be empty");
+          event.setCancelled(true);
+        }
+      }
+
+
+  	  @Override
+      public void onSubmitComplete(FormSubmitCompleteEvent event) {
+        // When the form submission is successfully completed, this event is
+        // fired. Assuming the service returned a response of type text/html,
+        // we can get the result text here (see the FormPanel documentation for
+        // further explanation).
+        Window.alert(event.getResults());
+      }
+
+    });
+    
+    btnUploadTranslation.addClickHandler(new ClickHandler() {
+    	public void onClick(ClickEvent event) {
+    		formPanel.setAction("/UpdateTranslation");
+    		formPanel.submit();
+    	}
+    });
+    
+    btnUploadKey.addClickHandler(new ClickHandler() {
+    	public void onClick(ClickEvent event) {
+    		formPanel.setAction("/UpdateKey");
+    		formPanel.submit();
+    	}
+    });
 
     // Create the popup dialog box
     final DialogBox dialogBox = new DialogBox();
