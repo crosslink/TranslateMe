@@ -1,7 +1,12 @@
 package org.cambia.translate.server;
 
+import static gwtupload.shared.UConsts.TAG_CANCELED;
+import static gwtupload.shared.UConsts.TAG_ERROR;
+import gwtupload.server.AbstractUploadListener;
 import gwtupload.server.UploadAction;
+import gwtupload.server.UploadServlet;
 import gwtupload.server.exceptions.UploadActionException;
+import gwtupload.server.exceptions.UploadCanceledException;
 import gwtupload.server.gae.AppEngineUploadAction;
 import gwtupload.shared.UConsts;
 
@@ -9,8 +14,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +37,10 @@ public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ 
 	   * Maintain a list with received files and their content types. 
 	   */
 	  Hashtable<String, File> receivedFiles = new Hashtable<String, File>();
+
+	private boolean removeSessionFiles;
+
+	private boolean removeData;
 
 	  /**
 	   * Override executeAction to save the received files in a custom place
@@ -106,34 +117,49 @@ public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ 
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-        ServletFileUpload upload = new ServletFileUpload();
+	    String error = null;
+	    String message = null;
 
-        try{
-            FileItemIterator iter = upload.getItemIterator(request);
+	    perThreadRequest.set(request);
+	    try {
+	      // Receive the files and form elements, updating the progress status
+//	      error = super.parsePostRequest(request, response);
+	      if (error == null) {
+	        // Call to the user code 
+	        message = executeAction(request, getSessionFileItems(request));
+	      }
+	    } catch (UploadCanceledException e) {
+	      renderXmlResponse(request, response, "<" + TAG_CANCELED + ">true</" + TAG_CANCELED + ">");
+	      return;
+	    } catch (UploadActionException e) {
+	      logger.info("ExecuteUploadActionException when receiving a file.", e);
+	      error =  e.getMessage();
+	    } catch (Exception e) {
+	      logger.info("Unknown Exception when receiving a file.", e);
+	      error = e.getMessage();
+	    } finally {
+	      perThreadRequest.set(null);
+	    }
 
-            while (iter.hasNext()) {
-                FileItemStream item = iter.next();
-
-                String name = item.getFieldName();
-                InputStream inputStream = item.openStream();
-
-//                onFileUploadFinished();
-                // Process the input stream
-//                ByteArrayOutputStream out = new ByteArrayOutputStream();
-//                int len;
-//                byte[] buffer = new byte[8192];
-//                while ((len = stream.read(buffer, 0, buffer.length)) != -1) {
-//                    out.write(buffer, 0, len);
-//                }
-//
-//                int maxFileSize = 10*(1024*1024); //10 megs max 
-//                if (out.size() > maxFileSize) { 
-//                    throw new RuntimeException("File is > than " + maxFileSize);
-//                }
-            }
-        }
-        catch(Exception e){
-            throw new RuntimeException(e);
-        }
+	    AbstractUploadListener listener = getCurrentListener(request);
+	    if (error != null) {
+	      renderXmlResponse(request, response, "<" + TAG_ERROR + ">" + error + "</" + TAG_ERROR + ">");
+	      if (listener != null) {
+	        listener.setException(new RuntimeException(error));
+	      }
+	      UploadServlet.removeSessionFileItems(request);
+	    } else {
+	      Map<String, String> stat = new HashMap<String, String>();
+	      getFileItemsSummary(request, stat);
+	      if (message != null) {
+	        stat.put("message", "\n<![CDATA[\n" + message + "\n]]>\n");
+	      }
+	      renderXmlResponse(request, response, statusToString(stat), true);
+	    }
+	    
+	    finish(request);
+//	    if (removeSessionFiles) {
+//	      removeSessionFileItems(request, removeData);
+//	    }
 	}
 }

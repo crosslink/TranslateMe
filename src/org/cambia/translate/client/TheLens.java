@@ -99,9 +99,8 @@ public void onModuleLoad() {
     // Add a finish handler which will load the image once the upload finishes
 //    defaultUploader.addOnFinishUploadHandler(onFinishUploaderHandler);
     defaultUploader.addOnFinishUploadHandler(fileUploaderHandler);
-    
+    defaultUploader.addOnChangeUploadHandler(fileUploaderHandler);
 
-    
     HorizontalPanel horizontalPanel = new HorizontalPanel();
     verticalPanel_1.add(horizontalPanel);
     
