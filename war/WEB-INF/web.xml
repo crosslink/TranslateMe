@@ -18,22 +18,22 @@
     <param-value>200</param-value>
   </context-param>
 
-  <!-- Servlets -->
-  <servlet>
-	  <servlet>
-	    <servlet-name>uploadServlet</servlet-name>
-	    <!-- This is the default servlet, it puts files in session -->
-	    <servlet-class>gwtupload.server.UploadServlet</servlet-class>
-	  </servlet>
+    <!-- This is the default servlet, it puts files in session -->
+   <!--  
+    <servlet-name>uploadServlet</servlet-name>
+    <servlet-class>gwtupload.server.UploadServlet</servlet-class>
   
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>org.cambia.translate.server.GreetingServiceImpl</servlet-class>   
+    	-->   
+  <!-- Servlets -->
+  <servlet>
     
-    <servlet-name>UpdateKey</servlet-name>
-    <servlet-class>org.cambia.translate.server.UpdateKey</servlet-class>
+    <servlet-name>UpdateKeyServlet</servlet-name>
+    <servlet-class>org.cambia.translate.server.UpdateKeyServlet</servlet-class>
     
-    <servlet-name>UpdateTranslation</servlet-name>
-    <servlet-class>org.cambia.translate.server.UpdateTranslation</servlet-class>
+    <servlet-name>UpdateTranslationServlet</servlet-name>
+    <servlet-class>org.cambia.translate.server.UpdateTranslationServlet</servlet-class>
 
     <display-name>Remote API Servlet</display-name>
     <servlet-name>RemoteApiServlet</servlet-name>
@@ -43,16 +43,16 @@
   </servlet>
   
   <servlet-mapping>
-	  <servlet-mapping>
-	    <servlet-name>uploadServlet</servlet-name>
-	    <url-pattern>*.gupld</url-pattern>
-	  </servlet-mapping>
+  <!--  
+    <servlet-name>uploadServlet</servlet-name>
+    <url-pattern>Update*</url-pattern>
   
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/thelens/greet</url-pattern>
     
     <servlet-name>RemoteApiServlet</servlet-name>
     <url-pattern>/remote_api</url-pattern>
+    	-->    
     
     <servlet-name>UpdateKeyServlet</servlet-name>
     <url-pattern>/UpdateKey</url-pattern>

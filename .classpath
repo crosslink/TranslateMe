@@ -19,5 +19,6 @@
 			<attribute name="javadoc_location" value="file:/home/monfee/tools/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.6.6/appengine-java-sdk-1.6.6/docs/javadoc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/gwtupload"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

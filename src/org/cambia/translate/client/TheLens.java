@@ -6,6 +6,7 @@ import gwtupload.client.IUploader.UploadedInfo;
 import gwtupload.client.MultiUploader;
 import gwtupload.client.PreloadedImage.OnLoadPreloadedImageHandler;
 import gwtupload.client.PreloadedImage;
+import gwtupload.client.Uploader;
 
 import org.cambia.translate.shared.FieldVerifier;
 
@@ -72,8 +73,9 @@ public void onModuleLoad() {
     RootPanel.get("errorLabelContainer").add(errorLabel);
     
     // Create a new uploader panel and attach it to the document
-    MultiUploader defaultUploader = new MultiUploader();
-    RootPanel.get("default").add(defaultUploader);
+    final Uploader defaultUploader = new Uploader();
+    defaultUploader.setAutoSubmit(false);
+    RootPanel.get("fileupload").add(defaultUploader);
 
     // Add a finish handler which will load the image once the upload finishes
     defaultUploader.addOnFinishUploadHandler(onFinishUploaderHandler);
@@ -156,15 +158,19 @@ public void onModuleLoad() {
     
     btnUploadKey.addClickHandler(new ClickHandler() {
     	public void onClick(ClickEvent event) {
-    		formPanel.setAction("/UpdateKey");
-    		formPanel.submit();
+    		defaultUploader.setServletPath("/UpdateKey");
+    		defaultUploader.submit();
+//    		formPanel.setAction("/UpdateKey");
+//    		formPanel.submit();
     	}
     });
     
     btnUploadTranslation.addClickHandler(new ClickHandler() {
     	public void onClick(ClickEvent event) {
-    		formPanel.setAction("/UpdateTranslation");
-    		formPanel.submit();
+    		defaultUploader.setServletPath("/UpdateTranslation");
+    		defaultUploader.submit();
+//    		formPanel.setAction("/UpdateTranslation");
+//    		formPanel.submit();
     	}
     });
     
@@ -173,7 +179,7 @@ public void onModuleLoad() {
       public void onSubmit(FormSubmitEvent event) {
         // This event is fired just before the form is submitted. We can take
         // this opportunity to perform validation.
-    	  String inputFileString = tbInputFile.getText();
+    	  String inputFileString = defaultUploader.getFileName(); //tbInputFile.getText();
         if (inputFileString.length() == 0) {
           Window.alert("The text box must not be empty");
           event.setCancelled(true);
