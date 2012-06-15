@@ -2,8 +2,6 @@ package org.cambia.translate.client;
 
 import java.util.List;
 
-import org.cambia.translate.Lang;
-import org.cambia.translate.Translate;
 
 import gwtupload.client.Uploader;
 
@@ -46,13 +44,15 @@ public class TheLens implements EntryPoint {
   
   private FileUploaderHandler fileUploaderHandler;
   
-  private Translate translator = new Translate();
+//  private Translate translator;
 
   /**
    * This is the entry point method.
    */
   @SuppressWarnings("deprecation")
 public void onModuleLoad() {
+	final Translate translator = new Translate();
+	  
     final Label errorLabel = new Label();
 
     // Add the nameField and sendButton to the RootPanel
@@ -134,9 +134,9 @@ public void onModuleLoad() {
     absolutePanel.add(lbLangs, 10, 188);
     lbLangs.setSize("567px", "20px");
     lbLangs.setVisibleItemCount(5);
-    List<Lang> langs = translator.getListLangs();
-    for (Lang lang : langs)
-    	lbLangs.addItem(lang.getLangStr());
+//    List<Lang> langs = translator.getListLangs();
+//    for (Lang lang : langs)
+//    	lbLangs.addItem(lang.getLangStr());
     
     TextBox textBox = new TextBox();
     absolutePanel.add(textBox, 10, 237);

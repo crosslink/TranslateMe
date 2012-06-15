@@ -1,4 +1,4 @@
-package org.cambia.translate;
+package org.cambia.translate.client;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +8,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
+
+import com.google.gwt.dev.cfg.Properties;
+//import java.util.Properties;
 
 public class Translate {
 	Properties supportedLangs; // = new HashMap<String, String>();
@@ -24,7 +26,7 @@ public class Translate {
 	
 	public Translate() {
 		supportedLangs = new Properties();
-		InputStream in = getClass().getResourceAsStream("org.cambia.translate.GoogleTranslateLangs.properties");
+		InputStream in = Translate.class.getClass().getResourceAsStream("org.cambia.translate.GoogleTranslateLangs.properties");
 		try {
 			supportedLangs.load(in);
 			in.close();

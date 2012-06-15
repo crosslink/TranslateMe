@@ -1,4 +1,4 @@
-package org.cambia.translate;
+package org.cambia.translate.client;
 
 import java.util.Comparator;
 
