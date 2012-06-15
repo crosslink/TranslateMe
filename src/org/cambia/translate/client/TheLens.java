@@ -1,5 +1,12 @@
 package org.cambia.translate.client;
 
+import gwtupload.client.IUploadStatus.Status;
+import gwtupload.client.IUploader;
+import gwtupload.client.IUploader.UploadedInfo;
+import gwtupload.client.MultiUploader;
+import gwtupload.client.PreloadedImage.OnLoadPreloadedImageHandler;
+import gwtupload.client.PreloadedImage;
+
 import org.cambia.translate.shared.FieldVerifier;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -14,6 +21,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormSubmitEvent;
@@ -47,6 +55,8 @@ public class TheLens implements EntryPoint {
    * Create a remote service proxy to talk to the server-side Greeting service.
    */
   private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+	//A panel where the thumbnails of uploaded images will be shown
+	 private FlowPanel panelImages = new FlowPanel();
 
   /**
    * This is the entry point method.
@@ -61,8 +71,15 @@ public void onModuleLoad() {
     rootPanel.getElement().getStyle().setPosition(Position.RELATIVE);
     RootPanel.get("errorLabelContainer").add(errorLabel);
     
+    // Create a new uploader panel and attach it to the document
+    MultiUploader defaultUploader = new MultiUploader();
+    RootPanel.get("default").add(defaultUploader);
+
+    // Add a finish handler which will load the image once the upload finishes
+    defaultUploader.addOnFinishUploadHandler(onFinishUploaderHandler);
+    
     AbsolutePanel absolutePanel = new AbsolutePanel();
-    rootPanel.add(absolutePanel, 10, 5);
+    rootPanel.add(absolutePanel, 10, 0);
     absolutePanel.setSize("628px", "640px");
     final TextBox nameField = new TextBox();
     absolutePanel.add(nameField);
@@ -105,26 +122,21 @@ public void onModuleLoad() {
     Button btnSave = new Button("Save");
     absolutePanel.add(btnSave, 131, 542);
     
-    Button btnUploadTranslation = new Button("Upload Translation");
-
-    absolutePanel.add(btnUploadTranslation, 205, 108);
-    btnUploadTranslation.setSize("151px", "27px");
-    
     final FormPanel formPanel = new FormPanel();
     formPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
     formPanel.setMethod(FormPanel.METHOD_POST);
 
     absolutePanel.add(formPanel, 10, 75);
-    formPanel.setSize("561px", "27px");
+    formPanel.setSize("561px", "107px");
     
     AbsolutePanel absolutePanel_1 = new AbsolutePanel();
     formPanel.setWidget(absolutePanel_1);
-    absolutePanel_1.setSize("100%", "100%");
+    absolutePanel_1.setSize("100%", "97px");
     
     final TextBox tbInputFile = new TextBox();
     tbInputFile.setAlignment(TextAlignment.LEFT);
     tbInputFile.setTextAlignment(TextBoxBase.ALIGN_LEFT);
-    absolutePanel_1.add(tbInputFile);
+    absolutePanel_1.add(tbInputFile, 0, 60);
     
     final FileUpload fileUpload = new FileUpload();
     fileUpload.addChangeHandler(new ChangeHandler() {
@@ -132,12 +144,29 @@ public void onModuleLoad() {
     		tbInputFile.setText(fileUpload.getFilename());
     	}
     });
-    absolutePanel_1.add(fileUpload);
+    absolutePanel_1.add(fileUpload, 175, 59);
+    
+    Button btnUploadTranslation = new Button("Upload Translation");
+    absolutePanel_1.add(btnUploadTranslation, 369, 60);
+    btnUploadTranslation.setSize("151px", "27px");
     
     Button btnUploadKey = new Button("Upload Key");
-
-    absolutePanel.add(btnUploadKey, 10, 108);
+    absolutePanel_1.add(btnUploadKey, 10, 27);
     btnUploadKey.setSize("151px", "27px");
+    
+    btnUploadKey.addClickHandler(new ClickHandler() {
+    	public void onClick(ClickEvent event) {
+    		formPanel.setAction("/UpdateKey");
+    		formPanel.submit();
+    	}
+    });
+    
+    btnUploadTranslation.addClickHandler(new ClickHandler() {
+    	public void onClick(ClickEvent event) {
+    		formPanel.setAction("/UpdateTranslation");
+    		formPanel.submit();
+    	}
+    });
     
  // Add an event handler to the form.
     formPanel.addFormHandler(new FormHandler() {
@@ -161,20 +190,6 @@ public void onModuleLoad() {
         Window.alert(event.getResults());
       }
 
-    });
-    
-    btnUploadTranslation.addClickHandler(new ClickHandler() {
-    	public void onClick(ClickEvent event) {
-    		formPanel.setAction("/UpdateTranslation");
-    		formPanel.submit();
-    	}
-    });
-    
-    btnUploadKey.addClickHandler(new ClickHandler() {
-    	public void onClick(ClickEvent event) {
-    		formPanel.setAction("/UpdateKey");
-    		formPanel.submit();
-    	}
     });
 
     // Create the popup dialog box
@@ -264,5 +279,33 @@ public void onModuleLoad() {
     MyHandler handler = new MyHandler();
     nameField.addKeyUpHandler(handler);
     sendButton.addClickHandler(handler);
+    
   }
+  
+  // Load the image in the document and in the case of success attach it to the viewer
+  IUploader.OnFinishUploaderHandler onFinishUploaderHandler = new IUploader.OnFinishUploaderHandler() {
+    public void onFinish(IUploader uploader) {
+      if (uploader.getStatus() == Status.SUCCESS) {
+
+        new PreloadedImage(uploader.fileUrl(), showImage);
+        
+        // The server sends useful information to the client by default
+        UploadedInfo info = uploader.getServerInfo();
+        System.out.println("File name " + info.name);
+        System.out.println("File content-type " + info.ctype);
+        System.out.println("File size " + info.size);
+
+        // You can send any customized message and parse it 
+        System.out.println("Server message " + info.message);
+      }
+    }
+    
+    // Attach an image to the pictures viewer
+    OnLoadPreloadedImageHandler showImage = new OnLoadPreloadedImageHandler() {
+      public void onLoad(PreloadedImage image) {
+        image.setWidth("75px");
+        panelImages.add(image);
+      }
+    };
+  };
 }
