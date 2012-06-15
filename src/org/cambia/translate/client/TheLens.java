@@ -1,45 +1,29 @@
 package org.cambia.translate.client;
 
-import gwtupload.client.IUploadStatus.Status;
-import gwtupload.client.IUploader;
-import gwtupload.client.IUploader.UploadedInfo;
-import gwtupload.client.MultiUploader;
-import gwtupload.client.PreloadedImage.OnLoadPreloadedImageHandler;
-import gwtupload.client.PreloadedImage;
-import gwtupload.client.Uploader;
+import java.util.List;
 
-import org.cambia.translate.shared.FieldVerifier;
+import org.cambia.translate.Lang;
+import org.cambia.translate.Translate;
+
+import gwtupload.client.Uploader;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FormHandler;
-import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormSubmitEvent;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.ValueBoxBase.TextAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.CaptionPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -61,6 +45,8 @@ public class TheLens implements EntryPoint {
   private FlowPanel panelImages = new FlowPanel();
   
   private FileUploaderHandler fileUploaderHandler;
+  
+  private Translate translator = new Translate();
 
   /**
    * This is the entry point method.
@@ -78,67 +64,79 @@ public void onModuleLoad() {
     VerticalPanel verticalPanel = new VerticalPanel();
     rootPanel.add(verticalPanel);
     
+    CaptionPanel cptnpnlNewPanel = new CaptionPanel("New panel");
+    cptnpnlNewPanel.setCaptionHTML("Administration");
+    verticalPanel.add(cptnpnlNewPanel);
+    
     VerticalPanel verticalPanel_1 = new VerticalPanel();
-    verticalPanel.add(verticalPanel_1);
+    cptnpnlNewPanel.setContentWidget(verticalPanel_1);
+    verticalPanel_1.setSize("5cm", "3cm");
     
     FlowPanel fileUploaderPanel = new FlowPanel();
     verticalPanel_1.add(fileUploaderPanel);
+    
+    // Create a new uploader panel and attach it to the document
+    final Uploader defaultUploader = new Uploader();
+    defaultUploader.setAutoSubmit(false);
     
     final TextBox tbInputFile = new TextBox();
     fileUploaderPanel.add(tbInputFile);
     tbInputFile.setAlignment(TextAlignment.LEFT);
     tbInputFile.setTextAlignment(TextBoxBase.ALIGN_LEFT);
-    
-    // Create a new uploader panel and attach it to the document
-    final Uploader defaultUploader = new Uploader();
-    defaultUploader.setAutoSubmit(false);
     //RootPanel.get("fileupload").add(defaultUploader);
     fileUploaderPanel.add(defaultUploader);
     fileUploaderHandler = new FileUploaderHandler(panelImages, tbInputFile);
+    
+        HorizontalPanel horizontalPanel = new HorizontalPanel();
+        verticalPanel_1.add(horizontalPanel);
+        
+        Button btnUploadKey = new Button("Upload Key");
+        horizontalPanel.add(btnUploadKey);
+        btnUploadKey.setSize("151px", "27px");
+        
+        btnUploadKey.addClickHandler(new ClickHandler() {
+        	public void onClick(ClickEvent event) {
+        		defaultUploader.setServletPath("/UpdateKey");
+        		defaultUploader.submit();
+//    		formPanel.setAction("/UpdateKey");
+//    		formPanel.submit();
+        	}
+        });
+        
+        Button btnUploadTranslation = new Button("Upload Translation");
+        horizontalPanel.add(btnUploadTranslation);
+        btnUploadTranslation.setSize("151px", "27px");
+        
+        btnUploadTranslation.addClickHandler(new ClickHandler() {
+        	public void onClick(ClickEvent event) {
+        		defaultUploader.setServletPath("/UpdateTranslation");
+        		defaultUploader.submit();
+//    		formPanel.setAction("/UpdateTranslation");
+//    		formPanel.submit();
+        	}
+        });
     
     // Add a finish handler which will load the image once the upload finishes
 //    defaultUploader.addOnFinishUploadHandler(onFinishUploaderHandler);
     defaultUploader.addOnFinishUploadHandler(fileUploaderHandler);
     defaultUploader.addOnChangeUploadHandler(fileUploaderHandler);
-
-    HorizontalPanel horizontalPanel = new HorizontalPanel();
-    verticalPanel_1.add(horizontalPanel);
     
-    Button btnUploadTranslation = new Button("Upload Translation");
-    horizontalPanel.add(btnUploadTranslation);
-    btnUploadTranslation.setSize("151px", "27px");
-    
-    Button btnUploadKey = new Button("Upload Key");
-    horizontalPanel.add(btnUploadKey);
-    btnUploadKey.setSize("151px", "27px");
-    
-    btnUploadKey.addClickHandler(new ClickHandler() {
-    	public void onClick(ClickEvent event) {
-    		defaultUploader.setServletPath("/UpdateKey");
-    		defaultUploader.submit();
-//    		formPanel.setAction("/UpdateKey");
-//    		formPanel.submit();
-    	}
-    });
-    
-    btnUploadTranslation.addClickHandler(new ClickHandler() {
-    	public void onClick(ClickEvent event) {
-    		defaultUploader.setServletPath("/UpdateTranslation");
-    		defaultUploader.submit();
-//    		formPanel.setAction("/UpdateTranslation");
-//    		formPanel.submit();
-    	}
-    });
+    CaptionPanel cptnpnlTranslateMe = new CaptionPanel("Translate Me");
+    verticalPanel.add(cptnpnlTranslateMe);
+    cptnpnlTranslateMe.setSize("701px", "617px");
     
     AbsolutePanel absolutePanel = new AbsolutePanel();
-    verticalPanel.add(absolutePanel);
-    absolutePanel.setSize("628px", "640px");
+    cptnpnlTranslateMe.setContentWidget(absolutePanel);
+    absolutePanel.setSize("692px", "577px");
 
     
-    ListBox listBox = new ListBox();
-    absolutePanel.add(listBox, 10, 188);
-    listBox.setSize("567px", "20px");
-    listBox.setVisibleItemCount(5);
+    ListBox lbLangs = new ListBox();
+    absolutePanel.add(lbLangs, 10, 188);
+    lbLangs.setSize("567px", "20px");
+    lbLangs.setVisibleItemCount(5);
+    List<Lang> langs = translator.getListLangs();
+    for (Lang lang : langs)
+    	lbLangs.addItem(lang.getLangStr());
     
     TextBox textBox = new TextBox();
     absolutePanel.add(textBox, 10, 237);

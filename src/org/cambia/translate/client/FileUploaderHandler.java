@@ -46,7 +46,7 @@ public class FileUploaderHandler implements IUploader.OnChangeUploaderHandler,  
 
 	@Override
 	public void onChange(IUploader uploader) {
-		tbInputFile.setText(uploader.getFileName());
+		tbInputFile.setText(uploader.getInputName()/*uploader.getFileName()*/);
 		
 	}
 
