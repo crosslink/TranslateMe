@@ -3,6 +3,7 @@ package org.cambia.translate.client;
 import java.util.List;
 
 
+
 import gwtupload.client.Uploader;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -43,6 +44,7 @@ public class TheLens implements EntryPoint {
   private FlowPanel panelImages = new FlowPanel();
   
   private FileUploaderHandler fileUploaderHandler;
+  
   
 //  private Translate translator;
 
