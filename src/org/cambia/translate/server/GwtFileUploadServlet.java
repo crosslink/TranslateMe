@@ -1,5 +1,6 @@
 package org.cambia.translate.server;
 
+import static gwtupload.shared.UConsts.PARAM_DELAY;
 import static gwtupload.shared.UConsts.TAG_CANCELED;
 import static gwtupload.shared.UConsts.TAG_ERROR;
 import gwtupload.server.AbstractUploadListener;
@@ -7,6 +8,9 @@ import gwtupload.server.UploadAction;
 import gwtupload.server.UploadServlet;
 import gwtupload.server.exceptions.UploadActionException;
 import gwtupload.server.exceptions.UploadCanceledException;
+import gwtupload.server.exceptions.UploadException;
+import gwtupload.server.exceptions.UploadSizeLimitException;
+import gwtupload.server.exceptions.UploadTimeoutException;
 import gwtupload.server.gae.AppEngineUploadAction;
 import gwtupload.shared.UConsts;
 
@@ -14,18 +18,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ {
@@ -36,7 +46,8 @@ public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ 
 	  /**
 	   * Maintain a list with received files and their content types. 
 	   */
-	  Hashtable<String, File> receivedFiles = new Hashtable<String, File>();
+	  Hashtable<String, InputStream> receivedFiles = new Hashtable<String, InputStream>();
+	  ArrayList<InputStream> files = new ArrayList<InputStream>();
 
 	private boolean removeSessionFiles;
 
@@ -62,15 +73,17 @@ public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ 
 	          // File file = File.createTempFile("upload-", ".bin", new File("/tmp"));
 	          
 	          /// Create a temporary file placed in the default system temp folder
-	          File file = File.createTempFile("upload-", ".bin");
-	          item.write(file);
-	          
+//	          File file = File.createTempFile("upload-", ".bin");
+//	          item.write(file);
+	          InputStream file = item.getInputStream();
 	          /// Save a list with the received files
 	          receivedFiles.put(item.getFieldName(), file);
 	          receivedContentTypes.put(item.getFieldName(), item.getContentType());
 	          
+	          files.add(file);
+	          
 	          /// Send a customized message to the client.
-	          response += "File saved as " + file.getAbsolutePath();
+//	          response += "File saved as " + file.getAbsolutePath();
 
 	        } catch (Exception e) {
 	          throw new UploadActionException(e);
@@ -91,10 +104,10 @@ public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ 
 	  @Override
 	  public void getUploadedFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	    String fieldName = request.getParameter(UConsts.PARAM_SHOW);
-	    File f = receivedFiles.get(fieldName);
-	    if (f != null) {
+	    InputStream is = receivedFiles.get(fieldName);
+	    if (is != null) {
 	      response.setContentType(receivedContentTypes.get(fieldName));
-	      FileInputStream is = new FileInputStream(f);
+//	      FileInputStream is = new FileInputStream(f);
 	      copyFromInputStreamToOutputStream(is, response.getOutputStream());
 	    } else {
 	      renderXmlResponse(request, response, XML_ERROR_ITEM_NOT_FOUND);
@@ -106,14 +119,101 @@ public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ 
 	   */
 	  @Override
 	  public void removeItem(HttpServletRequest request, String fieldName)  throws UploadActionException {
-	    File file = receivedFiles.get(fieldName);
+	    InputStream file = receivedFiles.get(fieldName);
 	    receivedFiles.remove(fieldName);
 	    receivedContentTypes.remove(fieldName);
-	    if (file != null) {
-	      file.delete();
-	    }
+//	    if (file != null) {
+//	      file.delete();
+//	    }
 	  }
 
+//	  protected String parsePostRequest(HttpServletRequest request, HttpServletResponse response) {
+//		    try {
+//		      String delay = request.getParameter(PARAM_DELAY);
+//		      uploadDelay = Integer.parseInt(delay);
+//		    } catch (Exception e) { }
+//
+//		    HttpSession session = request.getSession();
+//
+//		    logger.debug("UPLOAD-SERVLET (" + session.getId() + ") new upload request received.");
+//
+//		    AbstractUploadListener listener = getCurrentListener(request);
+//		    if (listener != null) {
+//		      if (listener.isFrozen() || listener.isCanceled() || listener.getPercent() >= 100) {
+//		        removeCurrentListener(request);
+//		      } else {
+//		        String error = getMessage("busy");
+//		        logger.error("UPLOAD-SERVLET (" + session.getId() + ") " + error);
+//		        return error;
+//		      }
+//		    }
+//		    // Create a file upload progress listener, and put it in the user session,
+//		    // so the browser can use ajax to query status of the upload process
+//		    listener = createNewListener(request);
+//
+//		    List<FileItem> uploadedItems;
+//		    try {
+//
+//		      // Call to a method which the user can override
+//		      checkRequest(request);
+//
+//		      // Create the factory used for uploading files,
+//		      FileItemFactory factory = getFileItemFactory(request.getContentLength());
+//		      ServletFileUpload uploader = new ServletFileUpload(factory);
+//		      uploader.setSizeMax(maxSize);
+//		      uploader.setProgressListener(listener);
+//
+//		      // Receive the files
+//		      logger.debug("UPLOAD-SERVLET (" + session.getId() + ") parsing HTTP POST request ");
+//		      uploadedItems = uploader.parseRequest(request);
+//		      logger.debug("UPLOAD-SERVLET (" + session.getId() + ") parsed request, " + uploadedItems.size() + " items received.");
+//
+//		      // Received files are put in session
+//		      Vector<FileItem> sessionFiles = (Vector<FileItem>) getSessionFileItems(request);
+//		      if (sessionFiles == null) {
+//		        sessionFiles = new Vector<FileItem>();
+//		      }
+//
+//		      String error = "";
+//		      session.setAttribute(SESSION_LAST_FILES, uploadedItems);
+//
+//		      if (uploadedItems.size() > 0) {
+//		        sessionFiles.addAll(uploadedItems);
+//		        String msg = "";
+//		        for (FileItem i : sessionFiles) {
+//		          msg += i.getFieldName() + " => " + i.getName() + "(" + i.getSize() + " bytes),";
+//		        }
+//		        logger.debug("UPLOAD-SERVLET (" + session.getId() + ") puting items in session: " + msg);
+//		        session.setAttribute(SESSION_FILES, sessionFiles);
+//		      } else {
+//		        logger.error("UPLOAD-SERVLET (" + session.getId() + ") error NO DATA received ");
+//		        error += getMessage("no_data");
+//		      }
+//
+//		      return error.length() > 0 ? error : null;
+//
+//		    } catch (SizeLimitExceededException e) {
+//		      RuntimeException ex = new UploadSizeLimitException(e.getPermittedSize(), e.getActualSize());
+//		      listener.setException(ex);
+//		      throw ex;
+//		    } catch (UploadSizeLimitException e) {
+//		      listener.setException(e);
+//		      throw e;
+//		    } catch (UploadCanceledException e) {
+//		      listener.setException(e);
+//		      throw e;
+//		    } catch (UploadTimeoutException e) {
+//		      listener.setException(e);
+//		      throw e;
+//		    } catch (Exception e) {
+//		      logger.error("UPLOAD-SERVLET (" + request.getSession().getId() + ") Unexpected Exception -> " + e.getMessage() + "\n" + stackTraceToString(e));
+//		      e.printStackTrace();
+//		      RuntimeException ex = new UploadException(e);
+//		      listener.setException(ex);
+//		      throw ex;
+//		    }
+//		  }
+	  
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
@@ -123,7 +223,7 @@ public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ 
 	    perThreadRequest.set(request);
 	    try {
 	      // Receive the files and form elements, updating the progress status
-//	      error = super.parsePostRequest(request, response);
+	      error = super.parsePostRequest(request, response);
 	      if (error == null) {
 	        // Call to the user code 
 	        message = executeAction(request, getSessionFileItems(request));
@@ -158,8 +258,13 @@ public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ 
 	    }
 	    
 	    finish(request);
+	    onFileUploadFinished();
 //	    if (removeSessionFiles) {
 //	      removeSessionFileItems(request, removeData);
 //	    }
+	}
+	
+	public void onFileUploadFinished() {
+		
 	}
 }

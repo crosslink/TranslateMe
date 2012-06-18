@@ -2,8 +2,6 @@ package org.cambia.translate.client;
 
 import java.util.List;
 
-
-
 import gwtupload.client.Uploader;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -28,7 +26,8 @@ import com.google.gwt.user.client.ui.CaptionPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class TheLens implements EntryPoint {
-  /**
+
+/**
    * The message displayed to the user when the server cannot be reached or
    * returns an error.
    */
@@ -42,9 +41,23 @@ public class TheLens implements EntryPoint {
   private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
   //A panel where the thumbnails of uploaded images will be shown
   private FlowPanel panelImages = new FlowPanel();
-  
+  private ListBox lbLangs;
+  private Uploader defaultUploader;
   private FileUploaderHandler fileUploaderHandler;
   
+  List<Lang> listLangs;
+  
+  public TheLens() {
+		super();
+		
+		final Translate translator = new Translate();
+		listLangs = translator.getListLangs();
+		
+	    // Create a new uploader panel and attach it to the document
+	    defaultUploader = new Uploader();
+	    defaultUploader.setAutoSubmit(false);
+	}
+
   
 //  private Translate translator;
 
@@ -53,8 +66,6 @@ public class TheLens implements EntryPoint {
    */
   @SuppressWarnings("deprecation")
 public void onModuleLoad() {
-	final Translate translator = new Translate();
-	  
     final Label errorLabel = new Label();
 
     // Add the nameField and sendButton to the RootPanel
@@ -76,10 +87,7 @@ public void onModuleLoad() {
     
     FlowPanel fileUploaderPanel = new FlowPanel();
     verticalPanel_1.add(fileUploaderPanel);
-    
-    // Create a new uploader panel and attach it to the document
-    final Uploader defaultUploader = new Uploader();
-    defaultUploader.setAutoSubmit(false);
+
     
     final TextBox tbInputFile = new TextBox();
     fileUploaderPanel.add(tbInputFile);
@@ -132,13 +140,10 @@ public void onModuleLoad() {
     absolutePanel.setSize("692px", "577px");
 
     
-    ListBox lbLangs = new ListBox();
+    lbLangs = new ListBox();
     absolutePanel.add(lbLangs, 10, 188);
     lbLangs.setSize("567px", "20px");
     lbLangs.setVisibleItemCount(5);
-//    List<Lang> langs = translator.getListLangs();
-//    for (Lang lang : langs)
-//    	lbLangs.addItem(lang.getLangStr());
     
     TextBox textBox = new TextBox();
     absolutePanel.add(textBox, 10, 237);
@@ -246,8 +251,17 @@ public void onModuleLoad() {
 //
 //    // Add a handler to send the name to the server
 //    MyHandler handler = new MyHandler();
-    
+    	assignValues();
   }
+
+
+
+private void assignValues() {
+    for (Lang lang : listLangs)
+    	lbLangs.addItem(lang.getLangStr());
+	
+    lbLangs.setVisibleItemCount(1);
+}
   
   // Load the image in the document and in the case of success attach it to the viewer
 //  IUploader.OnFinishUploaderHandler onFinishUploaderHandler = new IUploader.OnFinishUploaderHandler() {

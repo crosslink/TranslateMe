@@ -1,5 +1,6 @@
 package org.cambia.translate.client;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Properties;
 
 
 public class Translate {
-	Properties supportedLangs; 
+//	Properties supportedLangs; 
 	List<Lang> listLangs = new ArrayList<Lang>();
 	HashMap<String, Lang> langMap = new HashMap<String, Lang>();
 	
@@ -24,28 +25,37 @@ public class Translate {
 	}
 	
 	public Translate() {
-		supportedLangs = new Properties();
-		String text = AppResources.INSTANCE.initialConfiguration().getText();
-		//InputStream in = /*Translate.class.getClass()*/getServletContext().getResourceAsStream("org.cambia.translate.GoogleTranslateLangs.properties");
-		try {
-			StringReader sr = new StringReader(text);
-			supportedLangs.load(sr);
-			sr.close();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		supportedLangs = new Properties();
+
 		convertToList();
 	}
 
 	private void convertToList() {
-		for (Object lang : supportedLangs.keySet()) {
-			String langStr = (String) lang;
-			String code = (String)supportedLangs.get(lang);
-			Lang langObj = new Lang(langStr, code);
-			listLangs.add(langObj);
-			langMap.put(code, langObj);
+		String text = AppResources.INSTANCE.initialConfiguration().getText();
+		//InputStream in = /*Translate.class.getClass()*/getServletContext().getResourceAsStream("org.cambia.translate.GoogleTranslateLangs.properties");
+		try {
+			BufferedReader reader = new BufferedReader(new StringReader(text));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				String[] array = line.split("=");
+				String langStr = (String) array[0];
+				String code = (String)array[1];
+				Lang langObj = new Lang(langStr.trim(), code.trim());
+				listLangs.add(langObj);
+				langMap.put(code, langObj);
+			}
+			reader.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+//		for (Object lang : supportedLangs.keySet()) {
+//			String langStr = (String) lang;
+//			String code = (String)supportedLangs.get(lang);
+//			Lang langObj = new Lang(langStr, code);
+//			listLangs.add(langObj);
+//			langMap.put(code, langObj);
+//		}
 		Collections.sort(listLangs, new LangComparator());
 	}
 
