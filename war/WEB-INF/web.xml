@@ -65,5 +65,13 @@
   <welcome-file-list>
     <welcome-file>TheLens.html</welcome-file>
   </welcome-file-list>
+  <servlet>
+  	<servlet-name>databaseServlet</servlet-name>
+  	<servlet-class>org.cambia.translate.server.DatabaseServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>databaseServlet</servlet-name>
+  	<url-pattern>*.database</url-pattern>
+  </servlet-mapping>
 
 </web-app>

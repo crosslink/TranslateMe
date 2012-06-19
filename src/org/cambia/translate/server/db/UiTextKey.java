@@ -1,4 +1,4 @@
-package org.cambia.translate.server;
+package org.cambia.translate.server.db;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

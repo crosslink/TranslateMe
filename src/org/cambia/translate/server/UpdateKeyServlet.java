@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 import org.cambia.translate.client.FileUploadService;
+import org.cambia.translate.server.db.UiTextKey;
 import org.cambia.translate.utils.AcceptFileUploadServlet;
 
 import com.google.appengine.api.datastore.DatastoreService;

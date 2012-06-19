@@ -40,7 +40,7 @@ public class TheLens implements EntryPoint {
   /**
    * Create a remote service proxy to talk to the server-side Greeting service.
    */
-  private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+  
   //A panel where the thumbnails of uploaded images will be shown
   private FlowPanel panelImages = new FlowPanel();
   private ListBox lbLangs;

@@ -1,10 +1,11 @@
 package org.cambia.translate.client;
 
-import org.cambia.translate.server.UiTextKey;
+import org.cambia.translate.server.db.UiTextKey;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
 import gwtupload.client.IUploadStatus.Status;
@@ -21,10 +22,19 @@ public class DatabaseHandler implements IUploader.OnChangeUploaderHandler,  IUpl
 	private ClearKeysHandler clearKeysHandler;
 	
 	public class ClearKeysHandler implements ClickHandler {
+		FormPanel form;
+		
+		public FormPanel getForm() {
+			return form;
+		}
+
+		public void setForm(FormPanel form) {
+			this.form = form;
+		}
 
 		@Override
 		public void onClick(ClickEvent event) {
-			UiTextKey.deleteKeys();
+			
 		}
 		
 	}
