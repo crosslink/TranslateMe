@@ -75,7 +75,8 @@ public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ 
 	          /// Create a temporary file placed in the default system temp folder
 //	          File file = File.createTempFile("upload-", ".bin");
 //	          item.write(file);
-	          InputStream file = item.getInputStream();
+	          InputStream file;
+	          file = item.getInputStream();
 	          /// Save a list with the received files
 	          receivedFiles.put(item.getFieldName(), file);
 	          receivedContentTypes.put(item.getFieldName(), item.getContentType());
@@ -127,143 +128,176 @@ public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ 
 //	    }
 	  }
 
-//	  protected String parsePostRequest(HttpServletRequest request, HttpServletResponse response) {
-//		    try {
-//		      String delay = request.getParameter(PARAM_DELAY);
-//		      uploadDelay = Integer.parseInt(delay);
-//		    } catch (Exception e) { }
-//
-//		    HttpSession session = request.getSession();
-//
-//		    logger.debug("UPLOAD-SERVLET (" + session.getId() + ") new upload request received.");
-//
-//		    AbstractUploadListener listener = getCurrentListener(request);
-//		    if (listener != null) {
-//		      if (listener.isFrozen() || listener.isCanceled() || listener.getPercent() >= 100) {
-//		        removeCurrentListener(request);
-//		      } else {
-//		        String error = getMessage("busy");
-//		        logger.error("UPLOAD-SERVLET (" + session.getId() + ") " + error);
-//		        return error;
-//		      }
-//		    }
-//		    // Create a file upload progress listener, and put it in the user session,
-//		    // so the browser can use ajax to query status of the upload process
-//		    listener = createNewListener(request);
-//
-//		    List<FileItem> uploadedItems;
-//		    try {
-//
-//		      // Call to a method which the user can override
-//		      checkRequest(request);
-//
-//		      // Create the factory used for uploading files,
-//		      FileItemFactory factory = getFileItemFactory(request.getContentLength());
-//		      ServletFileUpload uploader = new ServletFileUpload(factory);
-//		      uploader.setSizeMax(maxSize);
-//		      uploader.setProgressListener(listener);
-//
-//		      // Receive the files
-//		      logger.debug("UPLOAD-SERVLET (" + session.getId() + ") parsing HTTP POST request ");
-//		      uploadedItems = uploader.parseRequest(request);
-//		      logger.debug("UPLOAD-SERVLET (" + session.getId() + ") parsed request, " + uploadedItems.size() + " items received.");
-//
-//		      // Received files are put in session
-//		      Vector<FileItem> sessionFiles = (Vector<FileItem>) getSessionFileItems(request);
-//		      if (sessionFiles == null) {
-//		        sessionFiles = new Vector<FileItem>();
-//		      }
-//
-//		      String error = "";
-//		      session.setAttribute(SESSION_LAST_FILES, uploadedItems);
-//
-//		      if (uploadedItems.size() > 0) {
-//		        sessionFiles.addAll(uploadedItems);
-//		        String msg = "";
-//		        for (FileItem i : sessionFiles) {
-//		          msg += i.getFieldName() + " => " + i.getName() + "(" + i.getSize() + " bytes),";
-//		        }
-//		        logger.debug("UPLOAD-SERVLET (" + session.getId() + ") puting items in session: " + msg);
-//		        session.setAttribute(SESSION_FILES, sessionFiles);
-//		      } else {
-//		        logger.error("UPLOAD-SERVLET (" + session.getId() + ") error NO DATA received ");
-//		        error += getMessage("no_data");
-//		      }
-//
-//		      return error.length() > 0 ? error : null;
-//
-//		    } catch (SizeLimitExceededException e) {
-//		      RuntimeException ex = new UploadSizeLimitException(e.getPermittedSize(), e.getActualSize());
-//		      listener.setException(ex);
-//		      throw ex;
-//		    } catch (UploadSizeLimitException e) {
-//		      listener.setException(e);
-//		      throw e;
-//		    } catch (UploadCanceledException e) {
-//		      listener.setException(e);
-//		      throw e;
-//		    } catch (UploadTimeoutException e) {
-//		      listener.setException(e);
-//		      throw e;
-//		    } catch (Exception e) {
-//		      logger.error("UPLOAD-SERVLET (" + request.getSession().getId() + ") Unexpected Exception -> " + e.getMessage() + "\n" + stackTraceToString(e));
-//		      e.printStackTrace();
-//		      RuntimeException ex = new UploadException(e);
-//		      listener.setException(ex);
-//		      throw ex;
-//		    }
-//		  }
+	  protected String parsePostRequest(HttpServletRequest request, HttpServletResponse response) {
+		    try {
+		      String delay = request.getParameter(PARAM_DELAY);
+		      uploadDelay = Integer.parseInt(delay);
+		    } catch (Exception e) { }
+
+		    HttpSession session = request.getSession();
+
+		    logger.debug("UPLOAD-SERVLET (" + session.getId() + ") new upload request received.");
+
+		    AbstractUploadListener listener = getCurrentListener(request);
+		    if (listener != null) {
+		      if (listener.isFrozen() || listener.isCanceled() || listener.getPercent() >= 100) {
+		        removeCurrentListener(request);
+		      } else {
+		        String error = getMessage("busy");
+		        logger.error("UPLOAD-SERVLET (" + session.getId() + ") " + error);
+		        return error;
+		      }
+		    }
+		    // Create a file upload progress listener, and put it in the user session,
+		    // so the browser can use ajax to query status of the upload process
+		    listener = createNewListener(request);
+
+		    List<FileItem> uploadedItems;
+		    try {
+
+		      // Call to a method which the user can override
+		      checkRequest(request);
+
+		      // Create the factory used for uploading files,
+		      FileItemFactory factory = getFileItemFactory(request.getContentLength());
+		      ServletFileUpload uploader = new ServletFileUpload(factory);
+		      uploader.setSizeMax(maxSize);
+		      uploader.setProgressListener(listener);
+
+		      // Receive the files
+		      logger.debug("UPLOAD-SERVLET (" + session.getId() + ") parsing HTTP POST request ");
+		      uploadedItems = uploader.parseRequest(request);
+		      logger.debug("UPLOAD-SERVLET (" + session.getId() + ") parsed request, " + uploadedItems.size() + " items received.");
+
+		      // Received files are put in session
+		      Vector<FileItem> sessionFiles = (Vector<FileItem>) getSessionFileItems(request);
+		      if (sessionFiles == null) {
+		        sessionFiles = new Vector<FileItem>();
+		      }
+
+		      String error = "";
+		      session.setAttribute(SESSION_LAST_FILES, uploadedItems);
+
+		      if (uploadedItems.size() > 0) {
+		        sessionFiles.addAll(uploadedItems);
+		        String msg = "";
+		        for (FileItem i : sessionFiles) {
+		          msg += i.getFieldName() + " => " + i.getName() + "(" + i.getSize() + " bytes),";
+		        }
+		        logger.debug("UPLOAD-SERVLET (" + session.getId() + ") puting items in session: " + msg);
+		        session.setAttribute(SESSION_FILES, sessionFiles);
+		      } else {
+		        logger.error("UPLOAD-SERVLET (" + session.getId() + ") error NO DATA received ");
+		        error += getMessage("no_data");
+		      }
+
+		      return error.length() > 0 ? error : null;
+
+		    } catch (SizeLimitExceededException e) {
+		      RuntimeException ex = new UploadSizeLimitException(e.getPermittedSize(), e.getActualSize());
+		      listener.setException(ex);
+		      throw ex;
+		    } catch (UploadSizeLimitException e) {
+		      listener.setException(e);
+		      throw e;
+		    } catch (UploadCanceledException e) {
+		      listener.setException(e);
+		      throw e;
+		    } catch (UploadTimeoutException e) {
+		      listener.setException(e);
+		      throw e;
+		    } catch (Exception e) {
+		      logger.error("UPLOAD-SERVLET (" + request.getSession().getId() + ") Unexpected Exception -> " + e.getMessage() + "\n" + stackTraceToString(e));
+		      e.printStackTrace();
+		      RuntimeException ex = new UploadException(e);
+		      listener.setException(ex);
+		      throw ex;
+		    }
+		  }
 	  
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 	    String error = null;
 	    String message = null;
+        ServletFileUpload upload = new ServletFileUpload();
 
-	    perThreadRequest.set(request);
-	    try {
-	      // Receive the files and form elements, updating the progress status
-	      error = super.parsePostRequest(request, response);
-	      if (error == null) {
-	        // Call to the user code 
-	        message = executeAction(request, getSessionFileItems(request));
-	      }
-	    } catch (UploadCanceledException e) {
-	      renderXmlResponse(request, response, "<" + TAG_CANCELED + ">true</" + TAG_CANCELED + ">");
-	      return;
-	    } catch (UploadActionException e) {
-	      logger.info("ExecuteUploadActionException when receiving a file.", e);
-	      error =  e.getMessage();
-	    } catch (Exception e) {
-	      logger.info("Unknown Exception when receiving a file.", e);
-	      error = e.getMessage();
-	    } finally {
-	      perThreadRequest.set(null);
-	    }
+        try{
+            FileItemIterator iter = upload.getItemIterator(request);
 
-	    AbstractUploadListener listener = getCurrentListener(request);
-	    if (error != null) {
-	      renderXmlResponse(request, response, "<" + TAG_ERROR + ">" + error + "</" + TAG_ERROR + ">");
-	      if (listener != null) {
-	        listener.setException(new RuntimeException(error));
-	      }
-	      UploadServlet.removeSessionFileItems(request);
-	    } else {
-	      Map<String, String> stat = new HashMap<String, String>();
-	      getFileItemsSummary(request, stat);
-	      if (message != null) {
-	        stat.put("message", "\n<![CDATA[\n" + message + "\n]]>\n");
-	      }
-	      renderXmlResponse(request, response, statusToString(stat), true);
-	    }
+            while (iter.hasNext()) {
+                FileItemStream item = iter.next();
+
+                String name = item.getFieldName();
+                InputStream inputStream = item.openStream();
+
+                onFileUploadFinished(inputStream);
+                // Process the input stream
+//                ByteArrayOutputStream out = new ByteArrayOutputStream();
+//                int len;
+//                byte[] buffer = new byte[8192];
+//                while ((len = stream.read(buffer, 0, buffer.length)) != -1) {
+//                    out.write(buffer, 0, len);
+//                }
+//
+//                int maxFileSize = 10*(1024*1024); //10 megs max 
+//                if (out.size() > maxFileSize) { 
+//                    throw new RuntimeException("File is > than " + maxFileSize);
+//                }
+            }
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
+	    
+//	    perThreadRequest.set(request);
+//	    try {
+//	      // Receive the files and form elements, updating the progress status
+//	      error = super.parsePostRequest(request, response);
+//	      if (error == null) {
+//	        // Call to the user code 
+//	        message = executeAction(request, getSessionFileItems(request));
+//	      }
+//	    } catch (UploadCanceledException e) {
+//	      renderXmlResponse(request, response, "<" + TAG_CANCELED + ">true</" + TAG_CANCELED + ">");
+//	      return;
+//	    } catch (UploadActionException e) {
+//	      logger.info("ExecuteUploadActionException when receiving a file.", e);
+//	      error =  e.getMessage();
+//	    } catch (Exception e) {
+//	      logger.info("Unknown Exception when receiving a file.", e);
+//	      error = e.getMessage();
+//	    } finally {
+//	      perThreadRequest.set(null);
+//	    }
+//
+//	    AbstractUploadListener listener = getCurrentListener(request);
+//	    if (error != null) {
+//	      renderXmlResponse(request, response, "<" + TAG_ERROR + ">" + error + "</" + TAG_ERROR + ">");
+//	      if (listener != null) {
+//	        listener.setException(new RuntimeException(error));
+//	      }
+//	      UploadServlet.removeSessionFileItems(request);
+//	    } else {
+//	      Map<String, String> stat = new HashMap<String, String>();
+//	      getFileItemsSummary(request, stat);
+//	      if (message != null) {
+//	        stat.put("message", "\n<![CDATA[\n" + message + "\n]]>\n");
+//	      }
+//	      renderXmlResponse(request, response, statusToString(stat), true);
+//	    }
 	    
 	    finish(request);
-	    onFileUploadFinished();
+//	    onFileUploadFinished();
 //	    if (removeSessionFiles) {
 //	      removeSessionFileItems(request, removeData);
 //	    }
 	}
 	
+	public void onFileUploadFinished(InputStream inputStream) {
+		
+	}
+
 	public void onFileUploadFinished() {
 		
 	}

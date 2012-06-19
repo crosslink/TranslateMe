@@ -2,6 +2,7 @@ package org.cambia.translate.client;
 
 import java.util.List;
 
+
 import gwtupload.client.Uploader;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -21,6 +22,7 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.ValueBoxBase.TextAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.VerticalSplitPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -43,7 +45,7 @@ public class TheLens implements EntryPoint {
   private FlowPanel panelImages = new FlowPanel();
   private ListBox lbLangs;
   private Uploader defaultUploader;
-  private FileUploaderHandler fileUploaderHandler;
+  private DatabaseHandler databaseHandler;
   
   List<Lang> listLangs;
   
@@ -80,10 +82,11 @@ public void onModuleLoad() {
     CaptionPanel cptnpnlNewPanel = new CaptionPanel("New panel");
     cptnpnlNewPanel.setCaptionHTML("Administration");
     verticalPanel.add(cptnpnlNewPanel);
+    cptnpnlNewPanel.setHeight("172px");
     
     VerticalPanel verticalPanel_1 = new VerticalPanel();
     cptnpnlNewPanel.setContentWidget(verticalPanel_1);
-    verticalPanel_1.setSize("5cm", "3cm");
+    verticalPanel_1.setSize("319px", "165px");
     
     FlowPanel fileUploaderPanel = new FlowPanel();
     verticalPanel_1.add(fileUploaderPanel);
@@ -95,7 +98,7 @@ public void onModuleLoad() {
     tbInputFile.setTextAlignment(TextBoxBase.ALIGN_LEFT);
     //RootPanel.get("fileupload").add(defaultUploader);
     fileUploaderPanel.add(defaultUploader);
-    fileUploaderHandler = new FileUploaderHandler(panelImages, tbInputFile);
+    databaseHandler = new DatabaseHandler(panelImages, tbInputFile);
     
         HorizontalPanel horizontalPanel = new HorizontalPanel();
         verticalPanel_1.add(horizontalPanel);
@@ -117,6 +120,15 @@ public void onModuleLoad() {
         horizontalPanel.add(btnUploadTranslation);
         btnUploadTranslation.setSize("151px", "27px");
         
+        VerticalSplitPanel verticalSplitPanel = new VerticalSplitPanel();
+        verticalPanel_1.add(verticalSplitPanel);
+        verticalSplitPanel.setSize("318px", "59px");
+        
+        Button btnClearKey = new Button("Clear Key");
+        btnClearKey.addClickHandler(databaseHandler.getClearKeysHandler());
+        verticalSplitPanel.setTopWidget(btnClearKey);
+        btnClearKey.setSize("314px", "52px");
+        
         btnUploadTranslation.addClickHandler(new ClickHandler() {
         	public void onClick(ClickEvent event) {
         		defaultUploader.setServletPath("/UpdateTranslation");
@@ -128,42 +140,42 @@ public void onModuleLoad() {
     
     // Add a finish handler which will load the image once the upload finishes
 //    defaultUploader.addOnFinishUploadHandler(onFinishUploaderHandler);
-    defaultUploader.addOnFinishUploadHandler(fileUploaderHandler);
-    defaultUploader.addOnChangeUploadHandler(fileUploaderHandler);
+    defaultUploader.addOnFinishUploadHandler(databaseHandler);
+    defaultUploader.addOnChangeUploadHandler(databaseHandler);
     
     CaptionPanel cptnpnlTranslateMe = new CaptionPanel("Translate Me");
     verticalPanel.add(cptnpnlTranslateMe);
-    cptnpnlTranslateMe.setSize("701px", "617px");
+    cptnpnlTranslateMe.setSize("701px", "547px");
     
     AbsolutePanel absolutePanel = new AbsolutePanel();
     cptnpnlTranslateMe.setContentWidget(absolutePanel);
-    absolutePanel.setSize("692px", "577px");
+    absolutePanel.setSize("692px", "498px");
 
     
     lbLangs = new ListBox();
-    absolutePanel.add(lbLangs, 10, 188);
+    absolutePanel.add(lbLangs, 10, 57);
     lbLangs.setSize("567px", "20px");
     lbLangs.setVisibleItemCount(5);
     
     TextBox textBox = new TextBox();
-    absolutePanel.add(textBox, 10, 237);
+    absolutePanel.add(textBox, 10, 106);
     textBox.setSize("553px", "108px");
     
     Label lblEnglish = new Label("English");
-    absolutePanel.add(lblEnglish, 10, 216);
+    absolutePanel.add(lblEnglish, 10, 85);
     
     Label lblTarget = new Label("Target");
-    absolutePanel.add(lblTarget, 10, 363);
+    absolutePanel.add(lblTarget, 10, 232);
     
     TextBox textBox_1 = new TextBox();
-    absolutePanel.add(textBox_1, 10, 396);
+    absolutePanel.add(textBox_1, 10, 265);
     textBox_1.setSize("553px", "108px");
     
     Button btnNext = new Button("Next");
-    absolutePanel.add(btnNext, 349, 542);
+    absolutePanel.add(btnNext, 349, 411);
     
     Button btnSave = new Button("Save");
-    absolutePanel.add(btnSave, 131, 542);
+    absolutePanel.add(btnSave, 131, 411);
 
     /*
     // Create the popup dialog box
@@ -200,7 +212,7 @@ public void onModuleLoad() {
 //       * Fired when the user clicks on the sendButton.
 //       */
 //      public void onClick(ClickEvent event) {
-//        sendNameToServer();
+//        ();
 //      }
 //
 //      /**

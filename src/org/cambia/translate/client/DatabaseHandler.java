@@ -1,5 +1,9 @@
 package org.cambia.translate.client;
 
+import org.cambia.translate.server.UiTextKey;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -9,14 +13,31 @@ import gwtupload.client.IUploader.UploadedInfo;
 import gwtupload.client.PreloadedImage;
 import gwtupload.client.PreloadedImage.OnLoadPreloadedImageHandler;
 
-public class FileUploaderHandler implements IUploader.OnChangeUploaderHandler,  IUploader.OnFinishUploaderHandler {
+public class DatabaseHandler implements IUploader.OnChangeUploaderHandler,  IUploader.OnFinishUploaderHandler {
 
 	protected FlowPanel panelImages;
 	private TextBox tbInputFile;
+	
+	private ClearKeysHandler clearKeysHandler;
+	
+	public class ClearKeysHandler implements ClickHandler {
 
-	public FileUploaderHandler(FlowPanel panelImages, TextBox tbInputFile) {
+		@Override
+		public void onClick(ClickEvent event) {
+			UiTextKey.deleteKeys();
+		}
+		
+	}
+
+	public DatabaseHandler(FlowPanel panelImages, TextBox tbInputFile) {
 		this.panelImages = panelImages;
 		this.tbInputFile = tbInputFile;
+		
+		clearKeysHandler = new ClearKeysHandler();
+	}
+
+	public ClearKeysHandler getClearKeysHandler() {
+		return clearKeysHandler;
 	}
 
 	@Override

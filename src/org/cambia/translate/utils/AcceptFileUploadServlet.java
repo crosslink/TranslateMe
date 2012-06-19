@@ -54,4 +54,10 @@ public class AcceptFileUploadServlet extends HttpServlet implements FileUploadSe
 
 		
 	}
+
+	@Override
+	public void onFileUploadFinished(InputStream inputStream) {
+		// TODO Auto-generated method stub
+		
+	}
 }

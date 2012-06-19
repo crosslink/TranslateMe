@@ -22,60 +22,14 @@ public class UpdateKeyServlet extends GwtFileUploadServlet implements FileUpload
 	public void onFileUploadFinished() {
 		if (files.size() > 0) {
 			InputStream file = files.get(0);
-			
-	        InputStreamReader stream=null;
-	        BufferedReader reader=null;
-	        DatastoreService datastore =
-	                DatastoreServiceFactory.getDatastoreService();
-	        
-	        try {
-				stream=new InputStreamReader(file, "UTF-8");
-				reader=new BufferedReader(stream);
-
-				
-				while (true)
-				{
-					String line=reader.readLine();
-					
-//        		if (lines.size() == 0)
-//        			lines.add(new String[] {line});
-					
-					if (line==null)
-					{
-						break;
-					}
-					
-//        		System.out.println(line);
-
-					String tokens[]=line.split("\t");
-//        		if (tokens.length == 3)
-//        			lines.add(tokens);
-//        		else
-//        			lines.add(new String[] {line});
-					if (tokens.length == 3) {
-						String textKey = tokens[0];
-						Entity uiEntity = new Entity("Translate-Keys", textKey);
-//    			        greeting.setProperty("user", user);
-//    			        greeting.setProperty("date", date);
-//    			        greeting.setProperty("content", content);
-				
-
-				        datastore.put(uiEntity);
-					}
-				}
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+			UiTextKey.readInKeys(file);
 		}
 
+	}
+
+	@Override
+	public void onFileUploadFinished(InputStream file) {
+		UiTextKey.readInKeys(file);
 	}
 
 //	@Override

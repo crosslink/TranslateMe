@@ -1,6 +1,7 @@
 package org.cambia.translate.server;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -62,6 +63,12 @@ public class FileUploadServlet  extends RemoteServiceServlet implements FileUplo
 	@Override
 	public void onFileUploadFinished() {
 
+		
+	}
+
+	@Override
+	public void onFileUploadFinished(InputStream inputStream) {
+		// TODO Auto-generated method stub
 		
 	}
 
