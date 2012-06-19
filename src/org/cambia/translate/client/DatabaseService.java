@@ -18,7 +18,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-@RemoteServiceRelativePath("DatabaseService")
+@RemoteServiceRelativePath("database")
 public interface DatabaseService extends RemoteService {
 	/**
 	 * Utility class for simplifying access to the instance of async service.

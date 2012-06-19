@@ -38,7 +38,7 @@ import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-public class GwtFileUploadServlet extends AppEngineUploadAction/*UploadAction*/ {
+public class GwtFileUploadServlet extends UploadAction {
 
 	  private static final long serialVersionUID = 1L;
 	  

@@ -84,59 +84,66 @@ public void onModuleLoad() {
     verticalPanel.add(cptnpnlNewPanel);
     cptnpnlNewPanel.setHeight("172px");
     
+    VerticalPanel verticalPanel_2 = new VerticalPanel();
+    cptnpnlNewPanel.setContentWidget(verticalPanel_2);
+    verticalPanel_2.setSize("5cm", "3cm");
+    
     VerticalPanel verticalPanel_1 = new VerticalPanel();
-    cptnpnlNewPanel.setContentWidget(verticalPanel_1);
-    verticalPanel_1.setSize("319px", "165px");
+    verticalPanel_2.add(verticalPanel_1);
     
     FlowPanel fileUploaderPanel = new FlowPanel();
     verticalPanel_1.add(fileUploaderPanel);
-
     
-    final TextBox tbInputFile = new TextBox();
-    fileUploaderPanel.add(tbInputFile);
-    tbInputFile.setAlignment(TextAlignment.LEFT);
-    tbInputFile.setTextAlignment(TextBoxBase.ALIGN_LEFT);
-    //RootPanel.get("fileupload").add(defaultUploader);
-    fileUploaderPanel.add(defaultUploader);
-    databaseHandler = new DatabaseHandler(panelImages, tbInputFile);
-    
-        HorizontalPanel horizontalPanel = new HorizontalPanel();
-        verticalPanel_1.add(horizontalPanel);
         
-        Button btnUploadKey = new Button("Upload Key");
-        horizontalPanel.add(btnUploadKey);
-        btnUploadKey.setSize("151px", "27px");
+        final TextBox tbInputFile = new TextBox();
+        fileUploaderPanel.add(tbInputFile);
+        tbInputFile.setAlignment(TextAlignment.LEFT);
+        tbInputFile.setTextAlignment(TextBoxBase.ALIGN_LEFT);
+        //RootPanel.get("fileupload").add(defaultUploader);
+        fileUploaderPanel.add(defaultUploader);
+        databaseHandler = new DatabaseHandler(panelImages, tbInputFile);
         
-        btnUploadKey.addClickHandler(new ClickHandler() {
-        	public void onClick(ClickEvent event) {
-        		defaultUploader.setServletPath("/UpdateKey");
-        		defaultUploader.submit();
+            HorizontalPanel horizontalPanel = new HorizontalPanel();
+            verticalPanel_1.add(horizontalPanel);
+            
+            Button btnUploadKey = new Button("Upload Key");
+            horizontalPanel.add(btnUploadKey);
+            btnUploadKey.setSize("151px", "27px");
+            
+            btnUploadKey.addClickHandler(new ClickHandler() {
+            	public void onClick(ClickEvent event) {
+            		defaultUploader.setServletPath("/UpdateKey");
+            		defaultUploader.submit();
 //    		formPanel.setAction("/UpdateKey");
 //    		formPanel.submit();
-        	}
-        });
-        
-        Button btnUploadTranslation = new Button("Upload Translation");
-        horizontalPanel.add(btnUploadTranslation);
-        btnUploadTranslation.setSize("151px", "27px");
-        
-        VerticalSplitPanel verticalSplitPanel = new VerticalSplitPanel();
-        verticalPanel_1.add(verticalSplitPanel);
-        verticalSplitPanel.setSize("318px", "59px");
-        
-        Button btnClearKey = new Button("Clear Key");
-        btnClearKey.addClickHandler(databaseHandler.getClearKeysHandler());
-        verticalSplitPanel.setTopWidget(btnClearKey);
-        btnClearKey.setSize("314px", "52px");
-        
-        btnUploadTranslation.addClickHandler(new ClickHandler() {
-        	public void onClick(ClickEvent event) {
-        		defaultUploader.setServletPath("/UpdateTranslation");
-        		defaultUploader.submit();
+            	}
+            });
+            
+            Button btnUploadTranslation = new Button("Upload Translation");
+            horizontalPanel.add(btnUploadTranslation);
+            btnUploadTranslation.setSize("151px", "27px");
+            
+            btnUploadTranslation.addClickHandler(new ClickHandler() {
+            	public void onClick(ClickEvent event) {
+            		defaultUploader.setServletPath("/UpdateTranslation");
+            		defaultUploader.submit();
 //    		formPanel.setAction("/UpdateTranslation");
 //    		formPanel.submit();
-        	}
-        });
+            	}
+            });
+    
+    VerticalSplitPanel verticalSplitPanel = new VerticalSplitPanel();
+    verticalPanel_2.add(verticalSplitPanel);
+    verticalSplitPanel.setSize("447px", "77px");
+    
+    Button btnClearKey = new Button("Clear Key");
+    btnClearKey.addClickHandler(databaseHandler.getClearKeysHandler());
+    
+    Label lblNewLabel = new Label("");
+    verticalSplitPanel.setBottomWidget(lblNewLabel);
+    lblNewLabel.setSize("100%", "100%");
+    verticalSplitPanel.setTopWidget(btnClearKey);
+    btnClearKey.setSize("301px", "36px");
     
     // Add a finish handler which will load the image once the upload finishes
 //    defaultUploader.addOnFinishUploadHandler(onFinishUploaderHandler);

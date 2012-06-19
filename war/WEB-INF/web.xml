@@ -28,22 +28,30 @@
     	-->   
   <!-- Servlets -->
   <servlet>
-    
-    <servlet-name>UpdateKeyServlet</servlet-name>
+    <servlet-name>updateKeyServlet</servlet-name>
     <servlet-class>org.cambia.translate.server.UpdateKeyServlet</servlet-class>
-    
-    <servlet-name>UpdateTranslationServlet</servlet-name>
+   </servlet>   
+   
+  <servlet>
+    <servlet-name>updateTranslationServlet</servlet-name>
     <servlet-class>org.cambia.translate.server.UpdateTranslationServlet</servlet-class>
-
+  </servlet>
+  
+  <servlet>
+    <servlet-name>databaseServlet</servlet-name>
+  	<servlet-class>org.cambia.translate.server.DatabaseServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet>
     <display-name>Remote API Servlet</display-name>
     <servlet-name>RemoteApiServlet</servlet-name>
     <servlet-class>com.google.apphosting.utils.remoteapi.RemoteApiServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
-
   </servlet>
   
-  <servlet-mapping>
+
   <!--  
+    <servlet-mapping>
     <servlet-name>uploadServlet</servlet-name>
     <url-pattern>Update*</url-pattern>
   
@@ -53,25 +61,24 @@
     <servlet-name>RemoteApiServlet</servlet-name>
     <url-pattern>/remote_api</url-pattern>
     	-->    
-    
-    <servlet-name>UpdateKeyServlet</servlet-name>
-    <url-pattern>/UpdateKey</url-pattern>
-    
-    <servlet-name>UpdateTranslationServlet</servlet-name>
-    <url-pattern>/UpdateTranslation</url-pattern>
+  <servlet-mapping>  
+    <servlet-name>updateKeyServlet</servlet-name>
+    <url-pattern>/thelens/updatedb</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>updateTranslationServlet</servlet-name>
+    <url-pattern>/thelens/updatedb</url-pattern>
+  </servlet-mapping>
+  
+   <servlet-mapping>
+    <servlet-name>databaseServlet</servlet-name>
+  	<url-pattern>/thelens/database</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>TheLens.html</welcome-file>
   </welcome-file-list>
-  <servlet>
-  	<servlet-name>databaseServlet</servlet-name>
-  	<servlet-class>org.cambia.translate.server.DatabaseServiceImpl</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>databaseServlet</servlet-name>
-  	<url-pattern>*.database</url-pattern>
-  </servlet-mapping>
 
 </web-app>

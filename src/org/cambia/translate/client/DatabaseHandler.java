@@ -4,6 +4,7 @@ import org.cambia.translate.server.db.UiTextKey;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -22,19 +23,17 @@ public class DatabaseHandler implements IUploader.OnChangeUploaderHandler,  IUpl
 	private ClearKeysHandler clearKeysHandler;
 	
 	public class ClearKeysHandler implements ClickHandler {
-		FormPanel form;
-		
-		public FormPanel getForm() {
-			return form;
-		}
-
-		public void setForm(FormPanel form) {
-			this.form = form;
-		}
 
 		@Override
 		public void onClick(ClickEvent event) {
-			
+			Services.getInstance().getDatabaseService().clearKeys(new AsyncCallback<String>() {
+				public void onFailure(Throwable caught) {
+
+				}
+
+				public void onSuccess(String result) {
+
+				}});
 		}
 		
 	}
