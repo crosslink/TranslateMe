@@ -11,6 +11,16 @@ import java.util.List;
 //import com.google.gwt.dev.cfg.Properties;
 import java.util.Properties;
 
+import org.cambia.translate.server.db.UiTextKey;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+
 
 public class Translate {
 //	Properties supportedLangs; 
@@ -28,6 +38,8 @@ public class Translate {
 //		supportedLangs = new Properties();
 
 		convertToList();
+		
+		loadKeys();
 	}
 
 	private void convertToList() {
@@ -63,5 +75,16 @@ public class Translate {
 		return listLangs;
 	}
 	
+	public void loadKeys() {
+        DatastoreService datastore =
+                DatastoreServiceFactory.getDatastoreService();
+        
+        Query q = new Query(UiTextKey.UI_TEXT_KEY_TABLE);
+
+        PreparedQuery pq = datastore.prepare(q);
+        List<Entity> entities = pq.asList(FetchOptions.Builder.withLimit(2000));
+
+//        for (Entity en)
+	}
 	
 }

@@ -17,7 +17,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 
-public class UpdateKeyServlet extends GwtFileUploadServlet implements FileUploadService {
+public class UpdateDbServlet extends GwtFileUploadServlet implements FileUploadService {
 
 	@Override
 	public void onFileUploadFinished() {

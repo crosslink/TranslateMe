@@ -16,10 +16,11 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Text;
 
 public class UiTextKey {
 	
-	public static final String UI_TEXT_KEY_TABLE = "Translate-Keys";
+	public static final String UI_TEXT_KEY_TABLE = "Translate-Key";
 	
 	static public void deleteKeys() {
         DatastoreService datastore =
@@ -76,7 +77,8 @@ public class UiTextKey {
 						String textKey = tokens[0];
 						Entity uiEntity = new Entity(UI_TEXT_KEY_TABLE);
 						uiEntity.setProperty("key", textKey);
-						uiEntity.setProperty("text", tokens[1]);
+						Text uiText = new Text(tokens[1]);
+						uiEntity.setProperty("text", uiText);
 	//			        greeting.setProperty("user", user);
 	//			        greeting.setProperty("date", date);
 	//			        greeting.setProperty("content", content);

@@ -112,7 +112,7 @@ public void onModuleLoad() {
             
             btnUploadKey.addClickHandler(new ClickHandler() {
             	public void onClick(ClickEvent event) {
-            		defaultUploader.setServletPath("/UpdateKey");
+            		defaultUploader.setServletPath("/thelens/updatedb");
             		defaultUploader.submit();
 //    		formPanel.setAction("/UpdateKey");
 //    		formPanel.submit();
@@ -125,7 +125,7 @@ public void onModuleLoad() {
             
             btnUploadTranslation.addClickHandler(new ClickHandler() {
             	public void onClick(ClickEvent event) {
-            		defaultUploader.setServletPath("/UpdateTranslation");
+            		defaultUploader.setServletPath("/thelens/updatedb");
             		defaultUploader.submit();
 //    		formPanel.setAction("/UpdateTranslation");
 //    		formPanel.submit();
@@ -138,12 +138,12 @@ public void onModuleLoad() {
     
     Button btnClearKey = new Button("Clear Key");
     btnClearKey.addClickHandler(databaseHandler.getClearKeysHandler());
+    verticalSplitPanel.setBottomWidget(btnClearKey);
     
     Label lblNewLabel = new Label("");
-    verticalSplitPanel.setBottomWidget(lblNewLabel);
-    lblNewLabel.setSize("100%", "100%");
+    lblNewLabel.setSize("50%", "50%");
     verticalSplitPanel.setTopWidget(btnClearKey);
-    btnClearKey.setSize("301px", "36px");
+    btnClearKey.setSize("301px", "29px");
     
     // Add a finish handler which will load the image once the upload finishes
 //    defaultUploader.addOnFinishUploadHandler(onFinishUploaderHandler);

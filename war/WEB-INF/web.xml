@@ -25,17 +25,17 @@
   
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>org.cambia.translate.server.GreetingServiceImpl</servlet-class>   
-    	-->   
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>updateKeyServlet</servlet-name>
-    <servlet-class>org.cambia.translate.server.UpdateKeyServlet</servlet-class>
-   </servlet>   
-   
-  <servlet>
+    
+      <servlet>
     <servlet-name>updateTranslationServlet</servlet-name>
     <servlet-class>org.cambia.translate.server.UpdateTranslationServlet</servlet-class>
   </servlet>
+    	-->   
+  <!-- Servlets -->
+  <servlet>
+    <servlet-name>updateDbServlet</servlet-name>
+    <servlet-class>org.cambia.translate.server.UpdateDbServlet</servlet-class>
+   </servlet>   
   
   <servlet>
     <servlet-name>databaseServlet</servlet-name>
@@ -60,14 +60,14 @@
     
     <servlet-name>RemoteApiServlet</servlet-name>
     <url-pattern>/remote_api</url-pattern>
+    
+    <servlet-mapping>
+    <servlet-name>updateTranslationServlet</servlet-name>
+    <url-pattern>/thelens/updatetext</url-pattern>
+  </servlet-mapping>
     	-->    
   <servlet-mapping>  
-    <servlet-name>updateKeyServlet</servlet-name>
-    <url-pattern>/thelens/updatedb</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-    <servlet-name>updateTranslationServlet</servlet-name>
+    <servlet-name>updateDbServlet</servlet-name>
     <url-pattern>/thelens/updatedb</url-pattern>
   </servlet-mapping>
   
