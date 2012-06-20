@@ -6,11 +6,21 @@ import gwtupload.client.Uploader;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class UI {
+	  private static final String SERVER_ERROR_NETWORK = "An error occurred while "
+		      + "attempting to contact the server. Please check your network "
+		      + "connection and try again.";
+	  
+	  private static final String SERVER_ERROR_DATABASE = "An error occurred while "
+		      + "loadng the data from server. Please try again.";
+	  
 	public String[] supportedLangs = {""};
 	
 	private ListBox lbLanguages = new ListBox();
@@ -33,6 +43,9 @@ public class UI {
 	
 	private TextBox tbTargetLanguage;
 	
+	DialogBox dialogBox = new DialogBox();
+    HTML serverResponseLabel = new HTML();
+    
 	private int index; // the index showing the current text
 	
 	// data
@@ -56,7 +69,20 @@ public class UI {
       defaultUploader.addOnFinishUploadHandler(databaseHandler);
       defaultUploader.addOnChangeUploadHandler(databaseHandler);
       
-  		assignValues();
+      dialogBox.setAnimationEnabled(true);
+
+      final Button closeButton = new Button("Close");
+      // We can set the id of a widget by accessing its Element
+      closeButton.getElement().setId("closeButton");
+      VerticalPanel dialogVPanel = new VerticalPanel();
+      dialogVPanel.addStyleName("dialogVPanel");
+      dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
+//      dialogVPanel.add(textToServerLabel);
+      dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
+      dialogVPanel.add(serverResponseLabel);
+      dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
+      dialogVPanel.add(closeButton);
+      dialogBox.setWidget(dialogVPanel);
 	}
 	
 	public FlowPanel getPanelImages() {
@@ -131,7 +157,10 @@ public class UI {
 	public void loadUiTextKeys() {
 		Services.getInstance().getDatabaseService().getUiTextKeys(new AsyncCallback<UiTextKey[]>() {
 			public void onFailure(Throwable caught) {
-
+	            dialogBox.setText("Remote Procedure Call - Failure");
+	            serverResponseLabel.addStyleName("serverResponseLabelError");
+	            serverResponseLabel.setHTML(SERVER_ERROR_DATABASE);
+	            dialogBox.center();
 			}
 
 			@Override
@@ -139,11 +168,11 @@ public class UI {
 				keys = result;
 				
 				if (keys.length > 0)
-					tbEnglish.setText(keys[0].getText().toString());
+					tbEnglish.setText(keys[0].getText());
 			}});
 	}
 	
-	private void assignValues() {
+	public void assignValues() {
 		listLangs = translator.getListLangs();
 		
 	    for (Lang lang : listLangs)

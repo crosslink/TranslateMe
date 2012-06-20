@@ -1,6 +1,8 @@
 package org.cambia.translate.client;
 
-public class UiTextGroup {
+import java.io.Serializable;
+
+public class UiTextGroup  implements Serializable {
 	private int id;
 	private String name;
 	private String comment;

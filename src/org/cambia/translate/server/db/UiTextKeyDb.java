@@ -119,8 +119,13 @@ public class UiTextKeyDb {
 
 //        List<Key> keys = new ArrayList<Key>();
         ArrayList<UiTextKey> result = new ArrayList<UiTextKey>(entities.size());
-        for(Entity e : entities)
-        	result.add(new UiTextKey(e));
+        for(Entity e : entities) {
+        	UiTextKey key = new UiTextKey();
+        	key.setKey((String) e.getProperty(UiTextKey.ATTRIBUTE_KEY));
+    		key.setText(e.getProperty(UiTextKey.ATTRIBUTE_TEXT).toString());
+//    		key.setStatus((Integer)e.getProperty(UiTextKey.ATTRIBUTE_STATUS));
+        	result.add(key);
+        }
                 //keys.add(e.getKey());
 		return (UiTextKey[]) result.toArray();
 	}

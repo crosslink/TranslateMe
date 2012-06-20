@@ -41,7 +41,7 @@ public class TheLens implements EntryPoint {
   
   public TheLens() {
 		super();
-		
+		ui = new UI();
 	}
 
   
@@ -256,6 +256,8 @@ public void onModuleLoad() {
 //
 //    // Add a handler to send the name to the server
 //    MyHandler handler = new MyHandler();
+    
+    ui.assignValues();
   }
 
 

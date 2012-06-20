@@ -1,5 +1,7 @@
 package org.cambia.translate.client;
 
-public class UiTextTranslation {
+import java.io.Serializable;
+
+public class UiTextTranslation  implements Serializable {
 
 }

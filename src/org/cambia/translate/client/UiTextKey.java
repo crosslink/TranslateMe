@@ -1,9 +1,8 @@
 package org.cambia.translate.client;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Text;
+import java.io.Serializable;
 
-public class UiTextKey {
+public class UiTextKey implements Serializable {
 	public final static int STATUS_LOCKED = 1;
 	public final static int STATUS_NEW = 0;
 	
@@ -12,13 +11,10 @@ public class UiTextKey {
 	public final static String ATTRIBUTE_STATUS = "status";
 	
 	private String key;
-	private Text text;
+	private String text;
 	private int status;
 	
-	public UiTextKey(Entity e) {
-		key = (String) e.getProperty(ATTRIBUTE_KEY);
-		text = (Text)e.getProperty(ATTRIBUTE_TEXT);
-		status = (Integer)e.getProperty(ATTRIBUTE_STATUS);
+	public UiTextKey() {
 	}
 
 	public String getKey() {
@@ -29,11 +25,11 @@ public class UiTextKey {
 		this.key = key;
 	}
 	
-	public Text getText() {
+	public String getText() {
 		return text;
 	}
 	
-	public void setText(Text text) {
+	public void setText(String text) {
 		this.text = text;
 	}
 
