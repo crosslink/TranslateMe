@@ -85,7 +85,7 @@ public void onModuleLoad() {
             cptnpnlNewPanel_1.setContentWidget(verticalPanel_4);
             verticalPanel_4.setSize("679px", "55px");
                 
-                FlowPanel fileUploaderPanel = new FlowPanel();
+                HorizontalPanel fileUploaderPanel = new HorizontalPanel();
                 verticalPanel_4.add(fileUploaderPanel);
                 
                     
@@ -157,6 +157,7 @@ public void onModuleLoad() {
     ui.setLbLangs(lbLangs);
     
     TextBox tbEnglish = new TextBox();
+    tbEnglish.setStyleName("englishText");
     tbEnglish.setAlignment(TextAlignment.LEFT);
     tbEnglish.setTextAlignment(TextBoxBase.ALIGN_LEFT);
     tbEnglish.setReadOnly(true);
@@ -168,8 +169,8 @@ public void onModuleLoad() {
     Label lblEnglish = new Label("English");
     absolutePanel.add(lblEnglish, 10, 85);
     
-    Label lblTarget = new Label("Target");
-    absolutePanel.add(lblTarget, 10, 232);
+    Label lblTarget = new Label("Translation");
+    absolutePanel.add(lblTarget, 10, 244);
     
     TextBox tbTargetLanguage = new TextBox();
     tbTargetLanguage.setTextAlignment(TextBoxBase.ALIGN_LEFT);
