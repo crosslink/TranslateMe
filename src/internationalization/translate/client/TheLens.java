@@ -90,7 +90,7 @@ public void onModuleLoad() {
                 
                     
                     TextBox tbInputFile = new TextBox();
-                    fileUploaderPanel.add(tbInputFile);
+//                    fileUploaderPanel.add(tbInputFile);
                     tbInputFile.setAlignment(TextAlignment.LEFT);
                     tbInputFile.setTextAlignment(TextBoxBase.ALIGN_LEFT);
                     //RootPanel.get("fileupload").add(ui.getDefaultUploader());
