@@ -11,7 +11,7 @@ import java.util.List;
 //import com.google.gwt.dev.cfg.Properties;
 import java.util.Properties;
 
-import org.cambia.translate.server.db.UiTextKey;
+import org.cambia.translate.server.db.UiTextKeyDb;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -79,7 +79,7 @@ public class Translate {
         DatastoreService datastore =
                 DatastoreServiceFactory.getDatastoreService();
         
-        Query q = new Query(UiTextKey.UI_TEXT_KEY_TABLE);
+        Query q = new Query(UiTextKeyDb.UI_TEXT_KEY_TABLE);
 
         PreparedQuery pq = datastore.prepare(q);
         List<Entity> entities = pq.asList(FetchOptions.Builder.withLimit(2000));

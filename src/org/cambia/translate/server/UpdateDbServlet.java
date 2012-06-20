@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 import org.cambia.translate.client.FileUploadService;
-import org.cambia.translate.server.db.UiTextKey;
+import org.cambia.translate.server.db.UiTextKeyDb;
 import org.cambia.translate.utils.AcceptFileUploadServlet;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -23,14 +23,14 @@ public class UpdateDbServlet extends GwtFileUploadServlet implements FileUploadS
 	public void onFileUploadFinished() {
 		if (files.size() > 0) {
 			InputStream file = files.get(0);
-			UiTextKey.readInKeys(file);
+			UiTextKeyDb.readInKeys(file);
 		}
 
 	}
 
 	@Override
 	public void onFileUploadFinished(InputStream file) {
-		UiTextKey.readInKeys(file);
+		UiTextKeyDb.readInKeys(file);
 	}
 
 //	@Override

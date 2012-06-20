@@ -18,7 +18,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Text;
 
-public class UiTextKey {
+public class UiTextKeyDb {
 	
 	public static final String UI_TEXT_KEY_TABLE = "Translate-Key";
 	
