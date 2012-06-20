@@ -46,19 +46,6 @@ public class DatabaseHandler implements IUploader.OnChangeUploaderHandler,  IUpl
 	public ClearKeysHandler getClearKeysHandler() {
 		return clearKeysHandler;
 	}
-
-	
-	public void loadUiTextKeys() {
-		Services.getInstance().getDatabaseService().getUiTextKeys(new AsyncCallback<UiTextKey[]>() {
-			public void onFailure(Throwable caught) {
-
-			}
-
-			@Override
-			public void onSuccess(UiTextKey[] result) {
-				
-			}});
-	}
 	
 	@Override
     public void onFinish(IUploader uploader) {

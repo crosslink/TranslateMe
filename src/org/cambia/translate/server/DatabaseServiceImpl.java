@@ -29,6 +29,6 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements Databas
 
 	@Override
 	public UiTextKey[] getUiTextKeys() {
-		return null;
+		return UiTextKeyDb.getKeys();
 	}
 }

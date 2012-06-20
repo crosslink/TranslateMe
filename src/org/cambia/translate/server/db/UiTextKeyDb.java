@@ -9,6 +9,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cambia.translate.client.UiTextKey;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -56,7 +58,8 @@ public class UiTextKeyDb {
 			
 			while (true)
 			{
-				String line=reader.readLine();
+				String line=reader.readLine().trim();
+				
 				++count;
 				if (count > 1) {
 					
@@ -68,23 +71,29 @@ public class UiTextKeyDb {
 					
 	//    		System.out.println(line);
 	
-					String tokens[]=line.split("\t");
-	//    		if (tokens.length == 3)
-	//    			lines.add(tokens);
-	//    		else
-	//    			lines.add(new String[] {line});
-					if (tokens.length == 3) {
-						String textKey = tokens[0];
-						Entity uiEntity = new Entity(UI_TEXT_KEY_TABLE);
-						uiEntity.setProperty("key", textKey);
-						Text uiText = new Text(tokens[1]);
-						uiEntity.setProperty("text", uiText);
-	//			        greeting.setProperty("user", user);
-	//			        greeting.setProperty("date", date);
-	//			        greeting.setProperty("content", content);
-				
-	
-				        datastore.put(uiEntity);
+					if (line.startsWith("#")) {
+					
+					} 
+					else {
+						String tokens[]=line.split("\t");
+		//    		if (tokens.length == 3)
+		//    			lines.add(tokens);
+		//    		else
+		//    			lines.add(new String[] {line});
+						if (tokens.length == 3) {
+							String textKey = tokens[0];
+							Entity uiEntity = new Entity(UI_TEXT_KEY_TABLE);
+							uiEntity.setProperty("key", textKey);
+							Text uiText = new Text(tokens[1]);
+							uiEntity.setProperty("text", uiText);
+							uiEntity.setProperty(UiTextKey.ATTRIBUTE_STATUS, UiTextKey.STATUS_NEW);
+		//			        greeting.setProperty("user", user);
+		//			        greeting.setProperty("date", date);
+		//			        greeting.setProperty("content", content);
+					
+		
+					        datastore.put(uiEntity);
+						}
 					}
 				}
 			}
@@ -98,6 +107,22 @@ public class UiTextKeyDb {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public static UiTextKey[] getKeys() {
+        DatastoreService datastore =
+                DatastoreServiceFactory.getDatastoreService();
+        Query q = new Query(UI_TEXT_KEY_TABLE);
+
+        PreparedQuery pq = datastore.prepare(q);
+        List<Entity> entities = pq.asList(FetchOptions.Builder.withDefaults());
+
+//        List<Key> keys = new ArrayList<Key>();
+        ArrayList<UiTextKey> result = new ArrayList<UiTextKey>(entities.size());
+        for(Entity e : entities)
+        	result.add(new UiTextKey(e));
+                //keys.add(e.getKey());
+		return (UiTextKey[]) result.toArray();
 	}
 
 }

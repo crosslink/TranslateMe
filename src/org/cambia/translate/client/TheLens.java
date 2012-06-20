@@ -143,9 +143,11 @@ public void onModuleLoad() {
     lbLangs.setVisibleItemCount(5);
     ui.setLbLangs(lbLangs);
     
-    TextBox textBox = new TextBox();
-    absolutePanel.add(textBox, 10, 106);
-    textBox.setSize("553px", "108px");
+    TextBox tbEnglish = new TextBox();
+    absolutePanel.add(tbEnglish, 10, 106);
+    tbEnglish.setSize("553px", "108px");
+    
+    ui.setTbEnglish(tbEnglish);
     
     Label lblEnglish = new Label("English");
     absolutePanel.add(lblEnglish, 10, 85);
@@ -153,9 +155,14 @@ public void onModuleLoad() {
     Label lblTarget = new Label("Target");
     absolutePanel.add(lblTarget, 10, 232);
     
-    TextBox textBox_1 = new TextBox();
-    absolutePanel.add(textBox_1, 10, 265);
-    textBox_1.setSize("553px", "108px");
+    TextBox tbTargetLanguage = new TextBox();
+    tbTargetLanguage.setTextAlignment(TextBoxBase.ALIGN_LEFT);
+    tbTargetLanguage.setVisibleLength(2000);
+    tbTargetLanguage.setReadOnly(true);
+    absolutePanel.add(tbTargetLanguage, 10, 265);
+    tbTargetLanguage.setSize("553px", "108px");
+    
+    ui.setTbTargetLanguage(tbTargetLanguage);
     
     Button btnNext = new Button("Next");
     absolutePanel.add(btnNext, 349, 411);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import gwtupload.client.Uploader;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
@@ -27,8 +28,17 @@ public class UI {
 	private DatabaseHandler databaseHandler;
 	
 	private Button btnClearKey;
-	  
+	
+	private TextBox tbEnglish;
+	
+	private TextBox tbTargetLanguage;
+	
+	private int index; // the index showing the current text
+	
+	// data
 	Translate translator = new Translate();
+	UiTextKey[] keys;
+	List<Lang> listLangs;
 	
 	private UiHandler uiHandler;
 	
@@ -101,13 +111,46 @@ public class UI {
 		btnClearKey.addClickHandler(databaseHandler.getClearKeysHandler());
 	}
 	
+	
+	public TextBox getTbEnglish() {
+		return tbEnglish;
+	}
+
+	public void setTbEnglish(TextBox tbEnglish) {
+		this.tbEnglish = tbEnglish;
+	}
+
+	public TextBox getTbTargetLanguage() {
+		return tbTargetLanguage;
+	}
+
+	public void setTbTargetLanguage(TextBox tbTargetLanguage) {
+		this.tbTargetLanguage = tbTargetLanguage;
+	}
+
+	public void loadUiTextKeys() {
+		Services.getInstance().getDatabaseService().getUiTextKeys(new AsyncCallback<UiTextKey[]>() {
+			public void onFailure(Throwable caught) {
+
+			}
+
+			@Override
+			public void onSuccess(UiTextKey[] result) {
+				keys = result;
+				
+				if (keys.length > 0)
+					tbEnglish.setText(keys[0].getText().toString());
+			}});
+	}
+	
 	private void assignValues() {
-		List<Lang> listLangs;
 		listLangs = translator.getListLangs();
 		
 	    for (Lang lang : listLangs)
 	    	lbLangs.addItem(lang.getLangStr());
 		
 	    lbLangs.setVisibleItemCount(1);
+	    
+		loadUiTextKeys();
 	}
 }
