@@ -51,7 +51,7 @@
       <arg value="war"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}"/>
-      <arg value="org.cambia.translate.TheLens"/>
+      <arg value="internationalization.translate.TheLens"/>
     </java>
   </target>
 
@@ -70,7 +70,7 @@
       <arg value="war"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}"/>
-      <arg value="org.cambia.translate.TheLens"/>
+      <arg value="internationalization.translate.TheLens"/>
     </java>
   </target>
 

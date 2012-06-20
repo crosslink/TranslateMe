@@ -24,22 +24,22 @@
     <servlet-class>gwtupload.server.UploadServlet</servlet-class>
   
     <servlet-name>greetServlet</servlet-name>
-    <servlet-class>org.cambia.translate.server.GreetingServiceImpl</servlet-class>   
+    <servlet-class>internationalization.translate.server.GreetingServiceImpl</servlet-class>   
     
       <servlet>
     <servlet-name>updateTranslationServlet</servlet-name>
-    <servlet-class>org.cambia.translate.server.UpdateTranslationServlet</servlet-class>
+    <servlet-class>internationalization.translate.server.UpdateTranslationServlet</servlet-class>
   </servlet>
     	-->   
   <!-- Servlets -->
   <servlet>
     <servlet-name>updateDbServlet</servlet-name>
-    <servlet-class>org.cambia.translate.server.UpdateDbServlet</servlet-class>
+    <servlet-class>internationalization.translate.server.UpdateDbServlet</servlet-class>
    </servlet>   
   
   <servlet>
     <servlet-name>databaseServlet</servlet-name>
-  	<servlet-class>org.cambia.translate.server.DatabaseServiceImpl</servlet-class>
+  	<servlet-class>internationalization.translate.server.DatabaseServiceImpl</servlet-class>
   </servlet>
   
   <servlet>
