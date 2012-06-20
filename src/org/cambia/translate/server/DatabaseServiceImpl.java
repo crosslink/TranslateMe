@@ -15,6 +15,7 @@
 package org.cambia.translate.server;
 
 import org.cambia.translate.client.DatabaseService;
+import org.cambia.translate.client.UiTextKey;
 import org.cambia.translate.server.db.UiTextKeyDb;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -24,5 +25,10 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements Databas
 	@Override
 	public void clearKeys() {
 		UiTextKeyDb.deleteKeys();
+	}
+
+	@Override
+	public UiTextKey[] getUiTextKeys() {
+		return null;
 	}
 }

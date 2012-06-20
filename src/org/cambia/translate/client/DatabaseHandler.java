@@ -36,9 +36,9 @@ public class DatabaseHandler implements IUploader.OnChangeUploaderHandler,  IUpl
 		
 	}
 
-	public DatabaseHandler(FlowPanel panelImages, TextBox tbInputFile) {
-		this.panelImages = panelImages;
-		this.tbInputFile = tbInputFile;
+	public DatabaseHandler(UI ui) {
+		this.panelImages = ui.getPanelImages();
+		this.tbInputFile = ui.getTbInputFile();
 		
 		clearKeysHandler = new ClearKeysHandler();
 	}
@@ -47,6 +47,19 @@ public class DatabaseHandler implements IUploader.OnChangeUploaderHandler,  IUpl
 		return clearKeysHandler;
 	}
 
+	
+	public void loadUiTextKeys() {
+		Services.getInstance().getDatabaseService().getUiTextKeys(new AsyncCallback<UiTextKey[]>() {
+			public void onFailure(Throwable caught) {
+
+			}
+
+			@Override
+			public void onSuccess(UiTextKey[] result) {
+				
+			}});
+	}
+	
 	@Override
     public void onFinish(IUploader uploader) {
 	      if (uploader.getStatus() == Status.SUCCESS) {

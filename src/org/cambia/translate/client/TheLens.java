@@ -1,12 +1,6 @@
 package org.cambia.translate.client;
 
-import java.util.List;
-
-
-import gwtupload.client.Uploader;
-
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -41,23 +35,13 @@ public class TheLens implements EntryPoint {
    * Create a remote service proxy to talk to the server-side Greeting service.
    */
   
-  //A panel where the thumbnails of uploaded images will be shown
-  private FlowPanel panelImages = new FlowPanel();
-  private ListBox lbLangs;
-  private Uploader defaultUploader;
-  private DatabaseHandler databaseHandler;
+  UI ui;
   
-  List<Lang> listLangs;
+
   
   public TheLens() {
 		super();
 		
-		final Translate translator = new Translate();
-		listLangs = translator.getListLangs();
-		
-	    // Create a new uploader panel and attach it to the document
-	    defaultUploader = new Uploader();
-	    defaultUploader.setAutoSubmit(false);
 	}
 
   
@@ -95,13 +79,12 @@ public void onModuleLoad() {
     verticalPanel_1.add(fileUploaderPanel);
     
         
-        final TextBox tbInputFile = new TextBox();
+        TextBox tbInputFile = new TextBox();
         fileUploaderPanel.add(tbInputFile);
         tbInputFile.setAlignment(TextAlignment.LEFT);
         tbInputFile.setTextAlignment(TextBoxBase.ALIGN_LEFT);
-        //RootPanel.get("fileupload").add(defaultUploader);
-        fileUploaderPanel.add(defaultUploader);
-        databaseHandler = new DatabaseHandler(panelImages, tbInputFile);
+        //RootPanel.get("fileupload").add(ui.getDefaultUploader());
+        fileUploaderPanel.add(ui.getDefaultUploader());
         
             HorizontalPanel horizontalPanel = new HorizontalPanel();
             verticalPanel_1.add(horizontalPanel);
@@ -112,8 +95,8 @@ public void onModuleLoad() {
             
             btnUploadKey.addClickHandler(new ClickHandler() {
             	public void onClick(ClickEvent event) {
-            		defaultUploader.setServletPath("/thelens/updatedb");
-            		defaultUploader.submit();
+            		ui.getDefaultUploader().setServletPath("/thelens/updatedb");
+            		ui.getDefaultUploader().submit();
 //    		formPanel.setAction("/UpdateKey");
 //    		formPanel.submit();
             	}
@@ -125,8 +108,8 @@ public void onModuleLoad() {
             
             btnUploadTranslation.addClickHandler(new ClickHandler() {
             	public void onClick(ClickEvent event) {
-            		defaultUploader.setServletPath("/thelens/updatedb");
-            		defaultUploader.submit();
+            		ui.getDefaultUploader().setServletPath("/thelens/updatedb");
+            		ui.getDefaultUploader().submit();
 //    		formPanel.setAction("/UpdateTranslation");
 //    		formPanel.submit();
             	}
@@ -137,18 +120,13 @@ public void onModuleLoad() {
     verticalSplitPanel.setSize("447px", "77px");
     
     Button btnClearKey = new Button("Clear Key");
-    btnClearKey.addClickHandler(databaseHandler.getClearKeysHandler());
     verticalSplitPanel.setBottomWidget(btnClearKey);
+    ui.setBtnClearKey(btnClearKey);
     
     Label lblNewLabel = new Label("");
     lblNewLabel.setSize("50%", "50%");
     verticalSplitPanel.setTopWidget(btnClearKey);
     btnClearKey.setSize("301px", "29px");
-    
-    // Add a finish handler which will load the image once the upload finishes
-//    defaultUploader.addOnFinishUploadHandler(onFinishUploaderHandler);
-    defaultUploader.addOnFinishUploadHandler(databaseHandler);
-    defaultUploader.addOnChangeUploadHandler(databaseHandler);
     
     CaptionPanel cptnpnlTranslateMe = new CaptionPanel("Translate Me");
     verticalPanel.add(cptnpnlTranslateMe);
@@ -159,10 +137,11 @@ public void onModuleLoad() {
     absolutePanel.setSize("692px", "498px");
 
     
-    lbLangs = new ListBox();
+    ListBox lbLangs = new ListBox();
     absolutePanel.add(lbLangs, 10, 57);
     lbLangs.setSize("567px", "20px");
     lbLangs.setVisibleItemCount(5);
+    ui.setLbLangs(lbLangs);
     
     TextBox textBox = new TextBox();
     absolutePanel.add(textBox, 10, 106);
@@ -270,17 +249,10 @@ public void onModuleLoad() {
 //
 //    // Add a handler to send the name to the server
 //    MyHandler handler = new MyHandler();
-    	assignValues();
   }
 
 
 
-private void assignValues() {
-    for (Lang lang : listLangs)
-    	lbLangs.addItem(lang.getLangStr());
-	
-    lbLangs.setVisibleItemCount(1);
-}
   
   // Load the image in the document and in the case of success attach it to the viewer
 //  IUploader.OnFinishUploaderHandler onFinishUploaderHandler = new IUploader.OnFinishUploaderHandler() {
