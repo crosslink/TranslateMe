@@ -1,0 +1,62 @@
+#
+# Tutorial from: http://www.lowlevelmanager.com/2009/07/clone-remote-git-to-github.html
+#
+
+clone remote git to github
+I've just made my first remote git repository at github. It's a clone of Matt Trout's Iron-Munger code. Looking back through my zsh history for git commands, this roughly what I did. Comments inline in my awesome 'pre' block.
+
+Repository: http://github.com/spazm/Iron-Munger/tree/master
+
+#setup get information from my new github repository
+% git remote add origin git@github.com:spazm/Iron-Munger.git
+% git config --global user.name "Your Name"
+% git config --global user.name "Andrew Grangaard"
+% git config --global user.email granny-github@XXXXXXX
+
+#generated my ssh key, and added it via the github web interface.
+% less ~/.ssh/github_dsa.pub
+
+#added this key to my keyring.  This way I don't type my passphrase everytime, yet someone doesn't get access just by grabbing my key.*
+% ssh-keygen -t dsa -f ~/.ssh/github_dsa
+% ssh-add ~/.ssh/github_dsa
+
+# get my area ready:
+% git init
+% git add README
+#commit first commit locally.
+% git commit -m "first commit"
+
+#setup my remote repository, and push to it: (I wonder which of these worked)
+% git remote add origin git@github.com:spazm/Iron-Munger.git
+% git push origin master
+% git remote add origin git@github:spazm/Iron-Munger.git
+% git push origin master
+
+#pull in the repository I want to clone:
+% git remote add upstream http://hercule.scsys.co.uk/~matthewt/iron-munger/.git/
+% git fetch upstream
+% git push origin master
+
+# pull in the repository
+% git pull upstream master
+
+# push it to my copy at github.
+% git push origin master
+
+#start making local changes
+% git status
+% git add IronMunger/Calculate.pm IronMunger/PlaggerLoader.pm
+% git status
+% git diff plagger_loader.t
+% git add t/plagger_loader.t
+% git status
+% git add t/stats_saver.t
+
+# commit locally
+% git commit
+
+# push to github
+% git push origin master
+
+#pull down any changes from the original master
+% git pull upstream master
