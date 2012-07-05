@@ -57,29 +57,30 @@ public void onModuleLoad() {
     // Add the nameField and sendButton to the RootPanel
     // Use RootPanel.get() to get the entire body element
     RootPanel rootPanel = RootPanel.get("nameFieldContainer");
-    rootPanel.getElement().getStyle().setPosition(Position.RELATIVE);
-    RootPanel.get("errorLabelContainer").add(errorLabel);
-       
-    VerticalPanel verticalPanel = new VerticalPanel();
-    rootPanel.add(verticalPanel);
-    
-    CaptionPanel cptnpnlNewPanel = new CaptionPanel("Administration");
-    cptnpnlNewPanel.setCaptionHTML("Administration");
-    verticalPanel.add(cptnpnlNewPanel);
-    cptnpnlNewPanel.setHeight("172px");
-    
-    VerticalPanel verticalPanel_2 = new VerticalPanel();
-    cptnpnlNewPanel.setContentWidget(verticalPanel_2);
-    verticalPanel_2.setSize("100%", "1cm");
-    
-    VerticalPanel verticalPanel_1 = new VerticalPanel();
-    verticalPanel_2.add(verticalPanel_1);
-    verticalPanel_1.setWidth("100%");
-    
-    CaptionPanel cptnpnlNewPanel_1 = new CaptionPanel("Upload CSV File");
-    cptnpnlNewPanel_1.setCaptionHTML("Upload CSV File");
-    verticalPanel_1.add(cptnpnlNewPanel_1);
-    cptnpnlNewPanel_1.setSize("676px", "63px");
+//	if (rootPanel != null) {
+	    rootPanel.getElement().getStyle().setPosition(Position.RELATIVE);
+	    RootPanel.get("errorLabelContainer").add(errorLabel);
+	       
+	    VerticalPanel verticalPanel = new VerticalPanel();
+	    rootPanel.add(verticalPanel);
+	    
+	    CaptionPanel cptnpnlNewPanel = new CaptionPanel("Administration");
+	    cptnpnlNewPanel.setCaptionHTML("Administration");
+	    verticalPanel.add(cptnpnlNewPanel);
+	    cptnpnlNewPanel.setHeight("172px");
+	    
+	    VerticalPanel verticalPanel_2 = new VerticalPanel();
+	    cptnpnlNewPanel.setContentWidget(verticalPanel_2);
+	    verticalPanel_2.setSize("100%", "1cm");
+	    
+	    VerticalPanel verticalPanel_1 = new VerticalPanel();
+	    verticalPanel_2.add(verticalPanel_1);
+	    verticalPanel_1.setWidth("100%");
+	    
+	    CaptionPanel cptnpnlNewPanel_1 = new CaptionPanel("Upload CSV File");
+	    cptnpnlNewPanel_1.setCaptionHTML("Upload CSV File");
+	    verticalPanel_1.add(cptnpnlNewPanel_1);
+	    cptnpnlNewPanel_1.setSize("676px", "63px");
             
             VerticalPanel verticalPanel_4 = new VerticalPanel();
             cptnpnlNewPanel_1.setContentWidget(verticalPanel_4);
@@ -125,156 +126,71 @@ public void onModuleLoad() {
                 	}
                 });
     
-    VerticalPanel verticalPanel_3 = new VerticalPanel();
-    verticalPanel_2.add(verticalPanel_3);
-    
-    CaptionPanel cptnpnlNewPanel_2 = new CaptionPanel("Empty Database");
-    cptnpnlNewPanel_2.setCaptionHTML("Empty Database");
-    verticalPanel_3.add(cptnpnlNewPanel_2);
-    cptnpnlNewPanel_2.setSize("676px", "63px");
-    
-    Button btnClearKey = new Button("Clear Key");
-    cptnpnlNewPanel_2.setContentWidget(btnClearKey);
-    btnClearKey.setSize("300px", "29px");
-    ui.setBtnClearKey(btnClearKey);
-    
-    Label lblNewLabel = new Label("");
-    lblNewLabel.setSize("50%", "50%");
-    
-    CaptionPanel cptnpnlTranslateMe = new CaptionPanel("Translate Me");
-    verticalPanel.add(cptnpnlTranslateMe);
-    cptnpnlTranslateMe.setSize("701px", "547px");
-    
-    AbsolutePanel absolutePanel = new AbsolutePanel();
-    cptnpnlTranslateMe.setContentWidget(absolutePanel);
-    absolutePanel.setSize("692px", "498px");
-
-    
-    ListBox lbLangs = new ListBox();
-    absolutePanel.add(lbLangs, 10, 57);
-    lbLangs.setSize("567px", "20px");
-    lbLangs.setVisibleItemCount(5);
-    ui.setLbLangs(lbLangs);
-    
-    TextBox tbEnglish = new TextBox();
-    tbEnglish.setStyleName("englishText");
-    tbEnglish.setAlignment(TextAlignment.LEFT);
-    tbEnglish.setTextAlignment(TextBoxBase.ALIGN_LEFT);
-    tbEnglish.setReadOnly(true);
-    absolutePanel.add(tbEnglish, 10, 106);
-    tbEnglish.setSize("553px", "108px");
-    
-    ui.setTbEnglish(tbEnglish);
-    
-    Label lblEnglish = new Label("English");
-    absolutePanel.add(lblEnglish, 10, 85);
-    
-    Label lblTarget = new Label("Translation");
-    absolutePanel.add(lblTarget, 10, 244);
-    
-    TextBox tbTargetLanguage = new TextBox();
-    tbTargetLanguage.setTextAlignment(TextBoxBase.ALIGN_LEFT);
-    tbTargetLanguage.setVisibleLength(2000);
-    absolutePanel.add(tbTargetLanguage, 10, 265);
-    tbTargetLanguage.setSize("553px", "108px");
-    
-    ui.setTbTargetLanguage(tbTargetLanguage);
-    
-    Button btnNext = new Button("Next");
-    absolutePanel.add(btnNext, 349, 411);
-    ui.setBtnNext(btnNext);
-    
-    Button btnSave = new Button("Save");
-    absolutePanel.add(btnSave, 131, 411);
-
-    /*
-    // Create the popup dialog box
-    final DialogBox dialogBox = new DialogBox();
-    dialogBox.setText("Remote Procedure Call");
-    dialogBox.setAnimationEnabled(true);
-    final Button closeButton = new Button("Close");
-    // We can set the id of a widget by accessing its Element
-    closeButton.getElement().setId("closeButton");
-    final Label textToServerLabel = new Label();
-    final HTML serverResponseLabel = new HTML();
-    VerticalPanel dialogVPanel = new VerticalPanel();
-    dialogVPanel.addStyleName("dialogVPanel");
-    dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
-    dialogVPanel.add(textToServerLabel);
-    dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-    dialogVPanel.add(serverResponseLabel);
-    dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-    dialogVPanel.add(closeButton);
-    dialogBox.setWidget(dialogVPanel);
-
-    // Add a handler to close the DialogBox
-    closeButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        dialogBox.hide();
-        sendButton.setEnabled(true);
-        sendButton.setFocus(true);
-      }
-    });
-     */
-    // Create a handler for the sendButton and nameField
-//    class MyHandler implements ClickHandler, KeyUpHandler {
-//      /**
-//       * Fired when the user clicks on the sendButton.
-//       */
-//      public void onClick(ClickEvent event) {
-//        ();
-//      }
-//
-//      /**
-//       * Fired when the user types in the nameField.
-//       */
-//      public void onKeyUp(KeyUpEvent event) {
-//        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-//          sendNameToServer();
-//        }
-//      }
-//
-//      /**
-//       * Send the name from the nameField to the server and wait for a response.
-//       */
-//      private void sendNameToServer() {
-//        // First, we validate the input.
-//        errorLabel.setText("");
-//        String textToServer = nameField.getText();
-//        if (!FieldVerifier.isValidName(textToServer)) {
-//          errorLabel.setText("Please enter at least four characters");
-//          return;
-//        }
-//        
-//        // Then, we send the input to the server.
-//        sendButton.setEnabled(false);
-//        textToServerLabel.setText(textToServer);
-//        serverResponseLabel.setText("");
-//        greetingService.greetServer(textToServer, new AsyncCallback<String>() {
-//          public void onFailure(Throwable caught) {
-//            // Show the RPC error message to the user
-//            dialogBox.setText("Remote Procedure Call - Failure");
-//            serverResponseLabel.addStyleName("serverResponseLabelError");
-//            serverResponseLabel.setHTML(SERVER_ERROR);
-//            dialogBox.center();
-//            closeButton.setFocus(true);
-//          }
-//
-//          public void onSuccess(String result) {
-//            dialogBox.setText("Remote Procedure Call");
-//            serverResponseLabel.removeStyleName("serverResponseLabelError");
-//            serverResponseLabel.setHTML(result);
-//            dialogBox.center();
-//            closeButton.setFocus(true);
-//          }
-//        });
-//      }
+	    VerticalPanel verticalPanel_3 = new VerticalPanel();
+	    verticalPanel_2.add(verticalPanel_3);
+	    
+	    CaptionPanel cptnpnlNewPanel_2 = new CaptionPanel("Empty Database");
+	    cptnpnlNewPanel_2.setCaptionHTML("Empty Database");
+	    verticalPanel_3.add(cptnpnlNewPanel_2);
+	    cptnpnlNewPanel_2.setSize("676px", "63px");
+	    
+	    Button btnClearKey = new Button("Clear Key");
+	    cptnpnlNewPanel_2.setContentWidget(btnClearKey);
+	    btnClearKey.setSize("300px", "29px");
+	    ui.setBtnClearKey(btnClearKey);
+	    
+	    Label lblNewLabel = new Label("");
+	    lblNewLabel.setSize("50%", "50%");
+	    
+	    CaptionPanel cptnpnlTranslateMe = new CaptionPanel("Translate Me");
+	    verticalPanel.add(cptnpnlTranslateMe);
+	    cptnpnlTranslateMe.setSize("701px", "547px");
+	    
+	    AbsolutePanel absolutePanel = new AbsolutePanel();
+	    cptnpnlTranslateMe.setContentWidget(absolutePanel);
+	    absolutePanel.setSize("692px", "498px");
+	
+	    
+	    ListBox lbLangs = new ListBox();
+	    absolutePanel.add(lbLangs, 10, 57);
+	    lbLangs.setSize("567px", "20px");
+	    lbLangs.setVisibleItemCount(5);
+	    ui.setLbLangs(lbLangs);
+	    
+	    TextBox tbEnglish = new TextBox();
+	    tbEnglish.setStyleName("englishText");
+	    tbEnglish.setAlignment(TextAlignment.LEFT);
+	    tbEnglish.setTextAlignment(TextBoxBase.ALIGN_LEFT);
+	    tbEnglish.setReadOnly(true);
+	    absolutePanel.add(tbEnglish, 10, 106);
+	    tbEnglish.setSize("553px", "108px");
+	    
+	    ui.setTbEnglish(tbEnglish);
+	    
+	    Label lblEnglish = new Label("English");
+	    absolutePanel.add(lblEnglish, 10, 85);
+	    
+	    Label lblTarget = new Label("Translation");
+	    absolutePanel.add(lblTarget, 10, 244);
+	    
+	    TextBox tbTargetLanguage = new TextBox();
+	    tbTargetLanguage.setTextAlignment(TextBoxBase.ALIGN_LEFT);
+	    tbTargetLanguage.setVisibleLength(2000);
+	    absolutePanel.add(tbTargetLanguage, 10, 265);
+	    tbTargetLanguage.setSize("553px", "108px");
+	    
+	    ui.setTbTargetLanguage(tbTargetLanguage);
+	    
+	    Button btnNext = new Button("Next");
+	    absolutePanel.add(btnNext, 349, 411);
+	    ui.setBtnNext(btnNext);
+	    
+	    Button btnSave = new Button("Save");
+	    absolutePanel.add(btnSave, 131, 411);
+	    ui.assignValues();
 //    }
-//
-//    // Add a handler to send the name to the server
-//    MyHandler handler = new MyHandler();
     
-    ui.assignValues();
+
   }
 
 

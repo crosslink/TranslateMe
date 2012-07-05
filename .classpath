@@ -20,5 +20,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/gwtupload"/>
+	<classpathentry kind="lib" path="gwtext.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

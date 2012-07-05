@@ -1,4 +1,2 @@
 # Module thelens
 # RPC service class, partial path of RPC policy file
-internationalization.translate.client.GreetingService, 27CBB8F7268336E645C0C375993316B3.gwt.rpc
-internationalization.translate.client.DatabaseService, 93C45AB3011008E93227CAE35FB05A03.gwt.rpc
