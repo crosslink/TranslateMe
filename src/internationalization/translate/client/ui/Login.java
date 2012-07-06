@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class Login extends Composite {
 
 	private static LoginUiBinder uiBinder = GWT.create(LoginUiBinder.class);
+	@UiField Button button;
 
 	interface LoginUiBinder extends UiBinder<Widget, Login> {
 	}
@@ -29,4 +30,8 @@ public class Login extends Composite {
 
 
 
+	@UiHandler("button")
+	void onButtonClick(ClickEvent event) {
+		
+	}
 }

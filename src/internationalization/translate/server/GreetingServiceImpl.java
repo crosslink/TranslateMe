@@ -1,5 +1,12 @@
 package internationalization.translate.server;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
+import org.openid4java.consumer.ConsumerException;
+import org.openid4java.consumer.ConsumerManager;
+
 import internationalization.translate.client.GreetingService;
 import internationalization.translate.shared.FieldVerifier;
 
@@ -11,8 +18,21 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
     GreetingService {
+	
+	final static String GOOGLE_ENDPOINT = "https://www.google.com/accounts/o8/id";
+	
+	private ConsumerManager manager;
+	private ServletContext context;
 
-  public String greetServer(String input) throws IllegalArgumentException {
+
+  @Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+	    context = config.getServletContext();
+	    this.manager = new ConsumerManager();
+	}
+
+public String greetServer(String input) throws IllegalArgumentException {
     // Verify that the input is valid. 
     if (!FieldVerifier.isValidName(input)) {
       // If the input is not valid, throw an IllegalArgumentException back to

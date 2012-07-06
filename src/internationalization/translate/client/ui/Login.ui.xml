@@ -11,6 +11,7 @@
 		<g:VerticalPanel>
 			<g:Label text="Sign in to start"/>
 		</g:VerticalPanel>
+		<g:Image url="thelens/images/google-openid-logo.png" width="257px" height="114px"/>
 		<g:Grid>
 			<g:row>
 				<g:customCell>
@@ -34,7 +35,7 @@
 				<g:Label text=""/>
 				</g:customCell>
 				<g:customCell>
-					<g:Button width="68px"/>
+					<g:Button width="68px" text="Sign In" ui:field="button"/>
 				</g:customCell>
 			</g:row>
 		</g:Grid>

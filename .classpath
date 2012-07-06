@@ -21,5 +21,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/gwtupload"/>
 	<classpathentry kind="lib" path="gwtext.jar"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (3)"/>
+	<classpathentry kind="lib" path="lib/openid4java-0.9.6.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -1,0 +1,330 @@
+I was trying these days to integrate OpenId into a web application and I’ve noticed that the documentation about this area is pretty poor so, for the ones who want to avoid a lot of headache I will post my example step by step.
+
+I use openid4java library from here
+
+1. Add this to a jsp page:
+
+1
+<!--Open IDs login-->&nbsp;
+2
+<div style="margin-left: 50px; margin-top: 40px; height: 60px;"><form action="/servlet/loginServlet?identifier=https://www.google.com/accounts/o8/id" method="post"> <input class="google openid_large_btn" style="background: #fff url(/resources/images/login/openid-logos.png?v=3); background-position: -1px -1px;" type="image" value=" " /></form>
+3
+<form action="/servlet/loginServlet?identifier=https://me.yahoo.com" method="post"><input class="google openid_large_btn" style="background: #fff url(/resources/images/login/openid-logos.png?v=3); background-position: -1px -63px;" type="image" value=" " /> </form></div>
+Please note I use an image with two logos (google and yahoo) for my example (you can download it from here:  http://sstatic.net/Img/openid/openid-logos.png?v=3 )
+
+2. Build the LoginServlet class which uses Google and Yahoo for authenticating with openid.
+
+001
+public class LoginServlet extends javax.servlet.http.HttpServlet {
+002
+ 
+003
+    final static String YAHOO_ENDPOINT = "https://me.yahoo.com";
+004
+    final static String GOOGLE_ENDPOINT = "https://www.google.com/accounts/o8/id";
+005
+ 
+006
+    private final Log log = LogFactory.getLog(this.getClass());
+007
+    private static final long serialVersionUID = 309579782731258702L;
+008
+    private ServletContext context;
+009
+    private ConsumerManager manager;
+010
+ 
+011
+    public void init(ServletConfig config) throws ServletException {
+012
+        super.init(config);
+013
+        context = config.getServletContext();
+014
+        try {
+015
+            this.manager = new ConsumerManager();
+016
+        } catch (ConsumerException e) {
+017
+            throw new ServletException(e);
+018
+        }
+019
+    }
+020
+ 
+021
+protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+022
+throws ServletException, IOException {
+023
+log.debug("------------------------");
+024
+log.debug("context: " + context);
+025
+Identifier identifier = this.verifyResponse(req);
+026
+log.debug("identifier: " + identifier);
+027
+// if openid login succeded redirect to home page using our demo account
+028
+//if your site is open to anyone without login you can do the redirect directly
+029
+if (identifier != null) {
+030
+WebAuthentication pwl = new WebAuthentication();
+031
+pwl.login("guest", "guest");**
+032
+resp.sendRedirect("/index.jsp");
+033
+} else {
+034
+System.out.println("login with openid failed");
+035
+}
+036
+}
+037
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+038
+            throws ServletException, IOException {
+039
+        String identifier = req.getParameter("identifier");
+040
+        this.authRequest(identifier, req, resp);
+041
+    }
+042
+ 
+043
+    // --- placing the authentication request ---
+044
+    public String authRequest(String userSuppliedString,
+045
+            HttpServletRequest httpReq, HttpServletResponse httpResp)
+046
+            throws IOException {
+047
+        try {
+048
+            // configure the return_to URL where your application will receive
+049
+            // the authentication responses from the OpenID provider
+050
+            String returnToUrl = httpReq.getRequestURL().toString();
+051
+ 
+052
+            // --- Forward proxy setup (only if needed) ---
+053
+            // ProxyProperties proxyProps = new ProxyProperties();
+054
+            // proxyProps.setProxyName("proxy.example.com");
+055
+            // proxyProps.setProxyPort(8080);
+056
+            // HttpClientFactory.setProxyProperties(proxyProps);
+057
+ 
+058
+            // perform discovery on the user-supplied identifier
+059
+            List discoveries = manager.discover(userSuppliedString);
+060
+ 
+061
+            // attempt to associate with the OpenID provider
+062
+            // and retrieve one service endpoint for authentication
+063
+            DiscoveryInformation discovered = manager.associate(discoveries);
+064
+ 
+065
+            // store the discovery information in the user's session
+066
+            httpReq.getSession().setAttribute("openid-disc", discovered);
+067
+ 
+068
+            // obtain a AuthRequest message to be sent to the OpenID provider
+069
+            AuthRequest authReq = manager.authenticate(discovered, returnToUrl);
+070
+ 
+071
+            FetchRequest fetch = FetchRequest.createFetchRequest();
+072
+            if (userSuppliedString.startsWith(GOOGLE_ENDPOINT)) {
+073
+                fetch.addAttribute("email",
+074
+                        "http://axschema.org/contact/email", true);
+075
+                fetch.addAttribute("firstName",
+076
+                        "http://axschema.org/namePerson/first", true);
+077
+                fetch.addAttribute("lastName",
+078
+                        "http://axschema.org/namePerson/last", true);
+079
+            } else if (userSuppliedString.startsWith(YAHOO_ENDPOINT)) {
+080
+                fetch.addAttribute("email",
+081
+                        "http://axschema.org/contact/email", true);
+082
+                fetch.addAttribute("fullname",
+083
+                        "http://axschema.org/namePerson", true);
+084
+            } else { // works for myOpenID
+085
+                fetch.addAttribute("fullname",
+086
+                        "http://schema.openid.net/namePerson", true);
+087
+                fetch.addAttribute("email",
+088
+                        "http://schema.openid.net/contact/email", true);
+089
+            }
+090
+ 
+091
+            // attach the extension to the authentication request
+092
+            authReq.addExtension(fetch);
+093
+ 
+094
+            httpResp.sendRedirect(authReq.getDestinationUrl(true));
+095
+ 
+096
+        } catch (OpenIDException e) {
+097
+            // present error to the user
+098
+        }
+099
+ 
+100
+        return null;
+101
+    }
+102
+ 
+103
+    // --- processing the authentication response ---
+104
+    public Identifier verifyResponse(HttpServletRequest httpReq) {
+105
+        try {
+106
+            // extract the parameters from the authentication response
+107
+            // (which comes in as a HTTP request from the OpenID provider)
+108
+            ParameterList response = new ParameterList(
+109
+                    httpReq.getParameterMap());
+110
+ 
+111
+            // retrieve the previously stored discovery information
+112
+            DiscoveryInformation discovered = (DiscoveryInformation) httpReq
+113
+                    .getSession().getAttribute("openid-disc");
+114
+ 
+115
+            // extract the receiving URL from the HTTP request
+116
+            StringBuffer receivingURL = httpReq.getRequestURL();
+117
+            String queryString = httpReq.getQueryString();
+118
+            if (queryString != null && queryString.length() > 0)
+119
+                receivingURL.append("?").append(httpReq.getQueryString());
+120
+ 
+121
+            // verify the response; ConsumerManager needs to be the same
+122
+            // (static) instance used to place the authentication request
+123
+            VerificationResult verification = manager.verify(
+124
+                    receivingURL.toString(), response, discovered);
+125
+ 
+126
+            // examine the verification result and extract the verified
+127
+            // identifier
+128
+            Identifier verified = verification.getVerifiedId();
+129
+            if (verified != null) {
+130
+                AuthSuccess authSuccess = (AuthSuccess) verification
+131
+                        .getAuthResponse();
+132
+ 
+133
+                if (authSuccess.hasExtension(AxMessage.OPENID_NS_AX)) {
+134
+                    FetchResponse fetchResp = (FetchResponse) authSuccess
+135
+                            .getExtension(AxMessage.OPENID_NS_AX);
+136
+ 
+137
+                    List emails = fetchResp.getAttributeValues("email");
+138
+                    String email = (String) emails.get(0);
+139
+                    log.info("OpenIdlogin done with email: " + email);
+140
+                }
+141
+ 
+142
+                return verified; // success
+143
+            }
+144
+        } catch (OpenIDException e) {
+145
+            // present error to the user
+146
+        }
+147
+ 
+148
+        return null;
+149
+    }
+150
+ 
+151
+}
+3. Add the servlet configuration in web.xml
+
+view sourceprint?
+1
+<servlet>
+2
+  <servlet-name>loginOpenIdServlet</servlet-name>
+3
+  <servlet-class>your.package.LoginServlet</servlet-class>
+4
+ </servlet>
+Enjoy it;)
