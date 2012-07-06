@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib"/>
 	<classpathentry kind="lib" path="lib/commons-fileupload-1.2.2.jar"/>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (2)"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/gwtupload-0.6.4.jar"/>
 	<classpathentry kind="lib" path="lib/gwtupload-gae-0.6.4.jar"/>
@@ -21,5 +20,6 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/gwtupload"/>
 	<classpathentry kind="lib" path="gwtext.jar"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (3)"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

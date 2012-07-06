@@ -44,16 +44,34 @@
       </div>
     </noscript>
 
-    <h1><p align="center">TheLens Internationalization Project</p></h1>
-    <div align="center" id="fileupload" style="background-color: Teal; "></div>
+            <table id="wrapper" cellpadding="0" cellspacing="0" style="width: 100%;height: 100%;">
+
+             <!-- Header row -->
+             <tr style="height: 25%;">
+                 <td colspan="2" id="header"> <br>   <h1><p align="center"><big>TheLens Internationalization Project</big></p></h1> <br> </td>
+             </tr>
+
+             <!-- Body row and left nav row -->
+             <tr style="height: 65%;">
+				<td id="leftnav" style="width: 10%;"></td>
+				<td id="content" align="left"></td>
+             </tr>
+
+             <!-- Footer row -->
+             <tr style="height: 10%;">
+                <td colspan="2" id="footer"></td>
+             </tr>
+
+        </table>
+
+ 	
+ <!--  
+     <div align="center" id="fileupload" style="background-color: Teal; "></div>
  	<div align="center" id="nameFieldContainer"></div>
  	<div align="center" id="errorLabelContainer" style="background-color: Red; "></div>
  	<br>
  	<br>
  	<div id="google_translate_element"></div>
-
- 	
- <!--  
  <script>
    function googleTranslateElementInit() {
       var translator = new google.translate.TranslateElement({

@@ -1,4 +1,11 @@
-package internationalization.translate.client;
+package internationalization.translate.client.ui;
+
+import internationalization.translate.client.DatabaseHandler;
+import internationalization.translate.client.Lang;
+import internationalization.translate.client.Services;
+import internationalization.translate.client.Translate;
+import internationalization.translate.client.UiHandler;
+import internationalization.translate.client.UiTextKey;
 
 import java.util.List;
 

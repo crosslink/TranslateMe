@@ -1,4 +1,4 @@
-package internationalization.translate.client;
+package internationalization.translate.client.ui;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;

@@ -4,7 +4,5 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:HTMLPanel>
-		<g:CaptionPanel captionText="Administration" width="452px" height="207px"/>
-	</g:HTMLPanel>
+	<g:HTMLPanel/>
 </ui:UiBinder> 
