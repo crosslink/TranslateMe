@@ -34,7 +34,7 @@ public class UiLayout {
 	
 	public void showAdminWindow() {
 		if (adminWindow == null) {
-			adminWindow = new Adminstration();
+			adminWindow = new Adminstration(ui);
 		}
 		
 		setContent(adminWindow);

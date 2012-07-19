@@ -50,7 +50,7 @@
 										<g:Label text=""/>
 									</g:customCell>
 									<g:customCell>
-										<g:ListBox visibleItemCount="1" width="360px"/>
+										<g:SimplePanel width="360px" ui:field="lbLangsPanel"/>
 									</g:customCell>
 								</g:row>
 								<g:row>

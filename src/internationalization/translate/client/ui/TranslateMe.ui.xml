@@ -4,20 +4,20 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:HTMLPanel>
-		<g:CaptionPanel captionText="Translate Me" width="100%" height="100%">
+	<g:HTMLPanel width="800px" height="600px">
+		<g:CaptionPanel captionText="Translate Me" width="836px" height="756px">
 			<g:AbsolutePanel width="100%" height="100%">
 				<g:at left="57" top="40">
 					<g:ListBox visibleItemCount="1" width="616px" height="25px" ui:field="lbLangs"/>
 				</g:at>
 				<g:at left="57" top="110">
 					<g:CaptionPanel captionText="English" width="612px" height="136px">
-						<g:TextBox width="98%" height="80%" alignment="CENTER" ui:field="tbEnglish"/>
+						<g:TextBox width="98%" height="80%" alignment="CENTER" ui:field="tbEnglish" readOnly="true" textAlignment="ALIGN_LEFT"/>
 					</g:CaptionPanel>
 				</g:at>
 				<g:at left="57" top="291">
 					<g:CaptionPanel captionText="Translation in %s" width="612px" height="118px">
-						<g:TextBox width="98%" height="80%" ui:field="tbTargetLanguage"/>
+						<g:TextBox width="98%" height="80%" ui:field="tbTargetLanguage" alignment="JUSTIFY" textAlignment="ALIGN_LEFT"/>
 					</g:CaptionPanel>
 				</g:at>
 				<g:at left="55" top="449">

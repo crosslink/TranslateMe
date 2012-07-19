@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.ListBox;
 
 public class Adminstration extends Composite {
 
@@ -22,6 +23,7 @@ public class Adminstration extends Composite {
 	@UiField SimplePanel fileUploaderPanel;
 	@UiField Button btnUploadKey;
 	@UiField Button btnUploadTranslation;
+	@UiField SimplePanel lbLangsPanel;
 	
 	private Uploader defaultUploader;
 	private FlowPanel panelImages = new FlowPanel();
@@ -31,13 +33,16 @@ public class Adminstration extends Composite {
 	private DatabaseHandler databaseHandler;
 	
 	private Button btnClearKey;
+	private UI ui;
 
 	interface AdminstrationUiBinder extends UiBinder<Widget, Adminstration> {
 		
 	}
 
-	public Adminstration() {
+	public Adminstration(UI ui) {
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		this.ui = ui;
         
 	    // Create a new uploader panel and attach it to the document
 	    defaultUploader = new Uploader();
@@ -52,18 +57,19 @@ public class Adminstration extends Composite {
       defaultUploader.addOnFinishUploadHandler(databaseHandler);
       defaultUploader.addOnChangeUploadHandler(databaseHandler);
       
+      lbLangsPanel.add(ui.getLbLangs());
 //	    ui.setBtnClearKey(btnClearKey);
 	}
 
 	@UiHandler("btnUploadKey")
 	void onBtnUploadKeyClick(ClickEvent event) {
-		getDefaultUploader().setServletPath("/thelens/updatedb");
+		getDefaultUploader().setServletPath("/thelens/updatedb?target=key");
 		getDefaultUploader().submit();
 	}
 	
 	@UiHandler("btnUploadTranslation")
 	void onBtnUploadTranslationClick(ClickEvent event) {
-		getDefaultUploader().setServletPath("/thelens/updatedb");
+		getDefaultUploader().setServletPath("/thelens/updatedb?target=translation");
 		getDefaultUploader().submit();
 	}
 	
