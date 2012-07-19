@@ -68,13 +68,13 @@ public class TranslateMe extends Composite {
 	}
 	
 	public void assignValues() {
-		listLangs = translator.getListLangs();
-		
-	    for (Lang lang : listLangs)
-	    	lbLangs.addItem(lang.getLangStr());
-		
-	    lbLangs.setVisibleItemCount(1);
-	    
+//		listLangs = translator.getListLangs();
+//		
+//	    for (Lang lang : listLangs)
+//	    	lbLangs.addItem(lang.getLangStr());
+//		
+//	    lbLangs.setVisibleItemCount(1);
+	    lbLangs = ui.getLbLangs();
 		loadUiTextKeys();
 	}
 	

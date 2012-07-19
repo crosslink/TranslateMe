@@ -5,18 +5,33 @@ import internationalization.translate.client.ui.UiLayout;
 
 
 public class Application {
+
 	// UI
 	private UI ui;
 	private UiLayout uiLayout;
 
 
 	// logic
-	private Translate translator = new Translate();
+	private Translate translator;
 	
 	
 	// database
 	
+	
+	// mode
+	private static boolean debug = true;
+	
 	private static Application instance;
+	
+	public Application() {
+		ui = new UI();
+		uiLayout = new UiLayout(ui);
+		translator = new Translate();
+		
+		ui.assignValues(translator.getListLangs());
+		
+//		debug = System.getProperty("debug").equalsIgnoreCase("true"); //Boolean.getBoolean("debug"); 
+	}
 	
 	public static Application getInstance() {
 		if (instance == null)
@@ -39,5 +54,13 @@ public class Application {
 
 	public void setTranslator(Translate translator) {
 		this.translator = translator;
+	}
+	
+	public static boolean isProductionMode() {
+		return !debug;
+	}
+
+	public static boolean isDebugMode() {
+		return debug;
 	}
 }

@@ -33,7 +33,7 @@ public class UI {
 	  
 
 
-	private ListBox lbLangs;
+	private ListBox lbLangs = new ListBox();
 	
 //	private TextBox tbEnglish;
 //	
@@ -45,7 +45,7 @@ public class UI {
 //	private int index; // the index showing the current text
 	
 
-	List<Lang> listLangs;
+//	List<Lang> listLangs;
 	
 	private UiHandler uiHandler;
 
@@ -75,11 +75,13 @@ public class UI {
       dialogVPanel.addStyleName("dialogVPanel");
       dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
 //      dialogVPanel.add(textToServerLabel);
-      dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
+//      dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
       dialogVPanel.add(serverResponseLabel);
       dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
       dialogVPanel.add(closeButton);
       dialogBox.setWidget(dialogVPanel);
+      
+//      assignValues();
 	}
 
 	
@@ -102,8 +104,8 @@ public class UI {
 	}
 
 	
-	public void assignValues() {
-		listLangs = Application.getInstance().getTranslator().getListLangs();
+	public void assignValues(List<Lang> listLangs) {
+//		List<Lang>  listLangs = Application.getInstance().getTranslator().getListLangs();
 		
 	    for (Lang lang : listLangs)
 	    	lbLangs.addItem(lang.getLangStr());

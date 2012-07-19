@@ -38,10 +38,6 @@ public class TheLens implements EntryPoint {
    * Create a remote service proxy to talk to the server-side Greeting service.
    */
   
-//  UI ui;
-  
-
-  
   public TheLens() {
 		super();
 //		ui = new UI();
@@ -61,7 +57,7 @@ public void onModuleLoad() {
 //	  RootPanel footer = RootPanel.get("footer").add(new Footer());
 	  
 //    }
-    UiLayout.setContent(new Login());
+    Application.getInstance().getUiLayout().setContent(new Login());
 
   }
 

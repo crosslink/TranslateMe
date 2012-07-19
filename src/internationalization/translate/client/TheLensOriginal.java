@@ -186,7 +186,7 @@ public void onModuleLoad() {
 	    
 	    Button btnSave = new Button("Save");
 	    absolutePanel.add(btnSave, 131, 411);
-	    ui.assignValues();
+//	    ui.assignValues();
 //    }
     
 

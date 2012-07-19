@@ -44,8 +44,8 @@ public class Login extends Composite {
 	void onButtonClick(ClickEvent event) {
 		final String username = tbUserName.getText();
 		String password = tbPassword.getText();
-		if (tbUserName.getText().length() == 0
-				|| tbPassword.getText().length() == 0) {
+		if (Application.isProductionMode() && (tbUserName.getText().length() == 0
+				|| tbPassword.getText().length() == 0)) {
 				Window.alert("Username or password is empty."); 
 			}
 		else {
