@@ -4,5 +4,68 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:HTMLPanel/>
+	<g:HTMLPanel>
+		<g:CaptionPanel captionText="Adminstration" width="792px" height="633px">
+			<g:AbsolutePanel width="787px" height="639px">
+				<g:at left="45" top="65">
+					<g:CaptionPanel captionText="Upload CSV file" width="648px" height="104px">
+						<g:VerticalPanel width="639px" height="80px">
+							<g:SimplePanel ui:field="uploadFormContainer"/>
+							<g:HorizontalPanel>
+								<g:Button ui:field="btnUploadKey">Update Key</g:Button>
+								<g:Button ui:field="btnUploadTranslation">Update Translations</g:Button>
+							</g:HorizontalPanel>
+						</g:VerticalPanel>
+					</g:CaptionPanel>
+				</g:at>
+				<g:at left="45" top="204">
+					<g:CaptionPanel captionText="Database" width="648px" height="147px">
+						<g:VerticalPanel width="100%" height="90%" spacing="3" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
+							<g:Button>Clear Keys</g:Button>
+						</g:VerticalPanel>
+					</g:CaptionPanel>
+				</g:at>
+				<g:at left="45" top="391">
+					<g:CaptionPanel width="648px" height="156px" captionText="New User">
+						<g:VerticalPanel width="5cm" height="3cm">
+							<g:Grid width="367px" height="67px">
+								<g:row>
+									<g:customCell>
+										<g:Label text="User Name:"/>
+									</g:customCell>
+									<g:customCell>
+										<g:TextBox ui:field="tbUserName" />
+									</g:customCell>
+								</g:row>
+								<g:row>
+									<g:customCell>
+										<g:Label text="Password:"/>
+									</g:customCell>
+									<g:customCell>
+										<g:PasswordTextBox ui:field="tbPassword"/>
+									</g:customCell>
+								</g:row>
+								<g:row>
+									<g:customCell>
+										<g:Label text=""/>
+									</g:customCell>
+									<g:customCell>
+										<g:ListBox visibleItemCount="1" width="360px"/>
+									</g:customCell>
+								</g:row>
+								<g:row>
+									<g:customCell>
+									<g:Label text=""/>
+									</g:customCell>
+									<g:customCell>
+										<g:Button width="68px" text="Create" ui:field="button"/>
+									</g:customCell>
+								</g:row>
+							</g:Grid>
+						</g:VerticalPanel>
+					</g:CaptionPanel>
+				</g:at>
+			</g:AbsolutePanel>
+		</g:CaptionPanel>
+	</g:HTMLPanel>
 </ui:UiBinder> 
