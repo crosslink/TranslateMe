@@ -14,8 +14,8 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Text;
 
-public class UiTextTransaltion {
-	public static final String UI_TEXT_KEY_TABLE = "Translations";
+public class UiTextTranslationDb {
+	public static final String UI_TEXT_TRANSLATION_TABLE = "Translations";
 	
 	public static void readInTranslations(InputStream file) {
         InputStreamReader stream=null;
@@ -50,7 +50,7 @@ public class UiTextTransaltion {
 						String tokens[]=line.split("\t");
 						if (tokens.length == 3) {
 							String textKey = tokens[0];
-							Entity uiEntity = new Entity(UI_TEXT_KEY_TABLE);
+							Entity uiEntity = new Entity(UI_TEXT_TRANSLATION_TABLE);
 							uiEntity.setProperty("key", textKey);
 							Text uiText = new Text(tokens[1]);
 							uiEntity.setProperty("text", uiText);

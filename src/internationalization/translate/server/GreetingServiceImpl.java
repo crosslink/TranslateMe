@@ -29,7 +29,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 	    context = config.getServletContext();
-	    this.manager = new ConsumerManager();
+//	    this.manager = new ConsumerManager();
 	}
 
 public String greetServer(String input) throws IllegalArgumentException {

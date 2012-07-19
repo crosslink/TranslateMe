@@ -1,7 +1,9 @@
 package internationalization.translate.server;
 
 import internationalization.translate.client.FileUploadService;
+import internationalization.translate.client.UiTextTranslation;
 import internationalization.translate.server.db.UiTextKeyDb;
+import internationalization.translate.server.db.UiTextTranslationDb;
 import internationalization.translate.utils.AcceptFileUploadServlet;
 
 import java.io.BufferedReader;
@@ -24,14 +26,20 @@ public class UpdateDbServlet extends GwtFileUploadServlet implements FileUploadS
 	public void onFileUploadFinished() {
 		if (files.size() > 0) {
 			InputStream file = files.get(0);
-			UiTextKeyDb.readInKeys(file);
+			if (target.equalsIgnoreCase("key"))
+				UiTextKeyDb.readInKeys(file);
+			else if (target.equalsIgnoreCase("translation"))
+				UiTextTranslationDb.readInTranslations(file);
 		}
 
 	}
 
 	@Override
 	public void onFileUploadFinished(InputStream file) {
-		UiTextKeyDb.readInKeys(file);
+		if (target.equalsIgnoreCase("key"))
+			UiTextKeyDb.readInKeys(file);
+		else if (target.equalsIgnoreCase("translation"))
+			UiTextTranslationDb.readInTranslations(file);
 	}
 
 //	@Override

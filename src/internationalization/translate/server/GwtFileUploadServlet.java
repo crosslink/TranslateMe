@@ -52,6 +52,8 @@ public class GwtFileUploadServlet extends UploadAction {
 	private boolean removeSessionFiles;
 
 	private boolean removeData;
+	
+	protected String target;
 
 	  /**
 	   * Override executeAction to save the received files in a custom place
@@ -221,7 +223,9 @@ public class GwtFileUploadServlet extends UploadAction {
 	    String error = null;
 	    String message = null;
         ServletFileUpload upload = new ServletFileUpload();
-
+//        params = request.getParameterMap();
+        target = request.getParameter("target");
+        
         try{
             FileItemIterator iter = upload.getItemIterator(request);
 
