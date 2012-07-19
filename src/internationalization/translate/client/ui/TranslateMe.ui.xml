@@ -5,5 +5,22 @@
 		
 	</ui:style>
 	<g:HTMLPanel>
+		<g:CaptionPanel captionText="Translate Me" width="100%" height="100%">
+			<g:AbsolutePanel width="100%" height="100%">
+				<g:at left="57" top="40">
+					<g:ListBox visibleItemCount="1" width="616px" height="25px" ui:field="lbLangs"/>
+				</g:at>
+				<g:at left="57" top="110">
+					<g:CaptionPanel captionText="English" width="612px" height="136px">
+						<g:TextBox width="98%" height="80%" alignment="CENTER"/>
+					</g:CaptionPanel>
+				</g:at>
+				<g:at left="57" top="291">
+					<g:CaptionPanel captionText="Translation in %s" width="612px" height="118px">
+						<g:TextBox width="98%" height="80%"/>
+					</g:CaptionPanel>
+				</g:at>
+			</g:AbsolutePanel>
+		</g:CaptionPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
