@@ -50,6 +50,15 @@
   </servlet>
   
 
+  <servlet>
+    <servlet-name>greetServlet</servlet-name>
+    <servlet-class>internationalization.translate.server.GreetingServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>greetServlet</servlet-name>
+    <url-pattern>/thelens/login</url-pattern>
+  </servlet-mapping>
   <!--  
     <servlet-mapping>
     <servlet-name>uploadServlet</servlet-name>

@@ -18,7 +18,7 @@
 					<g:Label text="User Name:"/>
 				</g:customCell>
 				<g:customCell>
-					<g:TextBox name="tbUserName" />
+					<g:TextBox ui:field="tbUserName" />
 				</g:customCell>
 			</g:row>
 			<g:row>
@@ -26,7 +26,7 @@
 					<g:Label text="Password:"/>
 				</g:customCell>
 				<g:customCell>
-					<g:PasswordTextBox name="tbPassword"/>
+					<g:PasswordTextBox ui:field="tbPassword"/>
 				</g:customCell>
 			</g:row>
 			<g:row/>

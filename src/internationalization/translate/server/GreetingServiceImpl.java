@@ -66,4 +66,9 @@ public String greetServer(String input) throws IllegalArgumentException {
     return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(
         ">", "&gt;");
   }
+
+	@Override
+	public boolean authenticate(String name, String passwd) {
+		return true;
+	}
 }
