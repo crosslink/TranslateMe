@@ -1,5 +1,6 @@
 package internationalization.translate.client;
 
+import internationalization.translate.client.ui.Adminstration;
 import internationalization.translate.client.ui.UI;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -38,9 +39,9 @@ public class DatabaseHandler implements IUploader.OnChangeUploaderHandler,  IUpl
 		
 	}
 
-	public DatabaseHandler(UI ui) {
-		this.panelImages = ui.getPanelImages();
-		this.tbInputFile = ui.getTbInputFile();
+	public DatabaseHandler(Adminstration adminstration) {
+		this.panelImages = adminstration.getPanelImages();
+		this.tbInputFile = adminstration.getTbInputFile();
 		
 		clearKeysHandler = new ClearKeysHandler();
 	}

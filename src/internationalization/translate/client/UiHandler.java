@@ -1,5 +1,7 @@
 package internationalization.translate.client;
 
+import internationalization.translate.client.ui.Adminstration;
+import internationalization.translate.client.ui.TranslateMe;
 import internationalization.translate.client.ui.UI;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -11,9 +13,14 @@ public class UiHandler implements ChangeHandler, ClickHandler {
 
 	private UI ui;
 	
+	private TranslateMe uiTranslateMe;
+	private Adminstration uiAdmin;
+	
 	public UiHandler(UI ui) {
 		super();
 		this.ui = ui;
+		
+		this.uiTranslateMe = ui.getTranslateMeUi();
 	}
 
 	@Override
@@ -26,9 +33,9 @@ public class UiHandler implements ChangeHandler, ClickHandler {
 
 	@Override
 	public void onClick(ClickEvent event) {
-		if (event.getSource() == ui.getBtnNext()) {
-			ui.setIndex(ui.getIndex() + 1);
-			ui.updateText();
+		if (event.getSource() == uiTranslateMe.getBtnNext()) {
+			uiTranslateMe.setIndex(uiTranslateMe.getIndex() + 1);
+			uiTranslateMe.updateText();
 		}
 		
 	}

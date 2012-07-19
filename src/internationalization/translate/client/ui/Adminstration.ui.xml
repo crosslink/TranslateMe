@@ -10,7 +10,7 @@
 				<g:at left="45" top="65">
 					<g:CaptionPanel captionText="Upload CSV file" width="648px" height="104px">
 						<g:VerticalPanel width="639px" height="80px">
-							<g:SimplePanel ui:field="uploadFormContainer"/>
+							<g:SimplePanel ui:field="fileUploaderPanel"/>
 							<g:HorizontalPanel>
 								<g:Button ui:field="btnUploadKey">Update Key</g:Button>
 								<g:Button ui:field="btnUploadTranslation">Update Translations</g:Button>

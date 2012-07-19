@@ -97,7 +97,6 @@ public void onModuleLoad() {
                     tbInputFile.setAlignment(TextAlignment.LEFT);
                     tbInputFile.setTextAlignment(TextBoxBase.ALIGN_LEFT);
                     //RootPanel.get("fileupload").add(ui.getDefaultUploader());
-                    fileUploaderPanel.add(ui.getDefaultUploader());
             
                 HorizontalPanel horizontalPanel = new HorizontalPanel();
                 verticalPanel_4.add(horizontalPanel);
@@ -108,8 +107,7 @@ public void onModuleLoad() {
                 
                 btnUploadKey.addClickHandler(new ClickHandler() {
                 	public void onClick(ClickEvent event) {
-                		ui.getDefaultUploader().setServletPath("/thelens/updatedb");
-                		ui.getDefaultUploader().submit();
+
 //    		formPanel.setAction("/UpdateKey");
 //    		formPanel.submit();
                 	}
@@ -121,8 +119,7 @@ public void onModuleLoad() {
                 
                 btnUploadTranslation.addClickHandler(new ClickHandler() {
                 	public void onClick(ClickEvent event) {
-                		ui.getDefaultUploader().setServletPath("/thelens/updatedb");
-                		ui.getDefaultUploader().submit();
+
 //    		formPanel.setAction("/UpdateTranslation");
 //    		formPanel.submit();
                 	}
@@ -139,7 +136,7 @@ public void onModuleLoad() {
 	    Button btnClearKey = new Button("Clear Key");
 	    cptnpnlNewPanel_2.setContentWidget(btnClearKey);
 	    btnClearKey.setSize("300px", "29px");
-	    ui.setBtnClearKey(btnClearKey);
+//	    ui.setBtnClearKey(btnClearKey);
 	    
 	    Label lblNewLabel = new Label("");
 	    lblNewLabel.setSize("50%", "50%");
@@ -167,7 +164,7 @@ public void onModuleLoad() {
 	    absolutePanel.add(tbEnglish, 10, 106);
 	    tbEnglish.setSize("553px", "108px");
 	    
-	    ui.setTbEnglish(tbEnglish);
+//	    ui.setTbEnglish(tbEnglish);
 	    
 	    Label lblEnglish = new Label("English");
 	    absolutePanel.add(lblEnglish, 10, 85);
@@ -181,11 +178,11 @@ public void onModuleLoad() {
 	    absolutePanel.add(tbTargetLanguage, 10, 265);
 	    tbTargetLanguage.setSize("553px", "108px");
 	    
-	    ui.setTbTargetLanguage(tbTargetLanguage);
+//	    ui.setTbTargetLanguage(tbTargetLanguage);
 	    
 	    Button btnNext = new Button("Next");
 	    absolutePanel.add(btnNext, 349, 411);
-	    ui.setBtnNext(btnNext);
+//	    ui.setBtnNext(btnNext);
 	    
 	    Button btnSave = new Button("Save");
 	    absolutePanel.add(btnSave, 131, 411);

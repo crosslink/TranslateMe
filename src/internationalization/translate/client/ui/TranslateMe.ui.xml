@@ -12,13 +12,28 @@
 				</g:at>
 				<g:at left="57" top="110">
 					<g:CaptionPanel captionText="English" width="612px" height="136px">
-						<g:TextBox width="98%" height="80%" alignment="CENTER"/>
+						<g:TextBox width="98%" height="80%" alignment="CENTER" ui:field="tbEnglish"/>
 					</g:CaptionPanel>
 				</g:at>
 				<g:at left="57" top="291">
 					<g:CaptionPanel captionText="Translation in %s" width="612px" height="118px">
-						<g:TextBox width="98%" height="80%"/>
+						<g:TextBox width="98%" height="80%" ui:field="tbTargetLanguage"/>
 					</g:CaptionPanel>
+				</g:at>
+				<g:at left="55" top="449">
+					<g:Grid width="618px" height="100px">
+					<g:row>
+									<g:customCell>
+						<g:Button ui:field="btnPrevious">Previous</g:Button>
+						</g:customCell>
+										<g:customCell>
+						<g:Button ui:field="btnSave">Save</g:Button>
+						</g:customCell>
+										<g:customCell>
+						<g:Button ui:field="btnNext">Next</g:Button>
+						</g:customCell>
+					</g:row>
+					</g:Grid>
 				</g:at>
 			</g:AbsolutePanel>
 		</g:CaptionPanel>

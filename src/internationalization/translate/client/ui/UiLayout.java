@@ -6,16 +6,13 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class UiLayout {
 	static Composite content;
 	private Composite mainWindow;
-	private Composite adminWindow; 
+	private Composite adminWindow;
+	private UI ui; 
 	
-	private static UiLayout instance;
-	
-	public static UiLayout getInstance() {
-		if (instance == null)
-			instance = new UiLayout();
-		return instance;
+	public UiLayout(UI ui) {
+		this.ui = ui;
 	}
-	
+
 	public static void setContent(Composite contentComposite) {
 		RootPanel contentPanel = RootPanel.get("content");
 		contentPanel.clear();
@@ -29,7 +26,7 @@ public class UiLayout {
 
 	public void showMainWindow() {
 		if (mainWindow == null) {
-			mainWindow = new TranslateMe();
+			mainWindow = new TranslateMe(ui);
 		}
 		
 		setContent(mainWindow);

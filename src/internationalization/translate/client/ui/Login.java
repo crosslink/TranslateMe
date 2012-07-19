@@ -1,5 +1,6 @@
 package internationalization.translate.client.ui;
 
+import internationalization.translate.client.Application;
 import internationalization.translate.client.GreetingService;
 import internationalization.translate.client.GreetingServiceAsync;
 
@@ -59,9 +60,9 @@ public class Login extends Composite {
 						public void onSuccess(Boolean result) {
 							if (result) {
 								if (username.equalsIgnoreCase("admin"))
-									UiLayout.getInstance().showAdminWindow();
+									Application.getInstance().getUiLayout().showAdminWindow();
 								else
-									UiLayout.getInstance().showMainWindow();	
+									Application.getInstance().getUiLayout().showMainWindow();	
 							}						
 						}
 					});
