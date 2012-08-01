@@ -57,7 +57,7 @@ public void onModuleLoad() {
 //	  RootPanel footer = RootPanel.get("footer").add(new Footer());
 	  
 //    }
-    Application.getInstance().getUiLayout().setContent(new Login());
+    Application.getInstance().getUiLayout().showLogin();
 
   }
 

@@ -35,7 +35,9 @@ h1 {
 .englishText {
 	color: #777777;
 	margin-top: 2px;
-	font-size: 2em;
+	font-size: 10em;
 	vertical-align: top;
 	text-align: left;
+}
+.ct_main {
 }

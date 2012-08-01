@@ -2,6 +2,7 @@ package internationalization.translate.client.ui;
 
 import java.util.List;
 
+import internationalization.translate.client.Application;
 import internationalization.translate.client.Lang;
 import internationalization.translate.client.Services;
 import internationalization.translate.client.Translate;
@@ -16,17 +17,23 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class TranslateMe extends Composite {
 
 	private static TranslateMeUiBinder uiBinder = GWT
 			.create(TranslateMeUiBinder.class);
-	@UiField ListBox lbLangs;
 	@UiField Button btnNext;
 	@UiField Button btnSave;
 	@UiField Button btnPrevious;
 	@UiField TextBox tbTargetLanguage;
 	@UiField TextBox tbEnglish;
+	@UiField(provided=true) DataGrid<Object> dataGrid = new DataGrid<Object>();
+	@UiField Button button;
+	@UiField SimplePanel lbLangsPanel;
 
 	UiTextKey[] keys;
 	
@@ -74,7 +81,7 @@ public class TranslateMe extends Composite {
 //	    	lbLangs.addItem(lang.getLangStr());
 //		
 //	    lbLangs.setVisibleItemCount(1);
-	    lbLangs = ui.getLbLangs();
+//	    lbLangs = ui.getLbLangs();
 		loadUiTextKeys();
 	}
 	
@@ -108,5 +115,26 @@ public class TranslateMe extends Composite {
 
 	public void setIndex(int index) {
 		this.index = index;
+	}
+	
+	@UiHandler("button")
+	void onButtonClick(ClickEvent event) {
+		Application.getInstance().getUiLayout().showLogin();
+	}
+	
+	@UiHandler("btnSave")
+	void onBtnSaveClick(ClickEvent event) {
+	}
+	
+	@UiHandler("btnNext")
+	void onBtnNextClick(ClickEvent event) {
+		setIndex(getIndex() + 1);
+		updateText();
+	}
+	
+	@UiHandler("btnPrevious")
+	void onBtnPreviousClick(ClickEvent event) {
+		setIndex(getIndex() - 1);
+		updateText();
 	}
 }

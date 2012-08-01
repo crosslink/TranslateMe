@@ -7,6 +7,7 @@ public class UiLayout {
 	static Composite content;
 	private Composite mainWindow;
 	private Composite adminWindow;
+	private Composite loginWindow;
 	private UI ui; 
 	
 	public UiLayout(UI ui) {
@@ -38,5 +39,13 @@ public class UiLayout {
 		}
 		
 		setContent(adminWindow);
+	}
+	
+	public void showLogin() {
+		if (loginWindow == null) {
+			loginWindow = new Login();
+		}
+		
+		setContent(loginWindow);
 	}
 }
