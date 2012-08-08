@@ -33,9 +33,9 @@
 					</g:Grid>
 				</g:at>
 				<g:at left="57" top="523">
-					<g:SimplePanel width="650px" height="201px" ui:field="tranTablePanel">
+					<g:ScrollPanel width="650px" height="237px" ui:field="tranTablePanel">
 						
-					</g:SimplePanel>
+					</g:ScrollPanel>
 				</g:at>
 				<g:at left="55" top="33">
 					<g:Button ui:field="button">Logout</g:Button>
@@ -46,7 +46,7 @@
 				<g:at left="608" top="45">
 					<g:Label text="%d/%d" width="99px" height="15px" horizontalAlignment="ALIGN_RIGHT" ui:field="labelStastics"/>
 				</g:at>
-				<g:at left="330" top="10">
+				<g:at left="373" top="11">
 					<g:Image width="81px" height="66px" url="thelens/images/loading.gif" altText="loading" ui:field="imgLoading"/>
 				</g:at>
 			</g:AbsolutePanel>

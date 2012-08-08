@@ -46,7 +46,8 @@ public class UiTextTranslationTableImpl {
         	String key = (String) e.getProperty(UiTextTranslation.ATTRIBUTE_KEY);
         	tran.setKey(key);
         	Text text = (Text) e.getProperty(UiTextTranslation.ATTRIBUTE_TEXT);
-    		tran.setText(text.getValue());
+        	String tranText = text.getValue(); 
+    		tran.setText(tranText);
     		tran.setLanguage((String) e.getProperty(UiTextTranslation.ATTRIBUTE_LANGUAGE));
     		table.add(tran);
         }
@@ -91,7 +92,7 @@ public class UiTextTranslationTableImpl {
 							Entity uiEntity = new Entity(UiTextTranslationTable.UI_TEXT_TRANSLATION_TABLE);
 							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_LANG_KEY, lang_key);
 							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_KEY, textKey);
-							Text uiText = new Text(tokens[1]);
+							Text uiText = new Text(tokens[2]);
 							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_TEXT, uiText);
 							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_STATUS, UiTextTranslation.STATUS_NEW);
 					

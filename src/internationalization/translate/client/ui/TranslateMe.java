@@ -7,23 +7,21 @@ import internationalization.translate.client.Application;
 import internationalization.translate.client.Lang;
 import internationalization.translate.client.Services;
 import internationalization.translate.client.Translate;
-import internationalization.translate.client.db.UiTextKey;
 import internationalization.translate.client.db.UiTextKeyTable;
 import internationalization.translate.client.db.UiTextTranslation;
 import internationalization.translate.client.db.UiTextTranslationTable;
-import internationalization.translate.server.db.UiTextTranslationTableImpl;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.thirdparty.guava.common.io.Resources;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -43,7 +41,7 @@ public class TranslateMe extends Composite {
 	@UiField SimplePanel lbLangsPanel;
 	@UiField Label labelStastics;
 	@UiField Image imgLoading;
-	@UiField SimplePanel tranTablePanel;
+	@UiField ScrollPanel tranTablePanel;
 	
 	TranslationCellTable tranCellTable;
 
@@ -67,9 +65,9 @@ public class TranslateMe extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		this.ui = ui;
-		imgLoading.setVisible(false);
+//		imgLoading.setVisible(false);
 	    lbLangsPanel.add(ui.getLbLangs());
-	    updateStatistics(0);
+	    updateStatistics(0, 0);
 	    assignValues();
 	}
 
@@ -93,12 +91,16 @@ public class TranslateMe extends Composite {
 		UiTextTranslation tran = tranTable.getTranslation(index);
 		tbEnglish.setText(tran.getKeyText());
 		tbTargetLanguage.setText(tran.getText());
-		updateStatistics(index);
+		if (tranTable.size() > 0)
+			updateStatistics(index + 1, tranTable.count());
+		else
+			updateStatistics(0, 0);
 //		tbTarget
 	}
 	
-	public void updateStatistics(int index) {
-		labelStastics.setText((index + 1) + " / " + (tranTable == null ? 0 : tranTable.count()));
+	public void updateStatistics(int index, int base) {
+//		labelStastics.setText(index + " / " + (tranTable == null ? 0 : tranTable.count()));
+		labelStastics.setText(index + " / " + base);
 	}
 	
 //	public void loadTable(String lang) {
@@ -119,21 +121,28 @@ public class TranslateMe extends Composite {
 //		
 //	    lbLangs.setVisibleItemCount(1);
 //	    lbLangs = ui.getLbLangs();
-		loadUiTextKeys();
-		loadUiTextTranslations("Simplified Chinese");
+		imgLoading.setVisible(true);
+		
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			   public void execute() {
+					loadUiTextKeys();
+					loadUiTextTranslations("Simplified Chinese");
+					
+					imgLoading.setVisible(false);
+			   }
+			});
+		
 	}
 	
 	private void loadUiTextKeys() {
-		imgLoading.setVisible(true);
+
 		Services.getInstance().getDatabaseService().getUiTextKeys(new AsyncCallback<UiTextKeyTable>() {
 			public void onFailure(Throwable caught) {
-				imgLoading.setVisible(false);
 				ui.showErrorDialogBox("Remote Procedure Call - Failure");
 			}
 
 			@Override
 			public void onSuccess(UiTextKeyTable result) {
-				imgLoading.setVisible(false);
 				keyTable = result;
 				keyTableLoaded = true;
 //				if (tranTable.count() > 0)
@@ -147,7 +156,6 @@ public class TranslateMe extends Composite {
 		imgLoading.setVisible(true);
 		Services.getInstance().getDatabaseService().getUiTextTranslationTable(langKey, new AsyncCallback<UiTextTranslationTable>() {
 			public void onFailure(Throwable caught) {
-				imgLoading.setVisible(false);
 				ui.showErrorDialogBox("Remote Procedure Call - Failure");
 			}
 
@@ -160,6 +168,7 @@ public class TranslateMe extends Composite {
 					if (keyTableLoaded) {
 						tranTable.assignText(keyTable);
 						tranCellTable = new TranslationCellTable(tranTable);
+						tranTablePanel.add(tranCellTable);
 					}
 					updateText();
 				}
