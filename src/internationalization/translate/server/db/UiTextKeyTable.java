@@ -87,7 +87,7 @@ public class UiTextKeyTable {
 							uiEntity.setProperty("key", textKey);
 							Text uiText = new Text(tokens[1]);
 							uiEntity.setProperty("text", uiText);
-							uiEntity.setProperty(UiTextKey.ATTRIBUTE_STATUS, UiTextKey.STATUS_NEW);
+//							uiEntity.setProperty(UiTextKey.ATTRIBUTE_STATUS, UiTextKey.STATUS_NEW);
 		//			        greeting.setProperty("user", user);
 		//			        greeting.setProperty("date", date);
 		//			        greeting.setProperty("content", content);
