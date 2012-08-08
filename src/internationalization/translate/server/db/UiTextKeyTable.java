@@ -1,6 +1,6 @@
 package internationalization.translate.server.db;
 
-import internationalization.translate.client.UiTextKey;
+import internationalization.translate.client.db.UiTextKey;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -21,7 +21,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Text;
 
-public class UiTextKeyDb {
+public class UiTextKeyTable {
 	
 	public static final String UI_TEXT_KEY_TABLE = "Translate-Key";
 	

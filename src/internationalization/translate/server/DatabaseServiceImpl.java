@@ -15,8 +15,8 @@
 package internationalization.translate.server;
 
 import internationalization.translate.client.DatabaseService;
-import internationalization.translate.client.UiTextKey;
-import internationalization.translate.server.db.UiTextKeyDb;
+import internationalization.translate.client.db.UiTextKey;
+import internationalization.translate.server.db.UiTextKeyTable;
 
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -25,11 +25,11 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements Databas
 
 	@Override
 	public void clearKeys() {
-		UiTextKeyDb.deleteKeys();
+		UiTextKeyTable.deleteKeys();
 	}
 
 	@Override
 	public UiTextKey[] getUiTextKeys() {
-		return UiTextKeyDb.getKeys();
+		return UiTextKeyTable.getKeys();
 	}
 }

@@ -14,6 +14,8 @@
  *******************************************************************************/
 package internationalization.translate.client;
 
+import internationalization.translate.client.db.UiTextKey;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

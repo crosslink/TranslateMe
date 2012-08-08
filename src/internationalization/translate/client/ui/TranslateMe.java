@@ -6,7 +6,7 @@ import internationalization.translate.client.Application;
 import internationalization.translate.client.Lang;
 import internationalization.translate.client.Services;
 import internationalization.translate.client.Translate;
-import internationalization.translate.client.UiTextKey;
+import internationalization.translate.client.db.UiTextKey;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;

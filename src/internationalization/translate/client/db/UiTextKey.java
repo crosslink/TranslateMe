@@ -1,4 +1,4 @@
-package internationalization.translate.client;
+package internationalization.translate.client.db;
 
 import java.io.Serializable;
 

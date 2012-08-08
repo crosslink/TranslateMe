@@ -1,6 +1,8 @@
 package internationalization.translate.server.db;
 
-import internationalization.translate.client.UiTextKey;
+import internationalization.translate.client.db.UiTextGroup;
+import internationalization.translate.client.db.UiTextKey;
+import internationalization.translate.client.db.UiTextTranslation;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -14,7 +16,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Text;
 
-public class UiTextTranslationDb {
+public class UiTextTranslationTable {
 	public static final String UI_TEXT_TRANSLATION_TABLE = "Translations";
 	
 	public static void readInTranslations(InputStream file) {
@@ -29,6 +31,8 @@ public class UiTextTranslationDb {
 			stream=new InputStreamReader(file, "UTF-8");
 			reader=new BufferedReader(stream);
 			int count = 0;
+			String[] tokens;
+			String lang_key = null;
 			
 			while (true)
 			{
@@ -47,18 +51,27 @@ public class UiTextTranslationDb {
 					
 					} 
 					else {
-						String tokens[]=line.split("\t");
+						tokens = line.split("\t");
 						if (tokens.length == 3) {
 							String textKey = tokens[0];
 							Entity uiEntity = new Entity(UI_TEXT_TRANSLATION_TABLE);
-							uiEntity.setProperty("key", textKey);
+							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_LANG_KEY, lang_key);
+							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_KEY, textKey);
 							Text uiText = new Text(tokens[1]);
-							uiEntity.setProperty("text", uiText);
+							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_TEXT, uiText);
 							uiEntity.setProperty(UiTextKey.ATTRIBUTE_STATUS, UiTextKey.STATUS_NEW);
 					
-		
 					        datastore.put(uiEntity);
 						}
+					}
+				}
+				else { // the first line
+					tokens = line.split("\t");
+					
+					if (tokens.length == 3) {
+						lang_key = tokens[2].toLowerCase().replace(" ", "");
+						Entity langEntity = UiTextGroup.newEntity(lang_key, tokens[2], tokens[2]);
+						datastore.put(langEntity);
 					}
 				}
 			}

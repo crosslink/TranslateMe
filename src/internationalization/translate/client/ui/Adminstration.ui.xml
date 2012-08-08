@@ -49,9 +49,6 @@
 									<g:customCell>
 										<g:Label text=""/>
 									</g:customCell>
-									<g:customCell>
-										<g:SimplePanel width="360px" ui:field="lbLangsPanel"/>
-									</g:customCell>
 								</g:row>
 								<g:row>
 									<g:customCell>
@@ -64,6 +61,12 @@
 							</g:Grid>
 						</g:VerticalPanel>
 					</g:CaptionPanel>
+				</g:at>
+				<g:at left="641" top="23">
+					<g:Button width="56px" height="23px" ui:field="btnLogout">Logout</g:Button>
+				</g:at>
+				<g:at left="43" top="23">
+					<g:SimplePanel width="360px" ui:field="lbLangsPanel" height="23px"/>
 				</g:at>
 			</g:AbsolutePanel>
 		</g:CaptionPanel>

@@ -1,6 +1,7 @@
 package internationalization.translate.client.ui;
 
 import gwtupload.client.Uploader;
+import internationalization.translate.client.Application;
 import internationalization.translate.client.DatabaseHandler;
 
 import com.google.gwt.core.client.GWT;
@@ -24,6 +25,7 @@ public class Adminstration extends Composite {
 	@UiField Button btnUploadKey;
 	@UiField Button btnUploadTranslation;
 	@UiField SimplePanel lbLangsPanel;
+	@UiField Button btnLogout;
 	
 	private Uploader defaultUploader;
 	private FlowPanel panelImages = new FlowPanel();
@@ -114,5 +116,9 @@ public class Adminstration extends Composite {
 	  
 	public void setPanelImages(FlowPanel panelImages) {
 		this.panelImages = panelImages;
+	}
+	@UiHandler("btnLogout")
+	void onBtnLogoutClick(ClickEvent event) {
+		Application.getInstance().getUiLayout().showLogin();
 	}
 }
