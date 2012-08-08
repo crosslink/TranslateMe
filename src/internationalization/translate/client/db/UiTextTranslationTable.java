@@ -1,8 +1,10 @@
 package internationalization.translate.client.db;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-public class UiTextTranslationTable {
+public class UiTextTranslationTable implements Serializable {
 	
 	public static final String UI_TEXT_TRANSLATION_TABLE = "TRANSLATIONS";
 	
@@ -27,5 +29,21 @@ public class UiTextTranslationTable {
 
 	public int count() {
 		return translations.size();
+	}
+
+	public void assignText(UiTextKeyTable keyTable) {
+		for (UiTextTranslation tran : translations) {
+			String text = keyTable.getText(tran.getKey());
+			tran.setKeyText(text);
+		}
+		
+	}
+
+	public int size() {
+		return count();
+	}
+
+	public List<? extends UiTextTranslation> toList() {
+		return translations;
 	}
 }

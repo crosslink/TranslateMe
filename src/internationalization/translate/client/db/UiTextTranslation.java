@@ -3,8 +3,13 @@ package internationalization.translate.client.db;
 import java.io.InputStream;
 import java.io.Serializable;
 
-public class UiTextTranslation  implements Serializable {
+public class UiTextTranslation implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2716397223799066162L;
+	
 	public final static int STATUS_LOCKED = 1;
 	public final static int STATUS_NEW = 0;
 	
@@ -18,6 +23,7 @@ public class UiTextTranslation  implements Serializable {
 	
 	private String langKey;
 	private String key;
+	private String keyText; // translation
 	private String text; // translation
 	private int status;
 	private String language;
@@ -61,7 +67,13 @@ public class UiTextTranslation  implements Serializable {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-	
 
+	public String getKeyText() {
+		return keyText;
+	}
+
+	public void setKeyText(String keyText) {
+		this.keyText = keyText;
+	}
+	
 }

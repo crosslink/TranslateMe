@@ -8,6 +8,7 @@ import internationalization.translate.client.Lang;
 import internationalization.translate.client.Services;
 import internationalization.translate.client.Translate;
 import internationalization.translate.client.db.UiTextKey;
+import internationalization.translate.client.db.UiTextKeyTable;
 import internationalization.translate.client.db.UiTextTranslation;
 import internationalization.translate.client.db.UiTextTranslationTable;
 import internationalization.translate.server.db.UiTextTranslationTableImpl;
@@ -26,6 +27,8 @@ import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Image;
 
 public class TranslateMe extends Composite {
 
@@ -36,12 +39,19 @@ public class TranslateMe extends Composite {
 	@UiField Button btnPrevious;
 	@UiField TextBox tbTargetLanguage;
 	@UiField TextBox tbEnglish;
-	@UiField(provided=true) DataGrid<Object> dataGrid = new DataGrid<Object>();
 	@UiField Button button;
 	@UiField SimplePanel lbLangsPanel;
+	@UiField Label labelStastics;
+	@UiField Image imgLoading;
+	@UiField SimplePanel tranTablePanel;
+	
+	TranslationCellTable tranCellTable;
 
 //	UiTextKey[] keys;
 	UiTextTranslationTable tranTable;
+	UiTextKeyTable keyTable;
+	
+	private boolean keyTableLoaded;
 	
 	Translate translator = new Translate();
 	
@@ -57,7 +67,10 @@ public class TranslateMe extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		this.ui = ui;
+		imgLoading.setVisible(false);
 	    lbLangsPanel.add(ui.getLbLangs());
+	    updateStatistics(0);
+	    assignValues();
 	}
 
 	public TextBox getTbEnglish() {
@@ -78,9 +91,14 @@ public class TranslateMe extends Composite {
 	
 	public void updateText() {
 		UiTextTranslation tran = tranTable.getTranslation(index);
-		tbEnglish.setText(tran.getKey());
+		tbEnglish.setText(tran.getKeyText());
 		tbTargetLanguage.setText(tran.getText());
+		updateStatistics(index);
 //		tbTarget
+	}
+	
+	public void updateStatistics(int index) {
+		labelStastics.setText((index + 1) + " / " + (tranTable == null ? 0 : tranTable.count()));
 	}
 	
 //	public void loadTable(String lang) {
@@ -93,6 +111,7 @@ public class TranslateMe extends Composite {
 	}
 	
 	public void assignValues() {
+		this.keyTableLoaded = false;
 //		listLangs = translator.getListLangs();
 //		
 //	    for (Lang lang : listLangs)
@@ -100,22 +119,50 @@ public class TranslateMe extends Composite {
 //		
 //	    lbLangs.setVisibleItemCount(1);
 //	    lbLangs = ui.getLbLangs();
+		loadUiTextKeys();
 		loadUiTextTranslations("Simplified Chinese");
 	}
 	
+	private void loadUiTextKeys() {
+		imgLoading.setVisible(true);
+		Services.getInstance().getDatabaseService().getUiTextKeys(new AsyncCallback<UiTextKeyTable>() {
+			public void onFailure(Throwable caught) {
+				imgLoading.setVisible(false);
+				ui.showErrorDialogBox("Remote Procedure Call - Failure");
+			}
+
+			@Override
+			public void onSuccess(UiTextKeyTable result) {
+				imgLoading.setVisible(false);
+				keyTable = result;
+				keyTableLoaded = true;
+//				if (tranTable.count() > 0)
+//					updateText();
+			}});
+		
+	}
+
 	public void loadUiTextTranslations(String lang) {
 		String langKey = AppResources.langToKey(lang);
+		imgLoading.setVisible(true);
 		Services.getInstance().getDatabaseService().getUiTextTranslationTable(langKey, new AsyncCallback<UiTextTranslationTable>() {
 			public void onFailure(Throwable caught) {
+				imgLoading.setVisible(false);
 				ui.showErrorDialogBox("Remote Procedure Call - Failure");
 			}
 
 			@Override
 			public void onSuccess(UiTextTranslationTable result) {
+				imgLoading.setVisible(false);
 				tranTable = result;
-				
-				if (tranTable.count() > 0)
+				if (tranTable.count() > 0) {
+
+					if (keyTableLoaded) {
+						tranTable.assignText(keyTable);
+						tranCellTable = new TranslationCellTable(tranTable);
+					}
 					updateText();
+				}
 			}});
 	}
 	

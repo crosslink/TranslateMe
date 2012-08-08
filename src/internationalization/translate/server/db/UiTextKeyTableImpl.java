@@ -58,7 +58,7 @@ public class UiTextKeyTableImpl {
 			
 			while (true)
 			{
-				String line=reader.readLine().trim();
+				String line=reader.readLine();
 				
 				++count;
 				if (count > 1) {
@@ -68,7 +68,7 @@ public class UiTextKeyTableImpl {
 					{
 						break;
 					}
-					
+					line.trim();
 	//    		System.out.println(line);
 	
 					if (line.startsWith("#")) {
@@ -109,7 +109,7 @@ public class UiTextKeyTableImpl {
 		}
 	}
 
-	public static UiTextKey[] getKeys() {
+	public static UiTextKeyTable getKeys() {
         DatastoreService datastore =
                 DatastoreServiceFactory.getDatastoreService();
         Query q = new Query(UiTextKeyTable.UI_TEXT_KEY_TABLE);
@@ -118,15 +118,16 @@ public class UiTextKeyTableImpl {
         List<Entity> entities = pq.asList(FetchOptions.Builder.withDefaults());
 
 //        List<Key> keys = new ArrayList<Key>();
-       UiTextKey[] result = new UiTextKey[entities.size()];
+       UiTextKeyTable result = new UiTextKeyTable();
        int count = 0;
         for(Entity e : entities) {
-        	UiTextKey key = new UiTextKey();
-        	key.setKey((String) e.getProperty(UiTextKey.ATTRIBUTE_KEY));
+        	UiTextKey keyEntry = new UiTextKey();
+        	String key = (String) e.getProperty(UiTextKey.ATTRIBUTE_KEY);
+        	keyEntry.setKey(key);
         	Text text = (Text) e.getProperty(UiTextKey.ATTRIBUTE_TEXT);
-    		key.setText(text.getValue());
-//    		key.setStatus((Integer)e.getProperty(UiTextKey.ATTRIBUTE_STATUS));
-    		result[count++] = key;
+    		keyEntry.setText(text.getValue());
+//    		KeyEntry.setStatus((Integer)e.getProperty(UiTextKey.ATTRIBUTE_STATUS));
+    		result.add(key, keyEntry);
 //        	result.add(key);
         }
                 //keys.add(e.getKey());

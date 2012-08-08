@@ -16,6 +16,7 @@ package internationalization.translate.server;
 
 import internationalization.translate.client.DatabaseService;
 import internationalization.translate.client.db.UiTextKey;
+import internationalization.translate.client.db.UiTextKeyTable;
 import internationalization.translate.client.db.UiTextTranslationTable;
 import internationalization.translate.server.db.UiTextKeyTableImpl;
 import internationalization.translate.server.db.UiTextTranslationTableImpl;
@@ -31,7 +32,7 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements Databas
 	}
 
 	@Override
-	public UiTextKey[] getUiTextKeys() {
+	public UiTextKeyTable getUiTextKeys() {
 		return UiTextKeyTableImpl.getKeys();
 	}
 

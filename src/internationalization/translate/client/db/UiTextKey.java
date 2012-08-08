@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 public class UiTextKey implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8017297879710993847L;
+	
 	public final static String ATTRIBUTE_KEY = "key";
 	public final static String ATTRIBUTE_TEXT = "text";
 	public final static String ATTRIBUTE_STATUS = "status";

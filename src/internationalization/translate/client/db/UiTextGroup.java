@@ -2,10 +2,12 @@ package internationalization.translate.client.db;
 
 import java.io.Serializable;
 
-import com.google.appengine.api.datastore.Entity;
-
 public class UiTextGroup  implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -328901886916319411L;
 	public final static String ATTRIBUTE_LANG_KEY = "lang_key";
 	public final static String ATTRIBUTE_LANGUAGE = "language";
 	public final static String ATTRIBUTE_COMMENT = "comment";
@@ -13,14 +15,6 @@ public class UiTextGroup  implements Serializable {
 	private int id;
 	private String name;
 	private String comment;
-	
-	public static Entity newEntity(String lang_key, String language, String comment) {
-		Entity langEntity = new Entity(UiTextGroupTable.UI_TEXT_TRANSLATION_GROUP_TABLE);
-		langEntity.setProperty(ATTRIBUTE_LANG_KEY, lang_key);
-		langEntity.setProperty(ATTRIBUTE_LANGUAGE, language);
-		langEntity.setProperty(ATTRIBUTE_COMMENT, comment);
-		return langEntity;
-	}
 	
 	public int getId() {
 		return id;

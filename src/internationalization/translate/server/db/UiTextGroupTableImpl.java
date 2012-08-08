@@ -14,7 +14,16 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Text;
 
-public class UiTextLanguageTableImpl {
+public class UiTextGroupTableImpl {
+	
+	public static Entity newEntity(String lang_key, String language, String comment) {
+		Entity langEntity = new Entity(UiTextGroupTable.UI_TEXT_TRANSLATION_GROUP_TABLE);
+		langEntity.setProperty(UiTextGroup.ATTRIBUTE_LANG_KEY, lang_key);
+		langEntity.setProperty(UiTextGroup.ATTRIBUTE_LANGUAGE, language);
+		langEntity.setProperty(UiTextGroup.ATTRIBUTE_COMMENT, comment);
+		return langEntity;
+	}
+	
 	public static String checkLanguage(String language, String comment) {
 		String langKey = AppResources.langToKey(language);
         DatastoreService datastore =
@@ -39,7 +48,7 @@ public class UiTextLanguageTableImpl {
 //        }
         }
         else {
-			Entity langEntity = UiTextGroup.newEntity(langKey, language, comment);
+			Entity langEntity = newEntity(langKey, language, comment);
 			datastore.put(langEntity);
         }
 		return langKey;

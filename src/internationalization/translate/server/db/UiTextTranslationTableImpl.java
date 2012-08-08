@@ -42,7 +42,9 @@ public class UiTextTranslationTableImpl {
         for(Entity e : entities) {
         	UiTextTranslation tran = new UiTextTranslation();
         	tran.setLangKey((String) e.getProperty(UiTextTranslation.ATTRIBUTE_LANG_KEY));
-        	tran.setKey((String) e.getProperty(UiTextTranslation.ATTRIBUTE_KEY));
+        	
+        	String key = (String) e.getProperty(UiTextTranslation.ATTRIBUTE_KEY);
+        	tran.setKey(key);
         	Text text = (Text) e.getProperty(UiTextTranslation.ATTRIBUTE_TEXT);
     		tran.setText(text.getValue());
     		tran.setLanguage((String) e.getProperty(UiTextTranslation.ATTRIBUTE_LANGUAGE));
@@ -101,9 +103,10 @@ public class UiTextTranslationTableImpl {
 					tokens = line.split("\t");
 					
 					if (tokens.length == 3) {
-						lang_key = tokens[2].toLowerCase().replace(" ", "");
-						Entity langEntity = UiTextGroup.newEntity(lang_key, tokens[2], tokens[2]);
-						datastore.put(langEntity);
+						UiTextGroupTableImpl.checkLanguage(tokens[2], tokens[2]);
+//						lang_key = tokens[2].toLowerCase().replace(" ", "");
+//						Entity langEntity = newEntity(lang_key, tokens[2], tokens[2]);
+//						datastore.put(langEntity);
 					}
 				}
 			}
