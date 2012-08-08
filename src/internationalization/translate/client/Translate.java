@@ -29,7 +29,7 @@ public class Translate {
 	}
 
 	private void convertToList() {
-		String text = AppResources.INSTANCE.initialConfiguration().getText();
+		String text = AppResourcesInterface.INSTANCE.initialConfiguration().getText();
 		//InputStream in = /*Translate.class.getClass()*/getServletContext().getResourceAsStream("org.cambia.translate.GoogleTranslateLangs.properties");
 //		try {
 //			BufferedReader reader = new BufferedReader(new StringReader(text));

@@ -3,6 +3,7 @@ package internationalization.translate.server.db;
 import internationalization.translate.client.db.UiTextGroup;
 import internationalization.translate.client.db.UiTextKey;
 import internationalization.translate.client.db.UiTextTranslation;
+import internationalization.translate.client.db.UiTextTranslationTable;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -21,26 +22,22 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Text;
 
-public class UiTextTranslationTable {
-	public final static int STATUS_LOCKED = 1;
-	public final static int STATUS_NEW = 0;
+public class UiTextTranslationTableImpl {
 	
-	public static final String UI_TEXT_TRANSLATION_TABLE = "Translations";
-	
-	public ArrayList<UiTextTranslation> translations;
-	
-	
-	public void load(String lang_key) {
-		translations = new ArrayList<UiTextTranslation>();
-		
+//	public UiTextTranslationTableImpl(String langKey) {
+//		load(langKey);
+//	}
+
+	public static UiTextTranslationTable load(String lang_key) {
+		UiTextTranslationTable table = new UiTextTranslationTable();
         DatastoreService datastore =
                 DatastoreServiceFactory.getDatastoreService();
-        Query q = new Query(UI_TEXT_TRANSLATION_TABLE);
+        Query q = new Query(UiTextTranslationTable.UI_TEXT_TRANSLATION_TABLE);
+        q.addFilter(UiTextTranslation.ATTRIBUTE_LANG_KEY, Query.FilterOperator.EQUAL, lang_key);
 
         PreparedQuery pq = datastore.prepare(q);
         List<Entity> entities = pq.asList(FetchOptions.Builder.withDefaults());
 
-       UiTextKey[] result = new UiTextKey[entities.size()];
        int count = 0;
         for(Entity e : entities) {
         	UiTextTranslation tran = new UiTextTranslation();
@@ -49,8 +46,9 @@ public class UiTextTranslationTable {
         	Text text = (Text) e.getProperty(UiTextTranslation.ATTRIBUTE_TEXT);
     		tran.setText(text.getValue());
     		tran.setLanguage((String) e.getProperty(UiTextTranslation.ATTRIBUTE_LANGUAGE));
-    		translations.add(tran);
+    		table.add(tran);
         }
+        return table;
 	}
 	
 	public static void readInTranslations(InputStream file) {
@@ -70,7 +68,7 @@ public class UiTextTranslationTable {
 			
 			while (true)
 			{
-				String line=reader.readLine().trim();
+				String line=reader.readLine();
 				
 				++count;
 				if (count > 1) {
@@ -80,7 +78,7 @@ public class UiTextTranslationTable {
 					{
 						break;
 					}
-	
+					line.trim();
 					if (line.startsWith("#")) {
 					
 					} 
@@ -88,12 +86,12 @@ public class UiTextTranslationTable {
 						tokens = line.split("\t");
 						if (tokens.length == 3) {
 							String textKey = tokens[0];
-							Entity uiEntity = new Entity(UI_TEXT_TRANSLATION_TABLE);
+							Entity uiEntity = new Entity(UiTextTranslationTable.UI_TEXT_TRANSLATION_TABLE);
 							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_LANG_KEY, lang_key);
 							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_KEY, textKey);
 							Text uiText = new Text(tokens[1]);
 							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_TEXT, uiText);
-							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_STATUS, STATUS_NEW);
+							uiEntity.setProperty(UiTextTranslation.ATTRIBUTE_STATUS, UiTextTranslation.STATUS_NEW);
 					
 					        datastore.put(uiEntity);
 						}

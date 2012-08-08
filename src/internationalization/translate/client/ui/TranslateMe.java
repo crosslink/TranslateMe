@@ -2,13 +2,18 @@ package internationalization.translate.client.ui;
 
 import java.util.List;
 
+import internationalization.translate.client.AppResources;
 import internationalization.translate.client.Application;
 import internationalization.translate.client.Lang;
 import internationalization.translate.client.Services;
 import internationalization.translate.client.Translate;
 import internationalization.translate.client.db.UiTextKey;
+import internationalization.translate.client.db.UiTextTranslation;
+import internationalization.translate.client.db.UiTextTranslationTable;
+import internationalization.translate.server.db.UiTextTranslationTableImpl;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.thirdparty.guava.common.io.Resources;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -35,7 +40,8 @@ public class TranslateMe extends Composite {
 	@UiField Button button;
 	@UiField SimplePanel lbLangsPanel;
 
-	UiTextKey[] keys;
+//	UiTextKey[] keys;
+	UiTextTranslationTable tranTable;
 	
 	Translate translator = new Translate();
 	
@@ -51,6 +57,7 @@ public class TranslateMe extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		this.ui = ui;
+	    lbLangsPanel.add(ui.getLbLangs());
 	}
 
 	public TextBox getTbEnglish() {
@@ -70,8 +77,19 @@ public class TranslateMe extends Composite {
 	}
 	
 	public void updateText() {
-		tbEnglish.setText(keys[index].getText());
+		UiTextTranslation tran = tranTable.getTranslation(index);
+		tbEnglish.setText(tran.getKey());
+		tbTargetLanguage.setText(tran.getText());
 //		tbTarget
+	}
+	
+//	public void loadTable(String lang) {
+//		String langKey = AppResources.langToKey(lang);
+//		tranTable = new UiTextTranslationTableImpl(langKey);
+//	}
+	
+	public void updateTargetLangInfo() {
+		
 	}
 	
 	public void assignValues() {
@@ -82,20 +100,21 @@ public class TranslateMe extends Composite {
 //		
 //	    lbLangs.setVisibleItemCount(1);
 //	    lbLangs = ui.getLbLangs();
-		loadUiTextKeys();
+		loadUiTextTranslations("Simplified Chinese");
 	}
 	
-	public void loadUiTextKeys() {
-		Services.getInstance().getDatabaseService().getUiTextKeys(new AsyncCallback<UiTextKey[]>() {
+	public void loadUiTextTranslations(String lang) {
+		String langKey = AppResources.langToKey(lang);
+		Services.getInstance().getDatabaseService().getUiTextTranslationTable(langKey, new AsyncCallback<UiTextTranslationTable>() {
 			public void onFailure(Throwable caught) {
 				ui.showErrorDialogBox("Remote Procedure Call - Failure");
 			}
 
 			@Override
-			public void onSuccess(UiTextKey[] result) {
-				keys = result;
+			public void onSuccess(UiTextTranslationTable result) {
+				tranTable = result;
 				
-				if (keys.length > 0)
+				if (tranTable.count() > 0)
 					updateText();
 			}});
 	}

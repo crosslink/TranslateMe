@@ -4,6 +4,11 @@ import java.io.InputStream;
 import java.io.Serializable;
 
 public class UiTextTranslation  implements Serializable {
+
+	public final static int STATUS_LOCKED = 1;
+	public final static int STATUS_NEW = 0;
+	
+	
 	public final static String ATTRIBUTE_LANG_KEY = "lang_key";
 	public final static String ATTRIBUTE_KEY = "key";
 	public final static String ATTRIBUTE_TEXT = "translation";

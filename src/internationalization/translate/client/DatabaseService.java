@@ -15,7 +15,7 @@
 package internationalization.translate.client;
 
 import internationalization.translate.client.db.UiTextKey;
-
+import internationalization.translate.client.db.UiTextTranslationTable;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -38,4 +38,5 @@ public interface DatabaseService extends RemoteService {
 	void clearKeys();
 	
 	UiTextKey[] getUiTextKeys(); 
+	UiTextTranslationTable getUiTextTranslationTable(String lang);
 }

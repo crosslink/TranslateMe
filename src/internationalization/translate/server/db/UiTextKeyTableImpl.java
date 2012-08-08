@@ -1,6 +1,7 @@
 package internationalization.translate.server.db;
 
 import internationalization.translate.client.db.UiTextKey;
+import internationalization.translate.client.db.UiTextKeyTable;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -21,9 +22,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Text;
 
-public class UiTextKeyTable {
-	
-	public static final String UI_TEXT_KEY_TABLE = "Translate-Key";
+public class UiTextKeyTableImpl {
 	
 	static public void deleteKeys() {
         DatastoreService datastore =
@@ -31,7 +30,7 @@ public class UiTextKeyTable {
         
 //        datastore.
         
-        Query q = new Query(UI_TEXT_KEY_TABLE);
+        Query q = new Query(UiTextKeyTable.UI_TEXT_KEY_TABLE);
         q.setKeysOnly();
 
         PreparedQuery pq = datastore.prepare(q);
@@ -83,7 +82,7 @@ public class UiTextKeyTable {
 		//    			lines.add(new String[] {line});
 						if (tokens.length == 3) {
 							String textKey = tokens[0];
-							Entity uiEntity = new Entity(UI_TEXT_KEY_TABLE);
+							Entity uiEntity = new Entity(UiTextKeyTable.UI_TEXT_KEY_TABLE);
 							uiEntity.setProperty("key", textKey);
 							Text uiText = new Text(tokens[1]);
 							uiEntity.setProperty("text", uiText);
@@ -113,7 +112,7 @@ public class UiTextKeyTable {
 	public static UiTextKey[] getKeys() {
         DatastoreService datastore =
                 DatastoreServiceFactory.getDatastoreService();
-        Query q = new Query(UI_TEXT_KEY_TABLE);
+        Query q = new Query(UiTextKeyTable.UI_TEXT_KEY_TABLE);
 
         PreparedQuery pq = datastore.prepare(q);
         List<Entity> entities = pq.asList(FetchOptions.Builder.withDefaults());

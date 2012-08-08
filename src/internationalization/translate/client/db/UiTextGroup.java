@@ -5,7 +5,6 @@ import java.io.Serializable;
 import com.google.appengine.api.datastore.Entity;
 
 public class UiTextGroup  implements Serializable {
-	public static final String UI_TEXT_TRANSLATION_GROUP_TABLE = "Translations_Group";
 	
 	public final static String ATTRIBUTE_LANG_KEY = "lang_key";
 	public final static String ATTRIBUTE_LANGUAGE = "language";
@@ -16,7 +15,7 @@ public class UiTextGroup  implements Serializable {
 	private String comment;
 	
 	public static Entity newEntity(String lang_key, String language, String comment) {
-		Entity langEntity = new Entity(UI_TEXT_TRANSLATION_GROUP_TABLE);
+		Entity langEntity = new Entity(UiTextGroupTable.UI_TEXT_TRANSLATION_GROUP_TABLE);
 		langEntity.setProperty(ATTRIBUTE_LANG_KEY, lang_key);
 		langEntity.setProperty(ATTRIBUTE_LANGUAGE, language);
 		langEntity.setProperty(ATTRIBUTE_COMMENT, comment);
