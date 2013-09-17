@@ -1,5 +1,7 @@
 package internationalization.client;
 
+import internationalization.translate.client.GreetingService;
+import internationalization.translate.client.GreetingServiceAsync;
 import internationalization.translate.shared.FieldVerifier;
 
 import com.google.gwt.core.client.GWT;
