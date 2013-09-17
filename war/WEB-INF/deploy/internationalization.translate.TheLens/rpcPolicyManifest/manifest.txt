@@ -1,2 +1,0 @@
-# Module org.cambia.translate.TheLens
-# RPC service class, partial path of RPC policy file
